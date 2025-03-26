@@ -1,0 +1,8 @@
+<!-- <p>list-expenses works!</p> -->
+<button routerLink="/addExpense">Add expense</button>
+<app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+<ng-container *ngFor="let e of expenseList">
+    <h1>{{e.name}}</h1>
+    <h3>{{e.amount}}</h3>
+    <h3>{{e.category}}</h3>
+</ng-container>

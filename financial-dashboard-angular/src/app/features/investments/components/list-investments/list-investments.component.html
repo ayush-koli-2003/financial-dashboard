@@ -1,0 +1,11 @@
+<button routerLink="addInvestment">Add Investment</button>
+
+<div>
+    <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+</div>
+
+<ng-container *ngFor="let investment of investmentList">
+    <h1>{{investment.name}}</h1>
+    <h4>{{investment.category}}</h4>
+    <h3>{{investment.amount}}</h3>
+</ng-container>

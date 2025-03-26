@@ -1,0 +1,22 @@
+<!-- <p>add-expense works!</p> -->
+
+<form [formGroup]="addExpenseForm" (ngSubmit)="onSubmit()">
+    <label for="name">Name: </label>
+    <input type="text" formControlName="name">
+    <br>
+    <label for="note">Note: </label>
+    <input type="text" name="note" formControlName="note">
+    <br>
+    <label for="amount">Amount: </label>
+    <input type="number" formControlName="amount">
+    <br>
+    <label for="category">Category</label>
+    <select name="category" formControlName="category">
+        <ng-container *ngFor="let cat of categories">
+            <option [value]="cat">{{cat}}</option>
+        </ng-container>
+    </select>
+    <br>
+    <button type="submit">Add</button>
+    
+</form>

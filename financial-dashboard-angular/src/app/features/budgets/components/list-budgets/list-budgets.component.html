@@ -1,0 +1,13 @@
+<button routerLink="addBudget">Add Budget</button>
+<app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+<div class="card" style="margin-left: 25%; margin-right: 25%;">
+    <p-progressbar [value]="50.5">
+        <ng-template #content let-value>
+            <span>{{value}}</span>
+        </ng-template>
+    </p-progressbar>
+</div>
+<ng-container *ngFor="let budget of budgetList">
+    <h1>{{budget.category}}</h1>
+    <h3>{{budget.amount}}</h3>
+</ng-container>

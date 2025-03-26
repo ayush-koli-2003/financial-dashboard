@@ -1,0 +1,14 @@
+<form [formGroup]="addBudgetForm" (ngSubmit)="onSubmit()">
+    <label for="category">Category: </label>
+    <select name="category" formControlName="category">
+        <ng-container *ngFor="let cat of categories">
+            <option [value]="cat">{{cat}}</option>
+        </ng-container>
+    </select>
+    <br>
+    <label for="amount">Amount: </label>
+    <input type="number" formControlName="amount">
+    <br>
+
+    <button type="submit">Add Budget</button>
+</form>

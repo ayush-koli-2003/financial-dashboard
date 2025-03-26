@@ -1,0 +1,48 @@
+import { Component } from '@angular/core';
+import { FormControl, FormGroup, Validators } from '@angular/forms';
+import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
+
+// IMP- How to remove and set cookies best practices bon backend or frontend
+
+@Component({
+  selector: 'app-login',
+  standalone: false,
+  templateUrl: './login.component.html',
+  styleUrl: './login.component.css'
+})
+export class LoginComponent {
+  loginForm:FormGroup;
+
+  constructor(private authService:AuthService,private router:Router){
+    this.loginForm = new FormGroup({
+      username: new FormControl(null,[Validators.required,Validators.pattern(/^\S*$/)]),
+      email: new FormControl(null,[Validators.required,Validators.email]),
+      password: new FormControl(null,[Validators.required,Validators.minLength(6),Validators.pattern(/^\S*$/)])
+    })
+  }
+
+  onSubmit(){
+    if(this.loginForm.valid){
+      this.authService.login(this.loginForm.value).subscribe(
+        (response:any)=>{
+          if(response.status==='successfull'){
+              this.authService.setCurrentUser(response.data);
+              let path;
+              this.authService.redirectObs$.subscribe(
+                (url)=>{
+                  path = url;
+                }
+              )
+              this.router.navigate([path]);
+          }
+          else{
+            console.log('Login failed');
+            
+          }
+            
+        }
+      );
+    }
+  }
+}

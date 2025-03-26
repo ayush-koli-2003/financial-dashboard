@@ -1,0 +1,20 @@
+<!-- <p>add-income works!</p> -->
+
+<form [formGroup]="addIncomeForm" (ngSubmit)="onSubmit()">
+    <label for="category">Category: </label>
+    <select formControlName="category">
+        <ng-container *ngFor="let cat of incomeCategories">
+            <option [value]="cat">{{cat}}</option>
+        </ng-container>
+    </select>
+    <br>
+    <label for="amount">Amount: </label>
+    <input type="number" name="amount" formControlName="amount">
+
+    <br>
+    <label for="note">Note: </label>
+    <input type="text" name="note" formControlName="note">
+
+    <br>
+    <button type="submit">Add</button>
+</form>

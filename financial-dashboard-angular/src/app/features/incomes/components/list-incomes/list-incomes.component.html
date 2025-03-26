@@ -1,0 +1,8 @@
+<!-- <p>list-incomes works!</p> -->
+
+<button routerLink="addIncome">Add Income</button>
+<app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+<ng-container *ngFor="let income of incomeList">
+    <h1>{{income.category}}</h1>
+    <h3>{{income.amount}}</h3>
+</ng-container>
