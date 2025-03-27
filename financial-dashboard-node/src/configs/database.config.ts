@@ -4,6 +4,7 @@ import { Budget } from "../entities/budget.entity";
 import { Expense } from "../entities/expense.entity";
 import { Income } from "../entities/income.entity";
 import { Investment } from "../entities/investment.entity";
+import { Profile } from "../entities/profile.entity";
 
 export const AppDataSource = new DataSource({
     type:'mssql',
@@ -17,5 +18,5 @@ export const AppDataSource = new DataSource({
         trustServerCertificate:true
     },
     synchronize:true,
-    entities:[User,Budget,Expense,Income,Investment]
+    entities:[User,Budget,Expense,Income,Investment,Profile]
 })

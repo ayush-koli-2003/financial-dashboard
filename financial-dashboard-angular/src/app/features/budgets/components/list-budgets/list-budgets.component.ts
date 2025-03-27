@@ -32,6 +32,8 @@ export class ListBudgetsComponent implements OnInit{
     this.budgetService.getBudgets(month,year).subscribe(
       (response:any)=>{
         this.budgetList = response.data;
+        console.log(this.budgetList);
+        
         this.isLoaded = true;
       }
     );
@@ -46,7 +48,8 @@ export class ListBudgetsComponent implements OnInit{
     this.budgetService.getTotalSpendingOfCategory(month,year).subscribe(
       (response:any)=>{
         this.totalSpendingOfCategory = response.data;
-        console.log(this.totalSpendingOfCategory);
+        console.log(response.data);
+        
       }
     )
   }

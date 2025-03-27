@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { ExpenseService } from './services/expense.service';
 import { provideHttpClient } from '@angular/common/http';
 import { SharedModule } from '../../shared/shared.module';
+import { CardModule } from 'primeng/card';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { SharedModule } from '../../shared/shared.module';
     ExpensesRoutingModule,
     CoreModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    CardModule
   ],
   providers:[provideHttpClient()]
 })

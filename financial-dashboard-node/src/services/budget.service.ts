@@ -1,5 +1,7 @@
 import { Budget } from "../entities/budget.entity";
 import { BudgetCategory } from "../enums/budget.enum";
+import { ExpenseCategory } from "../enums/expense.enum";
+import { InvestmentCategory } from "../enums/investment.enum";
 import { createBudget, getAllBudgets, getBudgetsByDate } from "../repositories/budget.repository";
 import { ExpenseService } from "./expenses.service";
 import { InvestmentService } from "./investment.service";
@@ -65,11 +67,11 @@ export class BudgetService{
             let expenses = await expenseService.getExpenseByDate(user,startDate,endDate);
             let investments = await investmentService.getInvestmentsByDate(user,startDate,endDate);
 
-            let expenseCategories = [...new Set(expenses?.map(e=>e.category))];
-            let investmentCategories = [...new Set(investments?.map(i=>i.category))];
+            let expenseCategories = Object.values(ExpenseCategory);
+            let investmentCategories = Object.values(InvestmentCategory);
 
             let totalSpendingByCategory:any[]=[]
-            expenseCategories.forEach(
+            expenseCategories.forEach( 
                 (cat)=>{
                     let expenseOfCategory = expenses?.filter(e=> e.category === cat);
                     let totalExpense = expenseOfCategory?.reduce((total,e)=> total+e.amount,0);

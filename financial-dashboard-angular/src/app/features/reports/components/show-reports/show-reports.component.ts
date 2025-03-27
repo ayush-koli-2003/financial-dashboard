@@ -42,15 +42,28 @@ export class ShowReportsComponent {
   }
 
   ngOnInit(){
-    this.reportService.getReports(this.month,this.year).subscribe(
+    this.getReports(this.month,this.year);
+  }
+
+  getReports(month:any,year:any){
+    this.reportService.getReports(month,year).subscribe(
       (response:any)=>{
         // this.reports = response.data;
-        this.isLoaded= true
         // console.log(this.reports);
         this.budgetVsExpense = response.data.budgetVsExpense;
         this.expenseReport = response.data.expenseReport;
+
+        console.log(this.budgetVsExpense.labels.length,this.expenseReport.labels.length);
+        
+        if(this.budgetVsExpense.labels.length !==0 && this.expenseReport.labels.length !==0){
+          this.isLoaded =true;
+        }
         // console.log(this.budgetVsExpense.data);
       }
     )
+  }
+
+  selectDate(date:any){
+    this.getReports(date.month,date.year);
   }
 }

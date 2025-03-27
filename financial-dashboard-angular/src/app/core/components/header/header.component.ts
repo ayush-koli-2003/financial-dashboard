@@ -1,6 +1,8 @@
 import { Component } from '@angular/core';
 import { Router, RouterLink } from '@angular/router';
 import { AuthService } from '../../services/auth.service';
+import { MenuItem } from 'primeng/api';
+import { Menu } from 'primeng/menu';
 
 @Component({
   selector: 'app-header',
@@ -10,7 +12,13 @@ import { AuthService } from '../../services/auth.service';
 })
 export class HeaderComponent {
   isLogged:boolean = false;
+  profileItems: MenuItem[] | undefined;
+  items:MenuItem[] | undefined
   constructor(private authService:AuthService,private router:Router){
+    
+  }
+
+  ngOnInit(){
     this.authService.currUserObs$.subscribe(
       (user)=>{
         if(user===null){
@@ -22,6 +30,57 @@ export class HeaderComponent {
         }
       }
     )
+
+    this.items = [
+      {
+        label: 'Expense',
+        command:()=>{
+          this.router.navigate([''])
+        }
+      },
+      {
+        label: 'Budget',
+        command:()=>{
+          this.router.navigate(['/budgets'])
+        }
+      },
+      {
+        label: 'Income',
+        command:()=>{
+          this.router.navigate(['/incomes'])
+        }
+      },
+      {
+        label: 'Investment',
+        command:()=>{
+          this.router.navigate(['/investments'])
+        }
+      },
+      {
+        label: 'Report',
+        command:()=>{
+          this.router.navigate(['/reports'])
+        }
+      },
+    ];
+
+    this.profileItems = [
+      {
+          items: [
+            {
+              label: 'Profile',
+              icon: 'pi pi-cog'
+            },
+            {
+              label: 'Sign Out',
+              icon: 'pi pi-sign-out',
+              command:()=>{
+                this.logOut();
+              }
+            }
+          ]
+      }
+    ];
   }
 
   logOut(){

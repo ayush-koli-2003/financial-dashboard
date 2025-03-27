@@ -5,15 +5,23 @@
     <ng-container *ngFor="let budget of budgetList">
         <ng-container *ngFor="let spending of totalSpendingOfCategory">
             <div *ngIf="budget.category === spending.category">
-                <h1>{{budget.category}} {{budget.amount}}</h1>
-                <div class="card" style="margin-left: 25%; margin-right: 25%;">
-                    <p-progressbar [value]="(spending.totalSpending/budget.amount)*100">
-                        <ng-template #content let-value>
-                            <span>{{spending.totalSpending}}</span>
-                        </ng-template>
-                    </p-progressbar>
+                <div class="mb-4 p-8">
+                    <p-card [header]="budget.category">
+                        <p class="m-0">
+                            <p-progressbar [ngClass]="'customProgress'" [value]="(spending.totalSpending/budget.amount)*100">
+                                <ng-template #content let-value>
+                                    <span>{{spending.totalSpending}}</span>
+                                </ng-template>
+                            </p-progressbar>
+                            Budget: {{budget.amount}} <br>
+                            Spent Amount: {{spending.totalSpending}}
+                        </p>
+                        
+                    </p-card>
                 </div>
-                <h3>{{spending.totalExpense}}</h3>
+                <!-- <div class="card" style="margin-left: 25%; margin-right: 25%;">
+                    
+                </div> -->
             </div>
         </ng-container>
     </ng-container>

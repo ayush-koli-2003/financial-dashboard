@@ -13,6 +13,12 @@ import { AuthGuard } from './guards/auth.guard';
 import { HTTP_INTERCEPTORS, provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { RegisterComponent } from './components/register/register.component';
 import { RequestInterceptor } from './services/http-interceptor.service';
+import { ButtonModule } from 'primeng/button';
+import { Menu } from 'primeng/menu';
+import { Ripple } from 'primeng/ripple';
+import { Menubar } from 'primeng/menubar';
+import { AvatarModule } from 'primeng/avatar';
+import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
@@ -25,7 +31,14 @@ import { RequestInterceptor } from './services/http-interceptor.service';
     CommonModule,
     NgbModule,
     RouterModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    AvatarModule,
+    ButtonModule,
+    Menu,
+    Ripple,
+    Menubar,
+    InputTextModule
+
   ],
   exports:[HeaderComponent],
   providers:[AuthService,

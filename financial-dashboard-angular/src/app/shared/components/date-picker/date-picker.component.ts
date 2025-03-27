@@ -6,8 +6,12 @@ import { Component, EventEmitter, Output } from '@angular/core';
   styleUrl: './date-picker.component.css'
 })
 export class DatePickerComponent {
-  date: Date[] | undefined;
+  date: any | undefined;
   @Output() dateEvent = new EventEmitter();
+
+  ngOnInit(){
+    this.date = new Date();
+  }
 
   dateSelected(){
     let month = this.date?.toLocaleString().split(',')[0].split('/')[0];

@@ -5,7 +5,13 @@
 </div>
 
 <ng-container *ngFor="let investment of investmentList">
-    <h1>{{investment.name}}</h1>
-    <h4>{{investment.category}}</h4>
-    <h3>{{investment.amount}}</h3>
+    <div class="mb-4 p-8">
+        <p-card [header]="investment.name">
+            <p class="m-0">
+                Category: {{investment.category}} <br>
+                Amount: {{investment.amount}}
+            </p>
+        </p-card>
+    </div>
 </ng-container>
+

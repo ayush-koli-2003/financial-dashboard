@@ -27,7 +27,7 @@ export class ReportService{
             let labels:any[]=[];
 
             budgetExpenseCategories.forEach(
-                (cat)=>{
+                (cat)=>{ 
                     labels.push(cat);
                     let filteredBudgetCategories = budgets?.filter(b=>b.category===cat);
                     let totalBudget = filteredBudgetCategories?.reduce((total,b)=> total+b.amount,0);
@@ -66,7 +66,7 @@ export class ReportService{
             )
  
             return {
-                chartType: 'pie',
+                chartType: 'doughnut',
                 data: [{data:expenseData,label:'Expenses'}],
                 labels: expenseCategories
             }

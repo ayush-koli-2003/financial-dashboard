@@ -3,6 +3,11 @@
 <button routerLink="addIncome">Add Income</button>
 <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
 <ng-container *ngFor="let income of incomeList">
-    <h1>{{income.category}}</h1>
-    <h3>{{income.amount}}</h3>
+    <div class="mb-4 p-8">
+        <p-card [header]="income.category">
+            <p class="m-0">
+                Amount: {{income.amount}}
+            </p>
+        </p-card>
+    </div>
 </ng-container>

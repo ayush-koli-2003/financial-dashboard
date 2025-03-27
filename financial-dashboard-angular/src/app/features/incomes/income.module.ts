@@ -8,6 +8,7 @@ import { AddIncomeComponent } from './components/add-income/add-income.component
 import { ReactiveFormsModule } from "@angular/forms";
 import { provideHttpClient } from "@angular/common/http";
 import { SharedModule } from "../../shared/shared.module";
+import { CardModule } from "primeng/card";
 
 @NgModule({
     declarations:[ListIncomesComponent, AddIncomeComponent],
@@ -16,7 +17,8 @@ import { SharedModule } from "../../shared/shared.module";
         CommonModule,
         IncomeRoutingModule,
         ReactiveFormsModule,
-        SharedModule
+        SharedModule,
+        CardModule
     ],
     providers:[provideHttpClient()]
 })

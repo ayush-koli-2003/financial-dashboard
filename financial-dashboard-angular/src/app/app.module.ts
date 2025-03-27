@@ -8,7 +8,8 @@ import { provideAnimationsAsync } from '@angular/platform-browser/animations/asy
 import { providePrimeNG } from 'primeng/config';
 import { ProgressBarModule } from 'primeng/progressbar';
 import Aura from '@primeng/themes/aura';
-import Material from '@primeng/themes/material'
+import Material from '@primeng/themes/material';
+import {StyleClassModule} from 'primeng/styleclass';
 
 @NgModule({
   declarations: [
@@ -18,7 +19,8 @@ import Material from '@primeng/themes/material'
     BrowserModule,
     AppRoutingModule,
     CoreModule,
-    ProgressBarModule
+    ProgressBarModule,
+    StyleClassModule
   ],
   providers: [provideCharts(withDefaultRegisterables()),provideAnimationsAsync(),providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } })],
   bootstrap: [AppComponent]

@@ -8,6 +8,7 @@ import { InvestmentService } from './services/investment.service';
 import { ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
 import { SharedModule } from '../../shared/shared.module';
+import { CardModule } from 'primeng/card';
 
 
 @NgModule({
@@ -19,7 +20,8 @@ import { SharedModule } from '../../shared/shared.module';
     CommonModule,
     InvestmentsRoutingModule,
     ReactiveFormsModule,
-    SharedModule
+    SharedModule,
+    CardModule
   ],
   providers:[provideHttpClient()]
 })

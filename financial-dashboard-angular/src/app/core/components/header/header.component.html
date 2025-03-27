@@ -1,6 +1,6 @@
 <!-- IMP- REMOVE HEADER FROM CORE MODULE AND USE AS CHILD IN EACH COMPONENT TO USE MORE INPUT OUTPUT -->
 
-<nav class="navbar navbar-expand-sm navbar-light bg-light">
+<!-- <nav class="navbar navbar-expand-sm navbar-light bg-light">
     <div class="container-fluid">
     <a class="navbar-brand" routerLink=""><h1>Financial Dashboard</h1></a>
     <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -12,7 +12,7 @@
     <li class="nav-item"><a class="nav-link" routerLink="/incomes">Income</a></li>
     <li class="nav-item"><a class="nav-link" routerLink="/budgets">Budgets</a></li>
     <li class="nav-item"><a class="nav-link" routerLink="/investments">Investments</a></li>
-    <li class="nav-item"><a class="nav-link" routerLink="/reports">Reports</a></li>
+    <li class="nav-item"><a class="nav-link" routerLink="/reports">Reports</a></li> -->
     
     <!-- <li class="nav-item dropdown">
     <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">Dropdown</a>
@@ -24,19 +24,47 @@
     </ul>
     </li> -->
     <!-- <li class="nav-item"><a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true">Disabled</a></li> -->
-    </ul>
+    <!-- </ul>
     <form class="d-flex">
-    <input class="form-control me-2" type="search" placeholder="Search" aria-label="Search">
-    <ng-container *ngIf="isLogged; else signedOut">
-      <button class="btn btn-outline-success" style="max-height: 50px;">Search</button> <!-- type="submit" -->
-      <button class="btn btn-outline-success" style="max-height: 50px; width:auto;" (click)="logOut()">Log Out</button>
+    <ng-container style="max-width: 50px;" *ngIf="isLogged; else signedOut">
+      <p-avatar (click)="menu.toggle($event)" image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" shape="circle" />
+      <p-menu #menu [model]="profileItems" [popup]="true">
+        <ng-template #end>
+          <button pRipple class="relative overflow-hidden w-full border-0 bg-transparent flex items-start p-2 pl-4 hover:bg-surface-100 dark:hover:bg-surface-800 rounded-none cursor-pointer transition-colors duration-200">
+            <p-button icon="pi pi-sign-out" (onClick)="logOut()" label="Sign Out" />
+        </button>
+          
+      </ng-template>
+      </p-menu>
     </ng-container>
     <ng-template #signedOut>
       <button class="btn btn-outline-success" routerLink="/login" style="max-height: 50px;">Login</button>
       or
       <button class="btn btn-outline-success" routerLink="/register" style="max-height: 50px;">Register</button>
     </ng-template>
+
     </form>
     </div>
     </div>
-  </nav>
+  </nav> -->
+
+  <div class="card">
+    <p-menubar [model]="items">
+        <ng-template #start>
+        </ng-template>
+        <ng-template #item let-item let-root="root">
+            <a pRipple class="flex items-center p-menubar-item-link">
+                <span>{{ item.label }}</span>
+                <span *ngIf="item.shortcut" class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>
+                <i *ngIf="item.items" [ngClass]="['ml-auto pi', root ? 'pi-angle-down' : 'pi-angle-right']"></i>
+            </a>
+        </ng-template>
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <input type="text" pInputText placeholder="Search" class="w-36" />
+                <p-avatar (click)="menu.toggle($event)" image="https://th.bing.com/th/id/OIP.4Q7-yMnrlnqwR4ORH7c06AHaHa?rs=1&pid=ImgDetMain" shape="circle" />
+                <p-menu #menu [model]="profileItems" [popup]="true" />
+            </div>
+        </ng-template>
+    </p-menubar>
+</div>

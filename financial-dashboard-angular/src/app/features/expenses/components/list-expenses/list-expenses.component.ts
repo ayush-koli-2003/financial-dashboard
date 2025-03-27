@@ -26,6 +26,7 @@ export class ListExpensesComponent implements OnInit {
     this.expenseService.getExpenseList(month,year).subscribe(
       (response:any)=>{
         this.expenseList = response.data;
+        
       }
     )
   }
