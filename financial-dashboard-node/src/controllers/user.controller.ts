@@ -27,10 +27,10 @@ export const login = async(req:Request,res:Response)=>{
             isCorrect = await bcrypt.compare(pass,password);
             
             if(isCorrect){
-                token = jwt.sign(validatedUser,process.env.SECRET_KEY as string,{expiresIn:'5m'});
+                token = jwt.sign(validatedUser,process.env.SECRET_KEY as string,{expiresIn:'2h'});
                 // console.log(token);
                 
-                res.cookie('user',token,{httpOnly:true,maxAge:(1*5*60*1000),secure:true});
+                res.cookie('user',token,{httpOnly:true,maxAge:(2*60*60*1000),secure:true});
             }
         }
 

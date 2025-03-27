@@ -37,4 +37,14 @@ export class BudgetsService{
     getCategories(){
         return this.http.get('http://localhost:3000/api/budget/filteredCategories',{withCredentials:true});
     }
+
+    getTotalExpenseByCategory(month:any,year:any){
+        try{
+            
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
 }

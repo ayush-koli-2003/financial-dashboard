@@ -15,7 +15,11 @@ export class ShowReportsComponent {
   legend!: boolean;
   chartType!: ChartType;
 
-  reports:any
+  reports:any;
+
+  isLoaded=false;
+  budgetVsExpense:any;
+  expenseReport:any
 
   month:any = '3';
   year:any = '';
@@ -40,8 +44,12 @@ export class ShowReportsComponent {
   ngOnInit(){
     this.reportService.getReports(this.month,this.year).subscribe(
       (response:any)=>{
-        this.reports = response.data;
-        console.log(this.reports);
+        // this.reports = response.data;
+        this.isLoaded= true
+        // console.log(this.reports);
+        this.budgetVsExpense = response.data.budgetVsExpense;
+        this.expenseReport = response.data.expenseReport;
+        // console.log(this.budgetVsExpense.data);
       }
     )
   }
