@@ -1,13 +1,20 @@
 <button routerLink="addBudget">Add Budget</button>
 <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
-<div class="card" style="margin-left: 25%; margin-right: 25%;">
-    <p-progressbar [value]="50.5">
-        <ng-template #content let-value>
-            <span>{{value}}</span>
-        </ng-template>
-    </p-progressbar>
+
+<div *ngIf="isLoaded">
+    <ng-container *ngFor="let budget of budgetList">
+        <ng-container *ngFor="let spending of totalSpendingOfCategory">
+            <div *ngIf="budget.category === spending.category">
+                <h1>{{budget.category}} {{budget.amount}}</h1>
+                <div class="card" style="margin-left: 25%; margin-right: 25%;">
+                    <p-progressbar [value]="(spending.totalSpending/budget.amount)*100">
+                        <ng-template #content let-value>
+                            <span>{{spending.totalSpending}}</span>
+                        </ng-template>
+                    </p-progressbar>
+                </div>
+                <h3>{{spending.totalExpense}}</h3>
+            </div>
+        </ng-container>
+    </ng-container>
 </div>
-<ng-container *ngFor="let budget of budgetList">
-    <h1>{{budget.category}}</h1>
-    <h3>{{budget.amount}}</h3>
-</ng-container>

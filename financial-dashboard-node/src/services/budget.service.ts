@@ -1,7 +1,11 @@
 import { Budget } from "../entities/budget.entity";
 import { BudgetCategory } from "../enums/budget.enum";
 import { createBudget, getAllBudgets, getBudgetsByDate } from "../repositories/budget.repository";
+import { ExpenseService } from "./expenses.service";
+import { InvestmentService } from "./investment.service";
 
+const expenseService = new ExpenseService();
+const investmentService = new InvestmentService();
 export class BudgetService{
     async getAllBudgets(user:any){
         try{
@@ -49,6 +53,40 @@ export class BudgetService{
             
 
             return await getBudgetsByDate(user,startDate,endDate); 
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    async getTotalSpendingOfCategory(user:any,startDate:any,endDate:any){
+        try{
+            let expenses = await expenseService.getExpenseByDate(user,startDate,endDate);
+            let investments = await investmentService.getInvestmentsByDate(user,startDate,endDate);
+
+            let expenseCategories = [...new Set(expenses?.map(e=>e.category))];
+            let investmentCategories = [...new Set(investments?.map(i=>i.category))];
+
+            let totalSpendingByCategory:any[]=[]
+            expenseCategories.forEach(
+                (cat)=>{
+                    let expenseOfCategory = expenses?.filter(e=> e.category === cat);
+                    let totalExpense = expenseOfCategory?.reduce((total,e)=> total+e.amount,0);
+
+                    totalSpendingByCategory.push({category:cat,totalSpending:totalExpense});
+                }
+            )
+
+            investmentCategories.forEach(
+                (cat)=>{
+                    let investmentsOfcategory = investments?.filter(i=> i.category===cat);
+                    let totalInvestment = investmentsOfcategory?.reduce((total,i)=>total+i.amount,0);
+
+                    totalSpendingByCategory.push({category:cat,totalSpending:totalInvestment});
+                }
+            )
+            return totalSpendingByCategory;
         }
         catch(err){
             console.log(err);

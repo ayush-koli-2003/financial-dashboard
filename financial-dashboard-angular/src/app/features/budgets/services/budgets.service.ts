@@ -21,7 +21,7 @@ export class BudgetsService{
 
     getBudgets(month:any,year:any){
         const params = `month=${month}&year=${year}`;
-        return this.http.get(`http://localhost:3000/api/budget?${params}`,{withCredentials:true});
+        return this.http.get(`http://localhost:3000/api/budget?${params}`);
     }
 
     addBudget(budget:any){
@@ -31,20 +31,15 @@ export class BudgetsService{
 
         let newBudget:any = {date,...budget};
         this.updateBudgetSub.next(this.budgetList);
-        return this.http.post('http://localhost:3000/api/budget/add',newBudget,{withCredentials:true});
+        return this.http.post('http://localhost:3000/api/budget/add',newBudget);
     }
 
     getCategories(){
-        return this.http.get('http://localhost:3000/api/budget/filteredCategories',{withCredentials:true});
+        return this.http.get('http://localhost:3000/api/budget/filteredCategories');
     }
 
-    getTotalExpenseByCategory(month:any,year:any){
-        try{
-            
-        }
-        catch(err){
-            console.log(err);
-            
-        }
+    getTotalSpendingOfCategory(month:any,year:any){
+        const params = `month=${month}&year=${year}`
+        return this.http.get(`http://localhost:3000/api/budget/getTotalSpendingOfCategory?${params}`);
     }
 }

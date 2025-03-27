@@ -48,4 +48,25 @@ export class ExpenseService{
             
         }
     }
+
+    async getTotalExpenseByCategory(user:any,startDate:any,endDate:any){
+        try{
+            let expenses = await getExpenseByDate(user,startDate,endDate);
+            let expenseCategories = [...new Set(expenses?.map(e=>e.category))];
+            let totalExpenseByCategory:any[]=[]
+            expenseCategories.forEach(
+                (cat)=>{
+                    let expenseOfCategory = expenses?.filter(e=> e.category === cat);
+                    let totalExpense = expenseOfCategory?.reduce((total,e)=> total+e.amount,0);
+
+                    totalExpenseByCategory.push({category:cat,totalExpense:totalExpense});
+                }
+            )
+            return totalExpenseByCategory;
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
 }

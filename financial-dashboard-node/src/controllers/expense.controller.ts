@@ -50,7 +50,7 @@ export const getExpenseByDate = async(req:Request,res:Response)=>{
         let result = await expenseService.getExpenseByDate(user,startDate,endDate);
 
         res.json({
-            status:'successfull',
+            status:'successfull', 
             data:result
         });
     }
@@ -69,6 +69,25 @@ export const getCategories = async(req:Request,res:Response)=>{
         res.json({
             status:'successfull',
             data:results
+        })
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const getTotalExpenseByCategory = async(req:Request,res:Response)=>{
+    try{
+        let user = req.body.user;
+        let startDate = req.body.startDate;
+        let endDate = req.body.endDate;
+
+        let result = await expenseService.getTotalExpenseByCategory(user,startDate,endDate);
+
+        res.json({
+            status:'successfull',
+            data:result
         })
     }
     catch(err){

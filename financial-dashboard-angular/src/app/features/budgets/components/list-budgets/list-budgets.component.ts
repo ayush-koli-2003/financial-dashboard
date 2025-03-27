@@ -13,6 +13,8 @@ export class ListBudgetsComponent implements OnInit{
   budgetList:Budget[];
   month:any = '3';
   year:any = '';
+  isLoaded = false;
+  totalSpendingOfCategory:any[]=[];
   constructor(private budgetService:BudgetsService){
     this.budgetList=[];
   }
@@ -20,20 +22,32 @@ export class ListBudgetsComponent implements OnInit{
   ngOnInit(): void {
     this.budgetService.updateBudgetObs$.subscribe(
       ()=>{
-        this.getExpenses(this.month,this.year) 
+        this.getBudgets(this.month,this.year);
+        this.getTotalExpenseByCategory(this.month,this.year);
       }
     )
   }
 
-  getExpenses(month:any,year:any){
+  getBudgets(month:any,year:any){
     this.budgetService.getBudgets(month,year).subscribe(
       (response:any)=>{
         this.budgetList = response.data;
+        this.isLoaded = true;
       }
     );
   }
 
   selectDate(date:any){
-    this.getExpenses(date.month,date.year);
+    this.getBudgets(date.month,date.year);
+    this.getTotalExpenseByCategory(date.month,date.year);
+  }
+
+  getTotalExpenseByCategory(month:any,year:any){
+    this.budgetService.getTotalSpendingOfCategory(month,year).subscribe(
+      (response:any)=>{
+        this.totalSpendingOfCategory = response.data;
+        console.log(this.totalSpendingOfCategory);
+      }
+    )
   }
 }
