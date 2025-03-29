@@ -20,7 +20,15 @@ export class ReportService{
             const budgets = await budgetService.getBudgetByDate(user,startDate,endDate);
             const expenses = await expenseService.getExpenseByDate(user,startDate,endDate);
 
-            const budgetExpenseCategories = new Set([...(budgets as Budget[]).map(b=>b.category),...(expenses as Expense[]).map(e=>e.category)]);
+            // let budgetRawCategories = await budgetService.getBudgetCategories(user);
+
+            // let budgetCategories = budgetRawCategories?.map(b=> b.category);
+
+            // console.log(budgetCategories);
+            
+            
+
+            const budgetExpenseCategories = new Set([...(budgets as Budget[]).map(b=>b.category)]);
 
             let budgetData: any[]=[];
             let expenseData: any[]=[];
@@ -33,10 +41,10 @@ export class ReportService{
                     let totalBudget = filteredBudgetCategories?.reduce((total,b)=> total+b.amount,0);
                     budgetData.push(totalBudget);
 
-                    let filteredExpenseCategories = expenses?.filter(e=>e.category===cat);
+                    let filteredExpenseCategories = expenses?.filter(e=>e.category as string===cat);
                     let totalExpense = filteredExpenseCategories?.reduce((total,e)=>total+e.amount,0);
                     expenseData.push(totalExpense);
-                }
+                } 
             )
 
             return {

@@ -13,7 +13,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AddExpenseComponent {
   addExpenseForm:FormGroup;
-  categories:any[]=[]
+  categories:any[]=[];
+  isSubmitted=false;
   // expenseId:number,
   //   expenseName:string,
   //   expenseNote:string,
@@ -42,6 +43,7 @@ export class AddExpenseComponent {
     
     if(this.addExpenseForm.valid){
       let expense = this.addExpenseForm.value;
+      this.isSubmitted= true;
       
       this.expenseService.addExpense(expense).subscribe(
         (res:any)=>{

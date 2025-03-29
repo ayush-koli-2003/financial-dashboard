@@ -12,7 +12,8 @@ import { IncomeCategory } from '../../../../core/enums/income-category.enum';
 })
 export class AddIncomeComponent{
   addIncomeForm:FormGroup;
-  incomeCategories:any[]=[]
+  incomeCategories:any[]=[];
+  isSubmitted = false;
 
   constructor(private incomeService:IncomeService,private router:Router,private route:ActivatedRoute){
     this.addIncomeForm=new FormGroup({
@@ -32,6 +33,7 @@ export class AddIncomeComponent{
 
   onSubmit(){
     if(this.addIncomeForm.valid){
+      this.isSubmitted = true;
       this.incomeService.addIncome(this.addIncomeForm.value).subscribe(
         (response)=>{
           this.router.navigate(["../"],{relativeTo:this.route})

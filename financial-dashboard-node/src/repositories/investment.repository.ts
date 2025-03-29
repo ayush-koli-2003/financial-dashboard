@@ -24,7 +24,7 @@ export const getAllInvestments = async (user:any)=>{
 
 export const addInvestment =  async(newInvestment:any)=>{
     try{
-        investmentRepository.save(newInvestment);
+        return await investmentRepository.save(newInvestment);
     }
     catch(err){
         console.log(err);
@@ -53,6 +53,16 @@ export const getInvestmentByDate = async(user:any,startDate:any,endDate:any)=>{
                 user:user
             }
         })
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const deleteInvestment = async(user:any,id:any)=>{
+    try{
+        return await investmentRepository.delete({id:id});
     }
     catch(err){
         console.log(err);

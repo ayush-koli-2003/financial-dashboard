@@ -53,7 +53,7 @@ export class ShowReportsComponent {
         this.budgetVsExpense = response.data.budgetVsExpense;
         this.expenseReport = response.data.expenseReport;
 
-        console.log(this.budgetVsExpense.labels.length,this.expenseReport.labels.length);
+        // console.log(this.budgetVsExpense);
         
         if(this.budgetVsExpense.labels.length !==0 && this.expenseReport.labels.length !==0){
           this.isLoaded =true;

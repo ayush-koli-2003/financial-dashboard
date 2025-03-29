@@ -48,7 +48,7 @@
     </div>
   </nav> -->
 
-  <div class="card">
+  <div style="margin-bottom: 7%;" class="card">
     <p-menubar [model]="items">
         <ng-template #start>
         </ng-template>
@@ -61,7 +61,6 @@
         </ng-template>
         <ng-template #end>
             <div class="flex items-center gap-2">
-                <input type="text" pInputText placeholder="Search" class="w-36" />
                 <p-avatar (click)="menu.toggle($event)" image="https://th.bing.com/th/id/OIP.4Q7-yMnrlnqwR4ORH7c06AHaHa?rs=1&pid=ImgDetMain" shape="circle" />
                 <p-menu #menu [model]="profileItems" [popup]="true" />
             </div>

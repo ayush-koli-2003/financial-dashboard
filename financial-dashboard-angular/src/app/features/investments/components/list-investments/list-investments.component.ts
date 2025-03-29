@@ -38,4 +38,24 @@ export class ListInvestmentsComponent implements OnInit {
     
     this.getInvestments(data.month,data.year);
   }
+
+  deleteInvestment(id:any){
+    this.investmentService.deleteInvestment(id).subscribe({
+      next:(response:any)=>{
+        
+      },
+      error:(err)=>{
+        
+      }
+    });
+  }
+
+  selectEvent(option:any){
+    if(option.operation==='edit'){
+      // this.router
+    }
+    else{
+      this.deleteInvestment(option.id);
+    }
+  }
 }

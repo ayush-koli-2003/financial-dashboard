@@ -11,7 +11,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 })
 export class AddInvestmentComponent implements OnInit {
   addInvestmentForm:FormGroup;
-  categories:any
+  categories:any;
+  isSubmitted=false;
   constructor(private investmentService:InvestmentService,private router:Router,private route:ActivatedRoute){
     this.addInvestmentForm = new FormGroup({
       name: new FormControl(null,[Validators.required]),
@@ -31,6 +32,7 @@ export class AddInvestmentComponent implements OnInit {
 
   onSubmit(){
     if(this.addInvestmentForm.valid){
+      this.isSubmitted=true
       this.investmentService.addInvestment(this.addInvestmentForm.value).subscribe(
         ()=>{
           this.router.navigate(['../'],{relativeTo:this.route});

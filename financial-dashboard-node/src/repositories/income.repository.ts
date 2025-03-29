@@ -50,3 +50,13 @@ export const getIncomesByDate = async(user:any,startDate:any,endDate:any)=>{
         
     }
 }
+
+export const deleteIncome = async(user:any,id:any)=>{
+    try{
+        return await incomeRepository.delete({id:id});
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}

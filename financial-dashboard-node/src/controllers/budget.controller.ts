@@ -11,7 +11,7 @@ export const getAllBudgets = async(req:Request,res:Response)=>{
 
         let results = await budgetService.getAllBudgets(user);
 
-        res.json({
+        res.status(200).json({
             status:'successfull',
             data:results
         })
@@ -29,10 +29,18 @@ export const addBudget = async(req:Request,res:Response)=>{
         
         let results = await budgetService.createBudget(budget,user);
 
-        res.json({
-            status:'successfull',
-            data:'Budget is added'
-        })
+        if(results){
+            res.status(200).json({
+                status:'successfull',
+                data:'Budget is added'
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'Budget is not added'
+            })
+        }
     }
     catch(err){
         console.log(err);
@@ -45,10 +53,18 @@ export const getFilteredCategories = async(req:Request,res:Response)=>{
         let user = req.body.user;
         let results = await budgetService.getFilteredCategories(user);
 
-        res.json({
-            status:"successfull",
-            data:results
-        })
+        if(results){
+            res.status(200).json({
+                status:"successfull",
+                data:results
+            })
+        }
+        else{
+            res.status(400).json({
+                status:"failed",
+                data:'get categories failed'
+            })
+        }
     }
     catch(err){
         console.log(err);
@@ -70,10 +86,18 @@ export const getBudgetByDate = async(req:Request,res:Response)=>{
         //     })
         // }
         
-        res.json({
-            status:'successfull',
-            data:budgets
-        });
+        if(budgets){
+            res.status(200).json({
+                status:'successfull',
+                data:budgets
+            });
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'get budgets by date failed'
+            });
+        }
     }
     catch(err){
         console.log(err);
@@ -89,10 +113,43 @@ export const getTotalSpendingOfCategory = async(req:Request,res:Response)=>{
 
         let result = await budgetService.getTotalSpendingOfCategory(user,startDate,endDate);
 
-        res.json({
-            status:'successfull',
-            data:result
-        })
+        if(result){
+            res.status(200).json({
+                status:'successfull',
+                data:result
+            })
+        }
+        else{
+            res.json({
+                status:'failed',
+                data:'get total spending failed'
+            })
+        }
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const deleteBudget = async(req:Request,res:Response)=>{
+    try{
+        let user = req.body.user;
+        let id = req.params.id;
+        let result = await budgetService.deleteBudget(user,id);
+
+        if(result?.affected as number >0){
+            res.status(200).json({
+                status:'successfull',
+                data:'budget is deleted'
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'budget is not deleted'
+            })
+        }
     }
     catch(err){
         console.log(err);

@@ -27,10 +27,10 @@ export const login = async(req:Request,res:Response)=>{
             isCorrect = await bcrypt.compare(pass,password);
             
             if(isCorrect){
-                token = jwt.sign(validatedUser,process.env.SECRET_KEY as string,{expiresIn:'2h'});
+                token = jwt.sign(validatedUser,process.env.SECRET_KEY as string,{expiresIn:'1d'});
                 // console.log(token);
                 
-                res.cookie('user',token,{httpOnly:true,maxAge:(2*60*60*1000),secure:true});
+                res.cookie('user',token,{httpOnly:true,maxAge:(1*24*60*60*1000),secure:true});
             }
         }
 
@@ -48,14 +48,14 @@ export const register = async(req:Request,res:Response)=>{
     try{
         let user = req.body;
         user.password = await bcrypt.hash(user.password,10);
-        let result = await userService.register(user); 
+        let result = await userService.register(user);
 
         // console.log(result);
         
 
         res.status(200).json({
             status:result !== null ? 'successfull':'failed',
-            data:result !== null ? result : 'user already exist'
+            data:result !== null ? 'user created' : 'user already exist'
         })
     }
     catch(err){

@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { ExpenseCategory } from "../../../core/enums/expense-category.enum";
 import { Budget } from "../../../core/models/Budget.model";
 import { InvestmentCategory } from "../../../core/enums/investment-category.enum";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, tap } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({
@@ -41,5 +41,14 @@ export class BudgetsService{
     getTotalSpendingOfCategory(month:any,year:any){
         const params = `month=${month}&year=${year}`
         return this.http.get(`http://localhost:3000/api/budget/getTotalSpendingOfCategory?${params}`);
+    }
+
+    deleteBudget(id:number){
+        
+        return this.http.delete(`http://localhost:3000/api/budget/delete/${id}`).pipe(
+            tap(response=>{
+                this.updateBudgetSub.next(this.budgetList);
+            })
+        );
     }
 }

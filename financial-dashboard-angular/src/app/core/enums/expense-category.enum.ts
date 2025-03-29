@@ -3,5 +3,7 @@ export enum ExpenseCategory{
     Transportation="Transportation",
     Entertainment="Entertainment",
     Housing="Housing",
-    OtherExpense="Other Expense"
+    OtherExpense="Other Expense",
+    Health = "Health",
+    Kids = "Kids"
 }

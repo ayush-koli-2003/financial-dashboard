@@ -6,20 +6,28 @@ import { BaseChartDirective } from 'ng2-charts';
 import { FormsModule } from '@angular/forms';
 import { DatePicker } from 'primeng/datepicker';
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
+import { ItemOptionsComponent } from './components/item-options/item-options.component';
+import { ButtonModule } from 'primeng/button';
 
 
 @NgModule({
   declarations: [
     GenericChartComponent,
-    DatePickerComponent
+    DatePickerComponent,
+    ItemOptionsComponent
   ],
   imports: [
     CommonModule,
     BaseChartDirective,
     FormsModule,
-    DatePicker
+    DatePicker,
+    ButtonModule
   ],
-  exports:[GenericChartComponent, DatePickerComponent],
+  exports:[
+    GenericChartComponent,
+    DatePickerComponent,
+    ItemOptionsComponent
+  ],
   providers:[provideCharts(withDefaultRegisterables())]
 })
 export class SharedModule { }

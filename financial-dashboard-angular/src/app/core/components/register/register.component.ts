@@ -25,6 +25,8 @@ export class RegisterComponent {
     if(this.registerForm.valid){
       this.authService.register(this.registerForm.value).subscribe(
         (response:any)=>{
+          console.log(response);
+          
           if(response.status==='failed'){
             console.log('User already exists');
           }

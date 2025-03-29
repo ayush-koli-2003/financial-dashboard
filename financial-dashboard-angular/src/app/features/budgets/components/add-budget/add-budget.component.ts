@@ -12,6 +12,7 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AddBudgetComponent implements OnInit {
   addBudgetForm:FormGroup;
   categories:any;
+  isSubmitted=false;
 
   constructor(private budgetService:BudgetsService,private router:Router,private route:ActivatedRoute){
     this.addBudgetForm= new FormGroup({
@@ -34,6 +35,7 @@ export class AddBudgetComponent implements OnInit {
 
   onSubmit(){
     if(this.addBudgetForm.valid){
+      this.isSubmitted = true;
       this.budgetService.addBudget(this.addBudgetForm.value).subscribe(
         ()=>{
           this.router.navigate(["../"],{relativeTo:this.route})

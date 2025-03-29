@@ -31,7 +31,7 @@ export const addExpense = async(newExpense:any)=>{
     }
 }
 
-export const deleteExpense = async(id:any)=>{
+export const deleteExpense = async(user:any,id:any)=>{
     try{
 
         return await expenseRepository.delete({id:id});
@@ -48,6 +48,9 @@ export const getExpenseByDate = async(user:any,startDate:any,endDate:any)=>{
             where:{
                 date: Between(startDate,endDate),
                 user : user
+            },
+            order: {
+                date:'DESC'
             }
         })
 

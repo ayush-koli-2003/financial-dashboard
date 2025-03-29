@@ -1,17 +1,30 @@
-<button routerLink="addInvestment">Add Investment</button>
-
-<div>
-    <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+<div style="display: flex; flex-direction: row;">
+    <div>
+        <button routerLink="addInvestment">Add Investment</button>
+    </div>
+    
+    <div>
+        <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+    </div>
 </div>
 
-<ng-container *ngFor="let investment of investmentList">
-    <div class="mb-4 p-8">
-        <p-card [header]="investment.name">
-            <p class="m-0">
-                Category: {{investment.category}} <br>
-                Amount: {{investment.amount}}
-            </p>
-        </p-card>
-    </div>
-</ng-container>
+<div class="list-container">
+    <ng-container *ngFor="let investment of investmentList">
+        <div>
+            <p-card [header]="investment.name">
+                <div class="list-card">
+                    <div>
+                        <p class="m-0">
+                            Category: {{investment.category}} <br>
+                            Amount: {{investment.amount}}
+                        </p>
+                    </div>
+                    <div>
+                        <app-item-options [id]="investment.id" (selectOption)="selectEvent($event)"></app-item-options>
+                    </div>
+                </div>
+            </p-card>
+        </div>
+    </ng-container>
+</div>
 

@@ -1,0 +1,12 @@
+@import "primeicons/primeicons.css";
+
+.option-container{
+    display: flex;
+    flex-direction: row;
+    align-items: center;
+    margin-right: 50%;
+}
+
+.option{
+    margin: 10%;
+}

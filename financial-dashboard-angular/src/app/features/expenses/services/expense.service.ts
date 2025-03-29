@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { Expense } from "../../../core/models/Expense.model";
 import { ExpenseCategory } from "../../../core/enums/expense-category.enum";
-import { BehaviorSubject } from "rxjs";
+import { BehaviorSubject, tap } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({
@@ -38,5 +38,13 @@ export class ExpenseService{
 
     getExpenseCategories(){
         return this.http.get('http://localhost:3000/api/expense/categories',{withCredentials:true});
+    }
+
+    deleteExpense(id:any){
+        return this.http.delete(`http://localhost:3000/api/expense/delete/${id}`).pipe(
+            tap(response=>{
+                this.updateExpenseListSub.next(this.expenseList);
+            })
+        )
     }
 }

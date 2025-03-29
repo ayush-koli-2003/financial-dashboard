@@ -11,10 +11,18 @@ export const addExpense = async(req:Request,res:Response)=>{
 
         let result = await expenseService.addExpense(expense,user);
 
-        res.json({
-            status:'successfull',
-            data:'data added successfully'
-        });
+        if(result){
+            res.status(200).json({
+                status:'successfull',
+                data:'expense added successfully'
+            });
+        }
+        else{
+            res.json({
+                status:'failed',
+                data:'expense add failed'
+            });
+        }
     }
     catch(err){
         console.log(err);
@@ -29,10 +37,18 @@ export const getExpenses = async(req:Request,res:Response)=>{
 
         let result = await expenseService.getExpenses(user);
 
-        res.json({
-            status:'successfull',
-            data:result
-        });
+        if(result){
+            res.status(200).json({
+                status:'successfull',
+                data:result
+            });
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'get expenses failed'
+            });
+        }
     }
     catch(err){
         console.log(err);
@@ -49,10 +65,18 @@ export const getExpenseByDate = async(req:Request,res:Response)=>{
 
         let result = await expenseService.getExpenseByDate(user,startDate,endDate);
 
-        res.json({
-            status:'successfull', 
-            data:result
-        });
+        if(result){
+            res.status(200).json({
+                status:'successfull', 
+                data:result
+            });
+        }
+        else{
+            res.status(400).json({
+                status:'failed', 
+                data:'get expense by date failed'
+            });
+        }
     }
     catch(err){
         console.log(err);
@@ -66,10 +90,18 @@ export const getCategories = async(req:Request,res:Response)=>{
 
         let results = await expenseService.getExpenseCategories(user);
 
-        res.json({
-            status:'successfull',
-            data:results
-        })
+        if(results){
+            res.status(200).json({
+                status:'successfull',
+                data:results
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'successfull',
+                data:'get categories failed'
+            })
+        }
     }
     catch(err){
         console.log(err);
@@ -85,10 +117,44 @@ export const getTotalExpenseByCategory = async(req:Request,res:Response)=>{
 
         let result = await expenseService.getTotalExpenseByCategory(user,startDate,endDate);
 
-        res.json({
-            status:'successfull',
-            data:result
-        })
+        if(result){
+            res.status(200).json({
+                status:'successfull',
+                data:result
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:"get total expense by category failed"
+            })
+        }
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const deleteExpense = async(req:Request,res:Response)=>{
+    try{
+        let user = req.body.user;
+        let id = req.params.id;
+
+        let result = await expenseService.deleteExpense(user,id);
+
+        if(result?.affected as number>0){
+            res.status(200).json({
+                status:'successfull',
+                data:'Expense deleted'
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'Expense not deleted'
+            })
+        }
     }
     catch(err){
         console.log(err);

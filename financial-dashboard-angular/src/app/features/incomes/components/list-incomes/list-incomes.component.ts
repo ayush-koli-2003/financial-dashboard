@@ -32,7 +32,29 @@ export class ListIncomesComponent implements OnInit{
     )
   }
 
+  deleteIncome(id:any){
+    this.incomeService.deleteIncome(id).subscribe({
+      next:(response:any)=>{
+        console.log(response.data);
+        
+      },
+      error:(err)=>{
+        console.log(err);
+        
+      }
+    });
+  }
+
   selectDate(date:any){
     this.getIncomes(date.month,date.year);
+  }
+
+  selectEvent(option:any){
+    if(option.operation==='edit'){
+      // this.router
+    }
+    else{
+      this.deleteIncome(option.id);
+    }
   }
 }

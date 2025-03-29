@@ -28,7 +28,7 @@ export class Expense{
     })
     date:Date;
 
-    @ManyToOne(()=>User,(user)=>user.expenses,{eager:true})
+    @ManyToOne(()=>User,(user)=>user.expenses)
     user:User;
 
     constructor(name:string,category:ExpenseCategory,amount:number,date:Date,user:User,note:string){

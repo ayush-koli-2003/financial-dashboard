@@ -1,6 +1,5 @@
 import { Component, OnInit } from '@angular/core';
 import { BudgetsService } from '../../services/budgets.service';
-import { ExpenseCategory } from '../../../../core/enums/expense-category.enum';
 import { Budget } from '../../../../core/models/Budget.model';
 
 @Component({
@@ -22,8 +21,13 @@ export class ListBudgetsComponent implements OnInit{
   ngOnInit(): void {
     this.budgetService.updateBudgetObs$.subscribe(
       ()=>{
-        this.getBudgets(this.month,this.year);
-        this.getTotalExpenseByCategory(this.month,this.year);
+        let currDate = new Date();
+        let month = currDate.getMonth()+1;
+        let year = currDate.getFullYear();
+
+        // console.log(month,year);
+        
+        this.selectDate({month:month,year:year});
       }
     )
   }
@@ -32,7 +36,6 @@ export class ListBudgetsComponent implements OnInit{
     this.budgetService.getBudgets(month,year).subscribe(
       (response:any)=>{
         this.budgetList = response.data;
-        console.log(this.budgetList);
         
         this.isLoaded = true;
       }
@@ -47,10 +50,27 @@ export class ListBudgetsComponent implements OnInit{
   getTotalExpenseByCategory(month:any,year:any){
     this.budgetService.getTotalSpendingOfCategory(month,year).subscribe(
       (response:any)=>{
-        this.totalSpendingOfCategory = response.data;
-        console.log(response.data);
+        this.totalSpendingOfCategory = response.data
         
       }
     )
+  }
+
+  deleteBudget(id:number){
+    this.budgetService.deleteBudget(id).subscribe(
+      (response:any)=>{
+        console.log(response.data);
+      }
+    );
+  }
+
+  selectEvent(option:any){
+    if(option.operation==='edit'){
+      // this.router.navigate(['/editExpense']);
+    }
+    else if(option.operation==='delete'){
+      
+      this.deleteBudget(option.id);
+    }
   }
 }

@@ -19,8 +19,7 @@ export class RequestInterceptor implements HttpInterceptor{
         return next.handle(req).pipe(
             tap(event=>{
                 if(event instanceof HttpResponse){
-                    
-                    if((event.body.data as string).includes('not found') || (event.body.data as string).includes('expired')){
+                    if( event.body.data instanceof String && ((event.body.data as string).includes('not found') || (event.body.data as string).includes('expired'))){
                         this.authService.logOut();
                     }
                 }

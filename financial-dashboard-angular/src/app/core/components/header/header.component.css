@@ -3,3 +3,10 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+:host ::ng-deep .p-menubar { 
+    position: fixed;
+    top: 0%;
+    width: 100%;
+    z-index: 1000;
+}

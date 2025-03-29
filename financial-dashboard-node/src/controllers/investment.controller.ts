@@ -9,10 +9,18 @@ export const getAllInvestments = async(req:Request,res:Response)=>{
 
         let results = await investmentService.getInvestments(user);
 
-        res.json({
-            status:'successfull',
-            data:results
-        })
+        if(results){
+            res.status(200).json({
+                status:'successfull',
+                data:results
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'get investments failed'
+            })
+        }
     }
     catch(err){
         console.log(err);
@@ -26,10 +34,18 @@ export const addInvestment = async(req:Request,res:Response)=>{
         let user = req.body.user;
         let result = await investmentService.addInvestment(investment,user);
 
-        res.json({
-            status:'successfull',
-            data: result
-        })
+        if(result){
+            res.status(200).json({
+                status:'successfull',
+                data: result
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data: 'add investment failed'
+            })
+        }
     }
     catch(err){
         console.log(err);
@@ -41,10 +57,18 @@ export const getInvestmentCategories = async(req:Request,res:Response)=>{
     try{
         let user = req.body.user;
         let result = await investmentService.getInvestmentCategories(user);
-        res.json({
-            status:"successfull",
-            data: result
-        })
+        if(result){
+            res.status(200).json({
+                status:"successfull",
+                data: result
+            })
+        }
+        else{
+            res.status(400).json({
+                status:"failed",
+                data: 'get investment categories failed'
+            })
+        }
     }
     catch(err){
         console.log(err);
@@ -59,10 +83,44 @@ export const getInvestmentByDate = async(req:Request,res:Response)=>{
         let endDate = req.body.endDate;
 
         let result = await investmentService.getInvestmentsByDate(user,startDate,endDate);
-        res.json({
-            status:"successfull",
-            data: result
-        })
+        if(result){
+            res.status(200).json({
+                status:"successfull",
+                data: result
+            })
+        }
+        else{
+            res.status(400).json({
+                status:"failed",
+                data: 'get investment by date failed'
+            })
+        }
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const deleteInvestment = async(req:Request,res:Response)=>{
+    try{
+        let user = req.body.user;
+        let id = req.params.id;
+
+        let result = await investmentService.deleteInvestment(user,id);
+
+        if(result?.affected as number>0){
+            res.status(200).json({
+                status:"successfull",
+                data:'investment deleted'
+            })
+        }
+        else{
+            res.status(400).json({
+                status:"failed",
+                data:'investment delete failed'
+            })
+        }
     }
     catch(err){
         console.log(err);

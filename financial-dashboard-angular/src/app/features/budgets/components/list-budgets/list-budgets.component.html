@@ -1,28 +1,34 @@
 <button routerLink="addBudget">Add Budget</button>
 <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
 
-<div *ngIf="isLoaded">
+<div *ngIf="isLoaded" class="list-container">
     <ng-container *ngFor="let budget of budgetList">
         <ng-container *ngFor="let spending of totalSpendingOfCategory">
-            <div *ngIf="budget.category === spending.category">
-                <div class="mb-4 p-8">
+            <ng-container *ngIf="budget.category === spending.category">
+                <div>
                     <p-card [header]="budget.category">
-                        <p class="m-0">
-                            <p-progressbar [ngClass]="'customProgress'" [value]="(spending.totalSpending/budget.amount)*100">
-                                <ng-template #content let-value>
-                                    <span>{{spending.totalSpending}}</span>
-                                </ng-template>
-                            </p-progressbar>
-                            Budget: {{budget.amount}} <br>
-                            Spent Amount: {{spending.totalSpending}}
-                        </p>
-                        
+                        <div class="list-card">
+                            <div style="width: 90%;">
+                                <p class="m-0" style="width: 100%;">
+                                    <p-progressbar [ngClass]="'customProgress'" [value]="(spending.totalSpending/budget.amount)*100">
+                                        <ng-template #content let-value>
+                                            <span>{{spending.totalSpending}}</span>
+                                        </ng-template>
+                                    </p-progressbar>
+                                    Budget: {{budget.amount}} <br>
+                                    Spent Amount: {{spending.totalSpending}}
+                                </p>
+                            </div>
+                            <div>
+                                <app-item-options [id]="budget.id" (selectOption)="selectEvent($event)"></app-item-options>
+                            </div>
+                        </div>
                     </p-card>
                 </div>
                 <!-- <div class="card" style="margin-left: 25%; margin-right: 25%;">
                     
                 </div> -->
-            </div>
+            </ng-container>
         </ng-container>
     </ng-container>
 </div>
