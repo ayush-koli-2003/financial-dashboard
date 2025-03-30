@@ -1,6 +1,6 @@
 <!-- <p>add-expense works!</p> -->
 
-<form [formGroup]="addExpenseForm" (ngSubmit)="onSubmit()">
+<!-- <form [formGroup]="addExpenseForm" (ngSubmit)="onSubmit()">
     <label for="name">Name: </label>
     <input type="text" formControlName="name">
     <br>
@@ -19,4 +19,6 @@
     <br>
     <button type="submit" [disabled]="isSubmitted">Add</button>
     
-</form>
+</form> -->
+
+<app-generic-add-item [addForm]="addExpenseForm" [categories]="categories" [inputControls]="inputControls" (submitEvent)="onSubmit($event)"></app-generic-add-item>

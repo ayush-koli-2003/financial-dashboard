@@ -1,11 +1,17 @@
 <!-- <p>list-expenses works!</p> -->
 <div>
-    <button  routerLink="/addExpense">Add expense</button>
+    <button (click)="loadAddComponent()">Add expense</button>
     <app-date-picker  (dateEvent)="selectDate($event)"></app-date-picker>
 </div>
 
+
+    <div style="z-index: 1000; width: auto; left: 40%; right: 40%; position: absolute;">
+        <ng-container loadDynamicComponent></ng-container>
+    </div>
+
+
 <div class="list-container">
-    <ng-container *ngFor="let expense of expenseList">      
+    <ng-container *ngFor="let expense of expenseList"> 
         <div>
             <p-card [header]="expense.name">
                 

@@ -70,7 +70,7 @@ export class ListBudgetsComponent implements OnInit{
     }
     else if(option.operation==='delete'){
       
-      this.deleteBudget(option.id);
+      this.deleteBudget(option.data);
     }
   }
 }

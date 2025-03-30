@@ -54,7 +54,7 @@ export class ListIncomesComponent implements OnInit{
       // this.router
     }
     else{
-      this.deleteIncome(option.id);
+      this.deleteIncome(option.data);
     }
   }
 }

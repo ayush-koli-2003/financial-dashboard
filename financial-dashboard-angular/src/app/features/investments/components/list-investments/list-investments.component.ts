@@ -55,7 +55,7 @@ export class ListInvestmentsComponent implements OnInit {
       // this.router
     }
     else{
-      this.deleteInvestment(option.id);
+      this.deleteInvestment(option.data);
     }
   }
 }

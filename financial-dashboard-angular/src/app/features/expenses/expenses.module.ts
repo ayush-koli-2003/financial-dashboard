@@ -23,7 +23,8 @@ import { CardModule } from 'primeng/card';
     CoreModule,
     ReactiveFormsModule,
     SharedModule,
-    CardModule
+    CardModule,
+    SharedModule
   ],
   providers:[provideHttpClient()]
 })

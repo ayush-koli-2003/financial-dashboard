@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ExpenseService } from '../../services/expense.service';
 import { Expense } from '../../../../core/models/Expense.model';
@@ -15,6 +15,8 @@ export class AddExpenseComponent {
   addExpenseForm:FormGroup;
   categories:any[]=[];
   isSubmitted=false;
+  inputControls = [{name:'name',label:'Name',type:'text'},{name:'note',label:'Note',type:'text'},{name:'amount',label:'Amount',type:'number'},{name:'category',label:'Expense Category',type:'select'}]
+  @Output() closeEvent = new EventEmitter();
   // expenseId:number,
   //   expenseName:string,
   //   expenseNote:string,
@@ -39,21 +41,23 @@ export class AddExpenseComponent {
     )
   }
 
-  onSubmit(){
-    
-    if(this.addExpenseForm.valid){
-      let expense = this.addExpenseForm.value;
+  onSubmit(addExpenseValue:any){
+      let expense = addExpenseValue;
       this.isSubmitted= true;
+      
+
+      // console.log(expense);
+      
       
       this.expenseService.addExpense(expense).subscribe(
         (res:any)=>{
           if(res.status === 'successfull'){
-            this.router.navigate(['../'],{relativeTo:this.route})
+            this.closeEvent.emit();
           }
         }
       );
 
       
-    }
+    
   }
 }

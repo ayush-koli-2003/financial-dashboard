@@ -11,10 +11,10 @@ export class ItemOptionsComponent {
   @Output() selectOption = new EventEmitter();
 
   emitEdit(){
-    this.selectOption.emit({id:this.id,operation:'edit'});
+    this.selectOption.emit({data:this.id,operation:'edit'});
   }
 
   emitDelete(){
-    this.selectOption.emit({id:this.id,operation:'delete'});
+    this.selectOption.emit({data:this.id,operation:'delete'});
   }
 }

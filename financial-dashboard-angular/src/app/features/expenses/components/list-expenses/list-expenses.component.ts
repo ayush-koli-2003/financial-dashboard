@@ -1,7 +1,9 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, OnInit, ViewChild } from '@angular/core';
 import { ExpenseService } from '../../services/expense.service';
 import { Expense } from '../../../../core/models/Expense.model';
 import { Router } from '@angular/router';
+import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
+import { AddExpenseComponent } from '../add-expense/add-expense.component';
 
 @Component({
   selector: 'app-list-expenses',
@@ -9,10 +11,16 @@ import { Router } from '@angular/router';
   templateUrl: './list-expenses.component.html',
   styleUrl: './list-expenses.component.css'
 })
-export class ListExpensesComponent implements OnInit {
+export class ListExpensesComponent implements OnInit, AfterViewInit {
   expenseList:Expense[]=[];
   month:any = '3';
   year:any = '';
+
+  isAddOpen = false;
+
+  @ViewChild(LoadDynamicComponentDirective) loadDynamicComponent!:LoadDynamicComponentDirective;
+  comRef!:ComponentRef<any>;
+  vcr:any;
   constructor(private expenseService:ExpenseService, private router:Router){
   }
 
@@ -21,6 +29,9 @@ export class ListExpensesComponent implements OnInit {
       this.getExpenses(this.month,this.year)
     })
 
+  }
+
+  ngAfterViewInit(): void {
   }
 
   getExpenses(month:any,year:any){
@@ -50,9 +61,23 @@ export class ListExpensesComponent implements OnInit {
     }
     else if(option.operation==='delete'){
       // console.log(option.id);
-      this.deleteExpense(option.id);
+      this.deleteExpense(option.data);
       
     }
+  }
+
+  loadAddComponent(){
+    this.isAddOpen != this.isAddOpen;
+    this.loadDynamicComponent.vcr.clear();
+    this.comRef = this.loadDynamicComponent.vcr.createComponent(AddExpenseComponent);
+
+    this.comRef.instance.closeEvent.subscribe(
+      (res:any)=>{
+        this.comRef.destroy();
+        this.getExpenses(this.month,this.year);
+      }
+    )
+    
   }
 
   selectDate(data:any){
