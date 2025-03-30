@@ -1,4 +1,4 @@
-<form [formGroup]="addBudgetForm" (ngSubmit)="onSubmit()">
+<!-- <form [formGroup]="addBudgetForm" (ngSubmit)="onSubmit()">
     <label for="category">Category: </label>
     <select name="category" formControlName="category">
         <ng-container *ngFor="let cat of categories">
@@ -11,4 +11,6 @@
     <br>
 
     <button type="submit" [disabled]="isSubmitted">Add Budget</button>
-</form>
+</form> -->
+
+<app-generic-add-item [addForm]="addBudgetForm" [categories]="categories" [inputControls]="inputControls" (submitEvent)="onSubmit($event)"></app-generic-add-item>

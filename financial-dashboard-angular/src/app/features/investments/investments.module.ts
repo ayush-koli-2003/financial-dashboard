@@ -9,6 +9,7 @@ import { ReactiveFormsModule } from '@angular/forms';
 import { provideHttpClient } from '@angular/common/http';
 import { SharedModule } from '../../shared/shared.module';
 import { CardModule } from 'primeng/card';
+import { Dialog } from 'primeng/dialog';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { CardModule } from 'primeng/card';
     InvestmentsRoutingModule,
     ReactiveFormsModule,
     SharedModule,
-    CardModule
+    CardModule,
+    Dialog
   ],
   providers:[provideHttpClient()]
 })

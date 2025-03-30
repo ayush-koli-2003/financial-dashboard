@@ -1,6 +1,6 @@
 <!-- <p>add-income works!</p> -->
 
-<form [formGroup]="addIncomeForm" (ngSubmit)="onSubmit()">
+<!-- <form [formGroup]="addIncomeForm" (ngSubmit)="onSubmit()">
     <label for="category">Category: </label>
     <select formControlName="category">
         <ng-container *ngFor="let cat of incomeCategories">
@@ -17,4 +17,6 @@
 
     <br>
     <button type="submit" [disabled]="isSubmitted">Add</button>
-</form>
+</form> -->
+
+<app-generic-add-item [addForm]="addIncomeForm" [categories]="incomeCategories" [inputControls]="inputControls" (submitEvent)="onSubmit($event)"></app-generic-add-item>

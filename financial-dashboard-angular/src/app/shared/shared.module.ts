@@ -10,6 +10,7 @@ import { ItemOptionsComponent } from './components/item-options/item-options.com
 import { ButtonModule } from 'primeng/button';
 import { GenericAddItemComponent } from './components/generic-add-item/generic-add-item.component';
 import { LoadDynamicComponentDirective } from './directives/load-dynamic-component.directive';
+import { GenericEditComponent } from './components/generic-edit/generic-edit.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { LoadDynamicComponentDirective } from './directives/load-dynamic-compone
     DatePickerComponent,
     ItemOptionsComponent,
     GenericAddItemComponent,
-    LoadDynamicComponentDirective
+    LoadDynamicComponentDirective,
+    GenericEditComponent
   ],
   imports: [
     CommonModule,
@@ -33,7 +35,8 @@ import { LoadDynamicComponentDirective } from './directives/load-dynamic-compone
     DatePickerComponent,
     ItemOptionsComponent,
     GenericAddItemComponent,
-    LoadDynamicComponentDirective
+    LoadDynamicComponentDirective,
+    GenericEditComponent
   ],
   providers:[provideCharts(withDefaultRegisterables())]
 })

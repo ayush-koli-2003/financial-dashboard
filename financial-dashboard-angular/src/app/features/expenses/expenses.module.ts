@@ -10,7 +10,8 @@ import { ExpenseService } from './services/expense.service';
 import { provideHttpClient } from '@angular/common/http';
 import { SharedModule } from '../../shared/shared.module';
 import { CardModule } from 'primeng/card';
-
+import { Dialog } from 'primeng/dialog';
+import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,9 @@ import { CardModule } from 'primeng/card';
     ReactiveFormsModule,
     SharedModule,
     CardModule,
-    SharedModule
+    SharedModule,
+    Dialog,
+    ButtonModule
   ],
   providers:[provideHttpClient()]
 })

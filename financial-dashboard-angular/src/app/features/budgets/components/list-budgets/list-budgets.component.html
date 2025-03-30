@@ -1,5 +1,9 @@
-<button routerLink="addBudget">Add Budget</button>
+<button (click)="loadModal()">Add Budget</button>
 <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+
+<p-dialog header="Add Budget" [modal]="true" [(visible)]="isAddOpen" [style]="{ width: '25rem' }">
+    <ng-container loadDynamicComponent></ng-container>
+</p-dialog>
 
 <div *ngIf="isLoaded" class="list-container">
     <ng-container *ngFor="let budget of budgetList">

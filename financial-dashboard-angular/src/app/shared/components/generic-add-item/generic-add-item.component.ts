@@ -19,11 +19,19 @@ export class GenericAddItemComponent implements OnInit {
     this.isSubmitted = false;
   }
 
+  emitEvent(value:any){
+    this.submitEvent.emit(value);
+  }
+
   onSubmit(){
     if(this.addForm.valid){
       // console.log(this.addForm.value);
-      
-      this.submitEvent.emit(this.addForm.value);
+      this.isSubmitted = true
+      this.emitEvent(this.addForm.value);
     }
+  }
+
+  onCancel(){
+    this.submitEvent.emit('exit');
   }
 }

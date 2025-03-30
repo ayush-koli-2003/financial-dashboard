@@ -8,6 +8,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { ProgressBar } from 'primeng/progressbar';
 import { SharedModule } from '../../shared/shared.module';
 import { CardModule } from 'primeng/card';
+import { Dialog } from 'primeng/dialog';
 
 
 @NgModule({
@@ -21,7 +22,8 @@ import { CardModule } from 'primeng/card';
     ReactiveFormsModule,
     ProgressBar,
     SharedModule,
-    CardModule
+    CardModule,
+    Dialog
   ],
   providers:[provideHttpClient()]
 })

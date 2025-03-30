@@ -41,23 +41,29 @@ export class AddExpenseComponent {
     )
   }
 
-  onSubmit(addExpenseValue:any){
-      let expense = addExpenseValue;
-      this.isSubmitted= true;
-      
+  onSubmit(value:any){
+      if(value === 'exit'){
+        this.closeEvent.emit('exit');
+      }
+      else{
+        let expense = value;
 
-      // console.log(expense);
-      
-      
-      this.expenseService.addExpense(expense).subscribe(
-        (res:any)=>{
-          if(res.status === 'successfull'){
-            this.closeEvent.emit();
+
+        
+
+        // console.log(expense);
+        
+        
+        this.expenseService.addExpense(expense).subscribe(
+          (res:any)=>{
+            if(res.status === 'successfull'){
+              this.closeEvent.emit('add');
+            }
           }
-        }
-      );
+        );
 
       
+      }
     
   }
 }

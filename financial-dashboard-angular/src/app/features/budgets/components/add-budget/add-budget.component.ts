@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { BudgetsService } from '../../services/budgets.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -13,7 +13,9 @@ export class AddBudgetComponent implements OnInit {
   addBudgetForm:FormGroup;
   categories:any;
   isSubmitted=false;
-
+  inputControls = [{name:'category',label:'Budget Category',type:'select'},{name:'amount',label:'Amount',type:'number'}]
+  @Output() closeEvent = new EventEmitter();
+  
   constructor(private budgetService:BudgetsService,private router:Router,private route:ActivatedRoute){
     this.addBudgetForm= new FormGroup({
       category: new FormControl(null,[Validators.required]),
@@ -33,15 +35,12 @@ export class AddBudgetComponent implements OnInit {
     )
   }
 
-  onSubmit(){
-    if(this.addBudgetForm.valid){
+  onSubmit(value:any){
       this.isSubmitted = true;
-      this.budgetService.addBudget(this.addBudgetForm.value).subscribe(
+      this.budgetService.addBudget(value).subscribe(
         ()=>{
-          this.router.navigate(["../"],{relativeTo:this.route})
+          this.closeEvent.emit();
         }
       );
-      
-    }
   }
 }

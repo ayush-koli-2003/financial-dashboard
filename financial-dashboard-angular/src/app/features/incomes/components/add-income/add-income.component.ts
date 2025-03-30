@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { IncomeService } from '../../services/income.service';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -14,7 +14,8 @@ export class AddIncomeComponent{
   addIncomeForm:FormGroup;
   incomeCategories:any[]=[];
   isSubmitted = false;
-
+  @Output() closeEvent = new EventEmitter();
+  inputControls= [{name:'category',label:'Income Category',type:'select'},{name:'amount',label:'Amount',type:'number'},{name:'note',label:'Note',type:'text'}]
   constructor(private incomeService:IncomeService,private router:Router,private route:ActivatedRoute){
     this.addIncomeForm=new FormGroup({
       category: new FormControl(null,[Validators.required]),
@@ -31,15 +32,12 @@ export class AddIncomeComponent{
     )
   }
 
-  onSubmit(){
-    if(this.addIncomeForm.valid){
+  onSubmit(value:any){
       this.isSubmitted = true;
-      this.incomeService.addIncome(this.addIncomeForm.value).subscribe(
+      this.incomeService.addIncome(value).subscribe(
         (response)=>{
-          this.router.navigate(["../"],{relativeTo:this.route})
+          this.closeEvent.emit();
         }
       );
-      
-    }
   }
 }

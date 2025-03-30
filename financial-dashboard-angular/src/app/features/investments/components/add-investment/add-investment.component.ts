@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { InvestmentService } from '../../services/investment.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -12,7 +12,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 export class AddInvestmentComponent implements OnInit {
   addInvestmentForm:FormGroup;
   categories:any;
-  isSubmitted=false;
+  @Output() closeEvent = new EventEmitter();
+  inputControls= [{name:'category',label:'Investment Category',type:'select'},{name:'name',label:'Name',type:'text'},{name:'note',label:'Note',type:'text'},{name:'amount',label:'Amount',type:'number'}]
   constructor(private investmentService:InvestmentService,private router:Router,private route:ActivatedRoute){
     this.addInvestmentForm = new FormGroup({
       name: new FormControl(null,[Validators.required]),
@@ -30,15 +31,11 @@ export class AddInvestmentComponent implements OnInit {
     );
   }
 
-  onSubmit(){
-    if(this.addInvestmentForm.valid){
-      this.isSubmitted=true
-      this.investmentService.addInvestment(this.addInvestmentForm.value).subscribe(
-        ()=>{
-          this.router.navigate(['../'],{relativeTo:this.route});
-        }
-      )
-      
-    }
+  onSubmit(value:any){
+    this.investmentService.addInvestment(value).subscribe(
+      ()=>{
+        this.closeEvent.emit();
+      }
+    )
   }
 }

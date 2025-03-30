@@ -1,7 +1,11 @@
 <!-- <p>list-incomes works!</p> -->
 
-<button routerLink="addIncome">Add Income</button>
+<button (click)="loadModal()">Add Income</button>
 <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+
+<p-dialog header="Add Budget" [modal]="true" [(visible)]="isAddOpen" [style]="{ width: '25rem' }">
+    <ng-container loadDynamicComponent></ng-container>
+</p-dialog>
 
 <div class="list-container">
     <ng-container *ngFor="let income of incomeList">

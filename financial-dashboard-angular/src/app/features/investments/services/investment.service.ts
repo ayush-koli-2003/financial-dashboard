@@ -28,9 +28,12 @@ export class InvestmentService{
 
             investment.date = currDate.toISOString().split('T')[0];
         }
-        this.updateInvestmentListSub.next(this.investmentList);
 
-        return this.http.post('http://localhost:3000/api/investment/add',investment,{withCredentials:true});
+        return this.http.post('http://localhost:3000/api/investment/add',investment,{withCredentials:true}).pipe(
+            tap(response=>{
+                this.updateInvestmentListSub.next(this.investmentList);
+            })
+        );
     }
 
     getCategories(){

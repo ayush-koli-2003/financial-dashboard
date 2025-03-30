@@ -30,8 +30,12 @@ export class BudgetsService{
         
 
         let newBudget:any = {date,...budget};
-        this.updateBudgetSub.next(this.budgetList);
-        return this.http.post('http://localhost:3000/api/budget/add',newBudget);
+        
+        return this.http.post('http://localhost:3000/api/budget/add',newBudget).pipe(
+            tap(response=>{
+                this.updateBudgetSub.next(this.budgetList);
+            })
+        );
     }
 
     getCategories(){

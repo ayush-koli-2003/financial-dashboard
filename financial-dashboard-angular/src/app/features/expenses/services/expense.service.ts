@@ -31,9 +31,11 @@ export class ExpenseService{
         // // this.expenseList.push(newExpense);
         // // this.expenseListSub.next(this.expenseList);
 
-        this.updateExpenseListSub.next(this.expenseList);
-
-        return this.http.post('http://localhost:3000/api/expense/add',newExpense,{withCredentials:true});
+        return this.http.post('http://localhost:3000/api/expense/add',newExpense,{withCredentials:true}).pipe(
+            tap(response=>{
+                this.updateExpenseListSub.next(this.expenseList);
+            })
+        );
     }
 
     getExpenseCategories(){

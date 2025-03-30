@@ -32,12 +32,14 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
   }
 
   ngAfterViewInit(): void {
+    this.vcr = this.loadDynamicComponent.vcr;
   }
 
   getExpenses(month:any,year:any){
     this.expenseService.getExpenseList(month,year).subscribe(
       (response:any)=>{
         this.expenseList = response.data;
+        console.log(this.expenseList[0]);
         
       }
     )
@@ -66,18 +68,25 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  loadAddComponent(){
-    this.isAddOpen != this.isAddOpen;
-    this.loadDynamicComponent.vcr.clear();
+  loadAddComponent() {
+    this.isAddOpen = true; // Fix the toggle bug
+    this.vcr.clear();
     this.comRef = this.loadDynamicComponent.vcr.createComponent(AddExpenseComponent);
-
+  
     this.comRef.instance.closeEvent.subscribe(
-      (res:any)=>{
-        this.comRef.destroy();
-        this.getExpenses(this.month,this.year);
+      (res: any) => {
+        console.log(res);
+        
+        this.closeModal();
       }
-    )
-    
+    );
+  }
+  
+  closeModal() {
+    this.isAddOpen = false;
+    // if (this.vcr) {
+    //   this.vcr.clear();
+    // }
   }
 
   selectDate(data:any){

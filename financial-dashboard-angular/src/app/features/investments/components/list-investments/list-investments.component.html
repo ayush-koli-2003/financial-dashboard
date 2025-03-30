@@ -1,12 +1,16 @@
 <div style="display: flex; flex-direction: row;">
     <div>
-        <button routerLink="addInvestment">Add Investment</button>
+        <button (click)="loadModal()">Add Investment</button>
     </div>
     
     <div>
         <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
     </div>
 </div>
+
+<p-dialog header="Add Budget" [modal]="true" [(visible)]="isAddOpen" [style]="{ width: '25rem' }">
+    <ng-container loadDynamicComponent></ng-container>
+</p-dialog>
 
 <div class="list-container">
     <ng-container *ngFor="let investment of investmentList">

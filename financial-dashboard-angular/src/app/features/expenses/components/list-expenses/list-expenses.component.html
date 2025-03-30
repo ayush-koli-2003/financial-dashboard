@@ -5,9 +5,13 @@
 </div>
 
 
-    <div style="z-index: 1000; width: auto; left: 40%; right: 40%; position: absolute;">
+    <!-- <div style="z-index: 1000; width: auto; left: 40%; right: 40%; position: absolute;">
+        
+    </div> -->
+
+    <p-dialog header="Add Expense" [modal]="true" [(visible)]="isAddOpen" [style]="{ width: '25rem' }">
         <ng-container loadDynamicComponent></ng-container>
-    </div>
+    </p-dialog>
 
 
 <div class="list-container">

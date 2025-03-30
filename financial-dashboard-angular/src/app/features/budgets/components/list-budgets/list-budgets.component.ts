@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component, ComponentRef, OnInit, ViewChild } from '@angular/core';
 import { BudgetsService } from '../../services/budgets.service';
 import { Budget } from '../../../../core/models/Budget.model';
+import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
+import { AddBudgetComponent } from '../add-budget/add-budget.component';
 
 @Component({
   selector: 'app-list-budgets',
@@ -8,12 +10,16 @@ import { Budget } from '../../../../core/models/Budget.model';
   templateUrl: './list-budgets.component.html',
   styleUrl: './list-budgets.component.css'
 })
-export class ListBudgetsComponent implements OnInit{
+export class ListBudgetsComponent implements OnInit, AfterViewInit{
   budgetList:Budget[];
   month:any = '3';
   year:any = '';
   isLoaded = false;
+  isAddOpen = false;
   totalSpendingOfCategory:any[]=[];
+  @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective;
+  vcr!:any;
+  compRef!:ComponentRef<any>;
   constructor(private budgetService:BudgetsService){
     this.budgetList=[];
   }
@@ -21,6 +27,8 @@ export class ListBudgetsComponent implements OnInit{
   ngOnInit(): void {
     this.budgetService.updateBudgetObs$.subscribe(
       ()=>{
+        
+        console.log('budget called');
         let currDate = new Date();
         let month = currDate.getMonth()+1;
         let year = currDate.getFullYear();
@@ -31,6 +39,11 @@ export class ListBudgetsComponent implements OnInit{
       }
     )
   }
+
+  ngAfterViewInit(): void {
+    this.vcr = this.loadDynamicComponentDirective.vcr;
+  }
+  
 
   getBudgets(month:any,year:any){
     this.budgetService.getBudgets(month,year).subscribe(
@@ -72,5 +85,24 @@ export class ListBudgetsComponent implements OnInit{
       
       this.deleteBudget(option.data);
     }
+  }
+
+  loadModal(){
+    this.isAddOpen = true;
+    this.vcr.clear();
+    this.compRef = this.vcr.createComponent(AddBudgetComponent);
+
+    if(this.compRef){
+      this.compRef.instance.closeEvent.subscribe(
+        (res:any)=>{
+          this.closeModal();
+        }
+      )
+    }
+  }
+
+  closeModal(){
+    this.isAddOpen = false;
+    this.vcr.clear();
   }
 }

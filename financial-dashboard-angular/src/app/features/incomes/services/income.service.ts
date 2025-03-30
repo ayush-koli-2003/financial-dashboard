@@ -27,9 +27,13 @@ export class IncomeService{
             let currDate = new Date();
             income.date = currDate.toISOString().split("T")[0];
         }
-        this.updateIncomeListSub.next(this.incomeList);
+        
 
-        return this.http.post('http://localhost:3000/api/income/add',income,{withCredentials:true});
+        return this.http.post('http://localhost:3000/api/income/add',income,{withCredentials:true}).pipe(
+            tap(response=>{
+                this.updateIncomeListSub.next(this.incomeList);
+            })
+        );
     }
 
     getCategories(){
