@@ -1,0 +1,42 @@
+<div class="form-container">
+    <div style="width: 100%;">
+        <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+                <div style="width: 100%;">
+                    <ng-container *ngFor="let control of inputControls">
+                        <div class="form-control">
+                            <ng-template #dropdown>
+                                <div>
+                                    <label >Category </label>
+                                </div>
+                                <div>
+                                    <select [name]="control.label" [formControlName]="control.name">
+                                        <!-- <option value="" disabled selected>Select category</option> -->
+                                        <ng-container *ngFor="let cat of categories">
+                                            <option [value]="cat">{{cat}}</option>
+                                        </ng-container>
+                                    </select><br>
+                                </div>
+                            </ng-template>
+                            <ng-container *ngIf="control.type!=='select' else dropdown">
+                                <div>
+                                    <label>{{control.label}} </label>
+                                </div>
+                                <div>
+                                    <input [type]="control.type" [formControlName]="control.name"><br>
+                                </div>
+                            </ng-container>
+                
+                        
+                    </div>
+                    </ng-container>
+                </div>
+                <div class="btn-container" style="width: 100%;">
+                    <button class="submit-btn" type="submit" [disabled]="isSubmitted">{{formLabel}}</button>
+                </div>
+            </div>
+        
+        </form>
+    </div>
+    
+</div>

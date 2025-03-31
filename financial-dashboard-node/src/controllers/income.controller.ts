@@ -131,3 +131,56 @@ export const deleteIncome = async(req:Request,res:Response)=>{
         
     }
 }
+
+export const getIncomeById = async(req:Request,res:Response)=>{
+    try{
+        let id = req.params.id;
+        let user = req.body.user;
+
+        let result = await incomeService.getIncomeById(id);
+
+        if(result){
+            res.status(200).json({
+                status:'successfull',
+                data:result
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'no income found'
+            })
+        }
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const updateIncomeById = async(req:Request,res:Response)=>{
+    try{
+        let income = req.body;
+        let user = req.body.user;
+        let id = req.params.id;
+
+        let result = await incomeService.updateIncomeById(income,id);
+
+        if(result?.affected as number>0){
+            res.status(200).json({
+                status:'successfull',
+                data:'income updated'
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'income update failed'
+            })
+        }
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}

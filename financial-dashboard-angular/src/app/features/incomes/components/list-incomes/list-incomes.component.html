@@ -1,9 +1,11 @@
 <!-- <p>list-incomes works!</p> -->
 
-<button (click)="loadModal()">Add Income</button>
-<app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+<div>
+    <button (click)="openDialogue('add')">Add Income</button>
+    <app-date-picker  (dateEvent)="selectDate($event)"></app-date-picker>
+</div>
 
-<p-dialog header="Add Budget" [modal]="true" [(visible)]="isAddOpen" [style]="{ width: '25rem' }">
+<p-dialog [header]="dialogLabel" [modal]="true" [(visible)]="isDialogVisible" [style]="{ width: '25rem' }">
     <ng-container loadDynamicComponent></ng-container>
 </p-dialog>
 

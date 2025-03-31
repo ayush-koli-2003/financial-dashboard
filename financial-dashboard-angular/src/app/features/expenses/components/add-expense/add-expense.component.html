@@ -21,4 +21,4 @@
     
 </form> -->
 
-<app-generic-add-item [addForm]="addExpenseForm" [categories]="categories" [inputControls]="inputControls" (submitEvent)="onSubmit($event)"></app-generic-add-item>
+<app-generic-form [form]="addExpenseForm" [categories]="categories" [inputControls]="inputControls" (submitEvent)="onSubmit($event)" [formType]="'add'"></app-generic-form>

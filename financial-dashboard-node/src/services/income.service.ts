@@ -1,5 +1,5 @@
 import { IncomeCategory } from "../enums/income.entity";
-import { addIncome, deleteIncome, getAllIncomes, getIncomesByDate } from "../repositories/income.repository";
+import { addIncome, deleteIncome, getAllIncomes, getIncomeById, getIncomesByDate, updateIncomeById } from "../repositories/income.repository";
 
 export class IncomeService{
     async getAllIncomes(user:any){
@@ -46,6 +46,26 @@ export class IncomeService{
     async deleteIncome(user:any,id:any){
         try{
             return await deleteIncome(user,id);
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    async getIncomeById(id:any){
+        try{
+            return await getIncomeById(id);
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    async updateIncomeById(income:any,id:any){
+        try{
+            return await updateIncomeById(income,id);
         }
         catch(err){
             console.log(err);

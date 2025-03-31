@@ -4,6 +4,7 @@ import { Expense } from '../../../../core/models/Expense.model';
 import { Router } from '@angular/router';
 import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
 import { AddExpenseComponent } from '../add-expense/add-expense.component';
+import { EditExpenseComponent } from '../edit-expense/edit-expense.component';
 
 @Component({
   selector: 'app-list-expenses',
@@ -18,8 +19,15 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
 
   isAddOpen = false;
 
+  isEditOpen = false;
+
+  isDialogVisible = false;
+  dialogLabel:string='';
+
+  editId!:number;
+
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponent!:LoadDynamicComponentDirective;
-  comRef!:ComponentRef<any>;
+  compRef!:ComponentRef<any>;
   vcr:any;
   constructor(private expenseService:ExpenseService, private router:Router){
   }
@@ -39,8 +47,6 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     this.expenseService.getExpenseList(month,year).subscribe(
       (response:any)=>{
         this.expenseList = response.data;
-        console.log(this.expenseList[0]);
-        
       }
     )
   }
@@ -60,6 +66,13 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
   selectEvent(option:any){
     if(option.operation==='edit'){
       // this.router.navigate(['/editExpense']);
+      this.editId = option.data;
+      // console.log(this.editId);
+      this.dialogLabel = 'Edit Expense'
+      this.isEditOpen = true;
+      // console.log(this.isEditOpen);
+      this.openDialogue('edit',this.editId);
+      
     }
     else if(option.operation==='delete'){
       // console.log(option.id);
@@ -69,24 +82,51 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
   }
 
   loadAddComponent() {
-    this.isAddOpen = true; // Fix the toggle bug
+    
     this.vcr.clear();
-    this.comRef = this.loadDynamicComponent.vcr.createComponent(AddExpenseComponent);
+    this.compRef = this.loadDynamicComponent.vcr.createComponent(AddExpenseComponent);
   
-    this.comRef.instance.closeEvent.subscribe(
+    this.compRef.instance.closeEvent.subscribe(
       (res: any) => {
         console.log(res);
         
-        this.closeModal();
+        this.closeDialogue();
       }
     );
   }
+
+  loadEditComponent(editId:any) {
+    
+    this.vcr.clear();
+    this.compRef = this.loadDynamicComponent.vcr.createComponent(EditExpenseComponent);
+    this.compRef.setInput('id',editId);
   
-  closeModal() {
-    this.isAddOpen = false;
-    // if (this.vcr) {
-    //   this.vcr.clear();
-    // }
+    this.compRef.instance.closeEvent.subscribe(
+      (res: any) => {
+        console.log(res);
+        
+        this.closeDialogue();
+      }
+    );
+  }
+
+  openDialogue(value:'add'|'edit',editId?:number){
+    this.isDialogVisible = true;
+
+    if(value==='add'){
+      this.loadAddComponent();
+      this.dialogLabel = 'Add Expense'
+    }
+    else{
+      this.loadEditComponent(editId);
+    }
+  }
+  
+  closeDialogue() {
+    this.isDialogVisible = false;
+    if (this.vcr) {
+      this.vcr.clear();
+    }
   }
 
   selectDate(data:any){

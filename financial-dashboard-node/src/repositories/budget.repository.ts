@@ -75,3 +75,25 @@ export const getBudgetCategories=  async(user:any)=>{
         
     }
 }
+
+export const getBudgetById = async(id:any)=>{
+    try{
+        return await budgetRepository.findOneBy({id:id});
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const updateBudgetById = async(budget:any,id:any)=>{
+    try{
+        // console.log(expense);
+        
+        return await budgetRepository.createQueryBuilder('budget').update().set({amount:budget.amount,category:budget.category}).where('id = :id',{id}).execute();
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}

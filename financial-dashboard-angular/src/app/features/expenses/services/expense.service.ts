@@ -49,4 +49,16 @@ export class ExpenseService{
             })
         )
     }
+
+    getExpenseById(id:any){
+        return this.http.get(`http://localhost:3000/api/expense/${id}`);
+    }
+
+    editExpense(expense:any,id:any){
+        return this.http.patch(`http://localhost:3000/api/expense/update/${id}`,expense).pipe(
+            tap(response=>{
+                this.updateExpenseListSub.next(this.expenseList);
+            })
+        );
+    }
 }

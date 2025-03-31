@@ -3,6 +3,7 @@ import { Investment } from '../../../../core/models/Investment.model';
 import { InvestmentService } from '../../services/investment.service';
 import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
 import { AddInvestmentComponent } from '../add-investment/add-investment.component';
+import { EditInvestmentComponent } from '../edit-investment/edit-investment.component';
 
 @Component({
   selector: 'app-list-investments',
@@ -19,6 +20,10 @@ export class ListInvestmentsComponent implements OnInit {
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective
   vcr!: ViewContainerRef;
   compRef!: ComponentRef<any>;
+  isDialogVisible: boolean= false;
+  dialogLabel: string='';
+  editId: any;
+  isEditOpen: boolean=false;
 
   constructor(private investmentService:InvestmentService){
     this.investmentList=[]
@@ -64,29 +69,81 @@ export class ListInvestmentsComponent implements OnInit {
   selectEvent(option:any){
     if(option.operation==='edit'){
       // this.router
+      this.editId = option.data;
+      this.dialogLabel = 'Edit Investment'
+      this.isEditOpen = true;
+      this.openDialogue('edit',this.editId);
     }
     else{
       this.deleteInvestment(option.data);
     }
   }
 
-  loadModal(){
-    this.isAddOpen = true;
+  // loadModal(){
+  //   this.isAddOpen = true;
+  //   this.vcr.clear();
+  //   this.compRef = this.vcr.createComponent(AddInvestmentComponent);
+
+  //   if(this.compRef){
+  //     this.compRef.instance.closeEvent.subscribe(
+  //       (res:any)=>{
+  //         this.closeModal();
+  //       }
+  //     )
+  //   }
+  // }
+
+  // closeModal(){
+  //   this.compRef.destroy();
+    
+  //   this.isAddOpen = false;
+  // }
+
+  closeDialogue() {
+    console.log('closed');
+    
+    this.isDialogVisible = false;
+    if (this.vcr) {
+      this.vcr.clear();
+    }
+  }
+
+  loadAddComponent(){
     this.vcr.clear();
     this.compRef = this.vcr.createComponent(AddInvestmentComponent);
 
     if(this.compRef){
       this.compRef.instance.closeEvent.subscribe(
         (res:any)=>{
-          this.closeModal();
+          this.closeDialogue();
         }
       )
     }
   }
 
-  closeModal(){
-    this.compRef.destroy();
-    
-    this.isAddOpen = false;
+  loadEditComponent(editId:any) {
+    this.vcr.clear();
+    this.compRef = this.vcr.createComponent(EditInvestmentComponent);
+    this.compRef.setInput('id',editId);
+  
+    this.compRef.instance.closeEvent.subscribe(
+      (res: any) => {
+        console.log(res);
+        
+        this.closeDialogue();
+      }
+    );
+  }
+
+  openDialogue(value:'add'|'edit',editId?:number){
+    this.isDialogVisible = true;
+
+    if(value==='add'){
+      this.loadAddComponent();
+      this.dialogLabel = 'Add Investment'
+    }
+    else{
+      this.loadEditComponent(editId);
+    }
   }
 }

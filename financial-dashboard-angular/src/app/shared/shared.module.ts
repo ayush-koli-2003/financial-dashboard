@@ -11,6 +11,8 @@ import { ButtonModule } from 'primeng/button';
 import { GenericAddItemComponent } from './components/generic-add-item/generic-add-item.component';
 import { LoadDynamicComponentDirective } from './directives/load-dynamic-component.directive';
 import { GenericEditComponent } from './components/generic-edit/generic-edit.component';
+import { Dialog } from 'primeng/dialog';
+import { GenericFormComponent } from './components/generic-form/generic-form.component';
 
 
 @NgModule({
@@ -20,7 +22,8 @@ import { GenericEditComponent } from './components/generic-edit/generic-edit.com
     ItemOptionsComponent,
     GenericAddItemComponent,
     LoadDynamicComponentDirective,
-    GenericEditComponent
+    GenericEditComponent,
+    GenericFormComponent
   ],
   imports: [
     CommonModule,
@@ -28,7 +31,8 @@ import { GenericEditComponent } from './components/generic-edit/generic-edit.com
     FormsModule,
     DatePicker,
     ButtonModule,
-    ReactiveFormsModule
+    ReactiveFormsModule,
+    Dialog
   ],
   exports:[
     GenericChartComponent,
@@ -36,6 +40,7 @@ import { GenericEditComponent } from './components/generic-edit/generic-edit.com
     ItemOptionsComponent,
     GenericAddItemComponent,
     LoadDynamicComponentDirective,
+    GenericFormComponent,
     GenericEditComponent
   ],
   providers:[provideCharts(withDefaultRegisterables())]

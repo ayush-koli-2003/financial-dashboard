@@ -12,11 +12,13 @@ import { SharedModule } from '../../shared/shared.module';
 import { CardModule } from 'primeng/card';
 import { Dialog } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
+import { EditExpenseComponent } from './components/edit-expense/edit-expense.component';
 
 @NgModule({
   declarations: [
     ListExpensesComponent,
-    AddExpenseComponent
+    AddExpenseComponent,
+    EditExpenseComponent
   ],
   imports: [
     CommonModule,

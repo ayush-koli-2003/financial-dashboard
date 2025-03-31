@@ -47,4 +47,16 @@ export class IncomeService{
             })
         )
     }
+
+    getIncomeById(id:any){
+        return this.http.get(`http://localhost:3000/api/income/${id}`);
+    }
+
+    editIncome(income:any,id:any){
+        return this.http.patch(`http://localhost:3000/api/income/update/${id}`,income).pipe(
+            tap(response=>{
+                this.updateIncomeListSub.next(this.incomeList);
+            })
+        );
+    }
 }

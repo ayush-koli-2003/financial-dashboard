@@ -65,3 +65,25 @@ export const getExpenseByDate = async(user:any,startDate:any,endDate:any)=>{
         
     }
 }
+
+export const getExpenseById = async(id:any)=>{
+    try{
+        return await expenseRepository.findOneBy({id:id});
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const updateExpenseById = async(expense:any,id:any)=>{
+    try{
+        // console.log(expense);
+        
+        return await expenseRepository.createQueryBuilder('expense').update().set({name:expense.name,amount:expense.amount,category:expense.category,note:expense.note}).where('id = :id',{id}).execute();
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}

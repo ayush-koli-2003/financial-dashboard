@@ -127,3 +127,56 @@ export const deleteInvestment = async(req:Request,res:Response)=>{
         
     }
 }
+
+export const getInvestmentById = async(req:Request,res:Response)=>{
+    try{
+        let id = req.params.id;
+        let user = req.body.user;
+
+        let result = await investmentService.getInvestmentById(id);
+
+        if(result){
+            res.status(200).json({
+                status:'successfull',
+                data:result
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'no investment found'
+            })
+        }
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const updateInvestmentById = async(req:Request,res:Response)=>{
+    try{
+        let investment = req.body;
+        let user = req.body.user;
+        let id = req.params.id;
+
+        let result = await investmentService.updateInvestmentById(investment,id);
+
+        if(result?.affected as number>0){
+            res.status(200).json({
+                status:'successfull',
+                data:'investment updated'
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'investment update failed'
+            })
+        }
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}

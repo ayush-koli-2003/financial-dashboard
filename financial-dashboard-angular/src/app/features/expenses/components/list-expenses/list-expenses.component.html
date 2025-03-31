@@ -1,6 +1,6 @@
 <!-- <p>list-expenses works!</p> -->
 <div>
-    <button (click)="loadAddComponent()">Add expense</button>
+    <button (click)="openDialogue('add')">Add expense</button>
     <app-date-picker  (dateEvent)="selectDate($event)"></app-date-picker>
 </div>
 
@@ -9,9 +9,11 @@
         
     </div> -->
 
-    <p-dialog header="Add Expense" [modal]="true" [(visible)]="isAddOpen" [style]="{ width: '25rem' }">
-        <ng-container loadDynamicComponent></ng-container>
-    </p-dialog>
+<p-dialog [header]="dialogLabel" [modal]="true" [(visible)]="isDialogVisible" [style]="{ width: '25rem' }">
+    <ng-container loadDynamicComponent></ng-container>
+</p-dialog>
+
+    <!-- <app-generic-edit [id]="editId" [header]="'Edit component'" [visible]="isEditOpen"></app-generic-edit> -->
 
 
 <div class="list-container">

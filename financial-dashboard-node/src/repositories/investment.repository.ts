@@ -69,3 +69,25 @@ export const deleteInvestment = async(user:any,id:any)=>{
         
     }
 }
+
+export const getInvestmentById = async(id:any)=>{
+    try{
+        return await investmentRepository.findOneBy({id:id});
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const updateInvestmentById = async(investment:any,id:any)=>{
+    try{
+        // console.log(expense);
+        
+        return await investmentRepository.createQueryBuilder('investment').update().set({name:investment.name,amount:investment.amount,category:investment.category,note:investment.note}).where('id = :id',{id}).execute();
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}

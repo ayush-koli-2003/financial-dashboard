@@ -9,12 +9,14 @@ import { ProgressBar } from 'primeng/progressbar';
 import { SharedModule } from '../../shared/shared.module';
 import { CardModule } from 'primeng/card';
 import { Dialog } from 'primeng/dialog';
+import { EditBudgetComponent } from './components/edit-budget/edit-budget.component';
 
 
 @NgModule({
   declarations: [
     ListBudgetsComponent,
-    AddBudgetComponent
+    AddBudgetComponent,
+    EditBudgetComponent
   ],
   imports: [
     CommonModule,

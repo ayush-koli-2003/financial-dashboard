@@ -3,6 +3,7 @@ import { BudgetsService } from '../../services/budgets.service';
 import { Budget } from '../../../../core/models/Budget.model';
 import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
 import { AddBudgetComponent } from '../add-budget/add-budget.component';
+import { EditBudgetComponent } from '../edit-budget/edit-budget.component';
 
 @Component({
   selector: 'app-list-budgets',
@@ -17,6 +18,12 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
   isLoaded = false;
   isAddOpen = false;
   totalSpendingOfCategory:any[]=[];
+
+  isEditOpen = false;
+  isDialogVisible = false;
+  dialogLabel:string='';
+  editId!:number;
+
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective;
   vcr!:any;
   compRef!:ComponentRef<any>;
@@ -27,8 +34,6 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
   ngOnInit(): void {
     this.budgetService.updateBudgetObs$.subscribe(
       ()=>{
-        
-        console.log('budget called');
         let currDate = new Date();
         let month = currDate.getMonth()+1;
         let year = currDate.getFullYear();
@@ -80,6 +85,12 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
   selectEvent(option:any){
     if(option.operation==='edit'){
       // this.router.navigate(['/editExpense']);
+      this.editId = option.data;
+      this.dialogLabel = 'Edit Budget'
+      this.isEditOpen = true;
+      // console.log(this.isEditOpen);
+      this.openDialogue('edit',this.editId);
+      
     }
     else if(option.operation==='delete'){
       
@@ -87,17 +98,51 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
     }
   }
 
-  loadModal(){
-    this.isAddOpen = true;
+  // load modal renamed
+
+  loadAddComponent(){
     this.vcr.clear();
     this.compRef = this.vcr.createComponent(AddBudgetComponent);
 
     if(this.compRef){
       this.compRef.instance.closeEvent.subscribe(
         (res:any)=>{
-          this.closeModal();
+          this.closeDialogue();
         }
       )
+    }
+  }
+
+  loadEditComponent(editId:any) {
+    this.vcr.clear();
+    this.compRef = this.vcr.createComponent(EditBudgetComponent);
+    this.compRef.setInput('id',editId);
+  
+    this.compRef.instance.closeEvent.subscribe(
+      (res: any) => {
+        console.log(res);
+        
+        this.closeDialogue();
+      }
+    );
+  }
+
+  openDialogue(value:'add'|'edit',editId?:number){
+    this.isDialogVisible = true;
+
+    if(value==='add'){
+      this.loadAddComponent();
+      this.dialogLabel = 'Add Budget'
+    }
+    else{
+      this.loadEditComponent(editId);
+    }
+  }
+
+  closeDialogue() {
+    this.isDialogVisible = false;
+    if (this.vcr) {
+      this.vcr.clear();
     }
   }
 

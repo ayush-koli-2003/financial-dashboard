@@ -47,4 +47,16 @@ export class InvestmentService{
             })
         );
     }
+
+    getInvestmentById(id:any){
+        return this.http.get(`http://localhost:3000/api/investment/${id}`);
+    }
+
+    editInvestment(investment:any,id:any){
+        return this.http.patch(`http://localhost:3000/api/investment/update/${id}`,investment).pipe(
+            tap(response=>{
+                this.updateInvestmentListSub.next(this.investmentList);
+            })
+        );
+    }
 }

@@ -2,7 +2,7 @@ import { Budget } from "../entities/budget.entity";
 import { BudgetCategory } from "../enums/budget.enum";
 import { ExpenseCategory } from "../enums/expense.enum";
 import { InvestmentCategory } from "../enums/investment.enum";
-import { createBudget, deleteBudget, getAllBudgets, getBudgetCategories, getBudgetsByDate } from "../repositories/budget.repository";
+import { createBudget, deleteBudget, getAllBudgets, getBudgetById, getBudgetCategories, getBudgetsByDate, updateBudgetById } from "../repositories/budget.repository";
 import { ExpenseService } from "./expenses.service";
 import { InvestmentService } from "./investment.service";
 
@@ -34,6 +34,16 @@ export class BudgetService{
             let enumCategories = Object.values(BudgetCategory);
 
             return enumCategories.filter(cat=> budgetList.find(b => b.category === cat) === undefined);
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    async getAllCategories(){
+        try{
+            return Object.values(BudgetCategory);
         }
         catch(err){
             console.log(err);
@@ -109,6 +119,26 @@ export class BudgetService{
     async getBudgetCategories(user:any){
         try{
             return await getBudgetCategories(user);
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    async getBudgetById(id:any){
+        try{
+            return await getBudgetById(id);
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    async updateBudgetById(budget:any,id:any){
+        try{
+            return await updateBudgetById(budget,id);
         }
         catch(err){
             console.log(err);

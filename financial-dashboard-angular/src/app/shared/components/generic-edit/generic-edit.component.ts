@@ -1,4 +1,4 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
 
 @Component({
   selector: 'app-generic-edit',
@@ -7,5 +7,11 @@ import { Component } from '@angular/core';
   styleUrl: './generic-edit.component.css'
 })
 export class GenericEditComponent {
+  @Input() header!:string;
+  @Input() visible!:boolean;
+  @Input() id!:number;
 
+  ngOnInit(){
+    
+  }
 }

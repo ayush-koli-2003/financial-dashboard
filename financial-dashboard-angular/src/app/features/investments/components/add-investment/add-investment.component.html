@@ -19,4 +19,4 @@
     <button type="submit" [disabled]="isSubmitted">Add Investment</button>
 </form> -->
 
-<app-generic-add-item [addForm]="addInvestmentForm" [categories]="categories" [inputControls]="inputControls" (submitEvent)="onSubmit($event)"></app-generic-add-item>
+<app-generic-form [form]="addInvestmentForm" [categories]="categories" [inputControls]="inputControls" [formType]="'add'" (submitEvent)="onSubmit($event)"></app-generic-form>

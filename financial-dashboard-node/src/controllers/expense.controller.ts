@@ -84,6 +84,32 @@ export const getExpenseByDate = async(req:Request,res:Response)=>{
     }
 }
 
+export const getExpenseById = async(req:Request,res:Response)=>{
+    try{
+        let id = req.params.id;
+        let user = req.body.user;
+
+        let result = await expenseService.getExpenseById(id);
+
+        if(result){
+            res.status(200).json({
+                status:'successfull',
+                data:result
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'no expense found'
+            })
+        }
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
 export const getCategories = async(req:Request,res:Response)=>{
     try{
         let user = req.body.user;
@@ -153,6 +179,33 @@ export const deleteExpense = async(req:Request,res:Response)=>{
             res.status(400).json({
                 status:'failed',
                 data:'Expense not deleted'
+            })
+        }
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const updateExpenseById = async(req:Request,res:Response)=>{
+    try{
+        let expense = req.body;
+        let user = req.body.user;
+        let id = req.params.id;
+
+        let result = await expenseService.updateExpenseById(expense,id);
+
+        if(result?.affected as number>0){
+            res.status(200).json({
+                status:'successfull',
+                data:'expense updated'
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'expense update failed'
             })
         }
     }

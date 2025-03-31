@@ -10,12 +10,14 @@ import { provideHttpClient } from '@angular/common/http';
 import { SharedModule } from '../../shared/shared.module';
 import { CardModule } from 'primeng/card';
 import { Dialog } from 'primeng/dialog';
+import { EditInvestmentComponent } from './components/edit-investment/edit-investment.component';
 
 
 @NgModule({
   declarations: [
     ListInvestmentsComponent,
-    AddInvestmentComponent
+    AddInvestmentComponent,
+    EditInvestmentComponent
   ],
   imports: [
     CommonModule,

@@ -1,5 +1,5 @@
 import { Investment } from "../entities/investment.entity";
-import { addInvestment, deleteInvestment, getAllInvestments, getCategories, getInvestmentByDate } from "../repositories/investment.repository";
+import { addInvestment, deleteInvestment, getAllInvestments, getCategories, getInvestmentByDate, getInvestmentById, updateInvestmentById } from "../repositories/investment.repository";
 
 export class InvestmentService{
     async getInvestments(user:any){
@@ -40,6 +40,26 @@ export class InvestmentService{
     async deleteInvestment(user:any,id:any){
         try{
             return await deleteInvestment(user,id);
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    async getInvestmentById(id:any){
+        try{
+            return await getInvestmentById(id);
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    async updateInvestmentById(investment:any,id:any){
+        try{
+            return await updateInvestmentById(investment,id);
         }
         catch(err){
             console.log(err);

@@ -60,3 +60,25 @@ export const deleteIncome = async(user:any,id:any)=>{
         
     }
 }
+
+export const getIncomeById = async(id:any)=>{
+    try{
+        return await incomeRepository.findOneBy({id:id});
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const updateIncomeById = async(income:any,id:any)=>{
+    try{
+        // console.log(expense);
+        
+        return await incomeRepository.createQueryBuilder('income').update().set({category:income.category,amount:income.amount,note:income.note}).where('id = :id',{id}).execute();
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}

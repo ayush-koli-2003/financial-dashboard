@@ -48,6 +48,29 @@ export const addBudget = async(req:Request,res:Response)=>{
     }
 }
 
+export const getCategories = async(req:Request,res:Response)=>{
+    try{
+        let user = req.body.user;
+        let results = await budgetService.getAllCategories();
+
+        if(results){
+            res.status(200).json({
+                status:"successfull",
+                data:results
+            })
+        }
+        else{
+            res.status(400).json({
+                status:"failed",
+                data:'get categories failed'
+            })
+        }
+    }
+    catch(err){
+        console.log(err);
+    }
+}
+
 export const getFilteredCategories = async(req:Request,res:Response)=>{
     try{
         let user = req.body.user;
@@ -148,6 +171,59 @@ export const deleteBudget = async(req:Request,res:Response)=>{
             res.status(400).json({
                 status:'failed',
                 data:'budget is not deleted'
+            })
+        }
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const getBudgetById = async(req:Request,res:Response)=>{
+    try{
+        let id = req.params.id;
+        let user = req.body.user;
+
+        let result = await budgetService.getBudgetById(id);
+
+        if(result){
+            res.status(200).json({
+                status:'successfull',
+                data:result
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'no budget found'
+            })
+        }
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const updateBudgetById = async(req:Request,res:Response)=>{
+    try{
+        let budget = req.body;
+        let user = req.body.user;
+        let id = req.params.id;
+
+        let result = await budgetService.updateBudgetById(budget,id);
+
+        if(result?.affected as number>0){
+            res.status(200).json({
+                status:'successfull',
+                data:'budget updated'
+            })
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'budget update failed'
             })
         }
     }

@@ -13,4 +13,4 @@
     <button type="submit" [disabled]="isSubmitted">Add Budget</button>
 </form> -->
 
-<app-generic-add-item [addForm]="addBudgetForm" [categories]="categories" [inputControls]="inputControls" (submitEvent)="onSubmit($event)"></app-generic-add-item>
+<app-generic-form [form]="addBudgetForm" [categories]="categories" [inputControls]="inputControls" [formType]="'add'" (submitEvent)="onSubmit($event)"></app-generic-form>

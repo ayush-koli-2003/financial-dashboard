@@ -42,6 +42,10 @@ export class BudgetsService{
         return this.http.get('http://localhost:3000/api/budget/filteredCategories');
     }
 
+    getAllCategories(){
+        return this.http.get('http://localhost:3000/api/budget/categories');
+    }
+
     getTotalSpendingOfCategory(month:any,year:any){
         const params = `month=${month}&year=${year}`
         return this.http.get(`http://localhost:3000/api/budget/getTotalSpendingOfCategory?${params}`);
@@ -50,6 +54,18 @@ export class BudgetsService{
     deleteBudget(id:number){
         
         return this.http.delete(`http://localhost:3000/api/budget/delete/${id}`).pipe(
+            tap(response=>{
+                this.updateBudgetSub.next(this.budgetList);
+            })
+        );
+    }
+
+    getBudgetById(id:any){
+        return this.http.get(`http://localhost:3000/api/budget/${id}`);
+    }
+
+    editBudget(budget:any,id:any){
+        return this.http.patch(`http://localhost:3000/api/budget/update/${id}`,budget).pipe(
             tap(response=>{
                 this.updateBudgetSub.next(this.budgetList);
             })
