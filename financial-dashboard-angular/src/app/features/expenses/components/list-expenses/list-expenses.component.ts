@@ -14,8 +14,8 @@ import { EditExpenseComponent } from '../edit-expense/edit-expense.component';
 })
 export class ListExpensesComponent implements OnInit, AfterViewInit {
   expenseList:Expense[]=[];
-  month:any = '3';
-  year:any = '';
+  month:any;
+  year:any;
 
   isAddOpen = false;
 
@@ -33,6 +33,9 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
   }
 
   ngOnInit(): void {
+    let date = new Date();
+    this.month = date.getMonth()+1;
+    this.year = date.getFullYear();
     this.expenseService.updateExpenseList$.subscribe(()=>{
       this.getExpenses(this.month,this.year)
     })

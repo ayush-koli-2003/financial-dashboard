@@ -13,8 +13,8 @@ import { EditIncomeComponent } from '../edit-income/edit-income.component';
 })
 export class ListIncomesComponent implements OnInit, AfterViewInit{
   incomeList:Income[]
-  month:any = '3';
-  year:any = '';
+  month:any;
+  year:any;
   isAddOpen: boolean=false;
 
   isEditOpen = false;
@@ -30,6 +30,9 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void {
+    let date = new Date();
+    this.month = date.getMonth()+1;
+    this.year = date.getFullYear();
     this.incomeService.updateIncomeListObs$.subscribe(
       ()=>{
         this.getIncomes(this.month,this.year);

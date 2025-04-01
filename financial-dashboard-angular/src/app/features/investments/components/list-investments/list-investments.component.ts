@@ -13,8 +13,8 @@ import { EditInvestmentComponent } from '../edit-investment/edit-investment.comp
 })
 export class ListInvestmentsComponent implements OnInit {
   investmentList:Investment[];
-  month:any = '3';
-  year:any = '';
+  month:any;
+  year:any;
   isAddOpen: boolean=false;
   
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective
@@ -30,6 +30,9 @@ export class ListInvestmentsComponent implements OnInit {
   }
 
   ngOnInit(): void {
+    let date = new Date();
+    this.month = date.getMonth()+1;
+    this.year = date.getFullYear();
     this.investmentService.updateInvestementListObs$.subscribe(
       ()=>{
         this.getInvestments(this.month,this.year);

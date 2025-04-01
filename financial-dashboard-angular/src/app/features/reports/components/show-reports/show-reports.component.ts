@@ -21,8 +21,8 @@ export class ShowReportsComponent {
   budgetVsExpense:any;
   expenseReport:any
 
-  month:any = '3';
-  year:any = '';
+  month:any;
+  year:any;
   constructor(private reportService:ReportService){
     // this.data = [
     //   { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
@@ -42,6 +42,9 @@ export class ShowReportsComponent {
   }
 
   ngOnInit(){
+    let date = new Date();
+    this.month = date.getMonth()+1;
+    this.year = date.getFullYear();
     this.getReports(this.month,this.year);
   }
 

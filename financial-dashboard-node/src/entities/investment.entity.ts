@@ -33,7 +33,7 @@ export class Investment{
     })
     date:Date;
 
-    @ManyToOne(()=>User,(user)=>user.investments)
+    @ManyToOne(()=>User,(user)=>user.investments,{onDelete:'CASCADE'})
     user:User;
 
     constructor(

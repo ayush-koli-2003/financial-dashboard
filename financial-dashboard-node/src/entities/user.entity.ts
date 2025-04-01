@@ -20,16 +20,16 @@ export class User{
     @Column()
     password:string;
 
-    @OneToMany(()=>Expense,(expense)=>expense.user)
+    @OneToMany(()=>Expense,(expense)=>expense.user,{cascade:true})
     expenses:Expense[];
 
-    @OneToMany(()=>Income,(income)=>income.user)
+    @OneToMany(()=>Income,(income)=>income.user,{cascade:true})
     incomes:Income[];
 
-    @OneToMany(()=>Budget,(budget)=>budget.user)
+    @OneToMany(()=>Budget,(budget)=>budget.user,{cascade:true})
     budgets:Budget[];
 
-    @OneToMany(()=>Investment,(investment)=>investment.user)
+    @OneToMany(()=>Investment,(investment)=>investment.user,{cascade:true})
     investments:Investment[];
 
     @OneToOne(()=>Profile,(profile)=>profile.user,{cascade:true})

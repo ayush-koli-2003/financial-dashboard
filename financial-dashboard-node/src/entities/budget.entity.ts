@@ -20,7 +20,7 @@ export class Budget{
     })
     date:Date;
 
-    @ManyToOne(()=>User,(user)=>user.budgets)
+    @ManyToOne(()=>User,(user)=>user.budgets,{onDelete:'CASCADE'})
     user:User;
 
     constructor(category:BudgetCategory,amount:number,date:Date,user:User){

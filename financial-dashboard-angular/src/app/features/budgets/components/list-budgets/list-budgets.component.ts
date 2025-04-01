@@ -13,8 +13,8 @@ import { EditBudgetComponent } from '../edit-budget/edit-budget.component';
 })
 export class ListBudgetsComponent implements OnInit, AfterViewInit{
   budgetList:Budget[];
-  month:any = '3';
-  year:any = '';
+  month:any;
+  year:any;
   isLoaded = false;
   isAddOpen = false;
   totalSpendingOfCategory:any[]=[];
@@ -32,6 +32,9 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(): void {
+    let date = new Date();
+    this.month = date.getMonth()+1;
+    this.year = date.getFullYear();
     this.budgetService.updateBudgetObs$.subscribe(
       ()=>{
         let currDate = new Date();

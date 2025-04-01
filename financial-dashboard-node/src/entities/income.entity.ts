@@ -25,7 +25,7 @@ export class Income{
     })
     date:Date;
 
-    @ManyToOne(()=>User,(user)=>user.incomes)
+    @ManyToOne(()=>User,(user)=>user.incomes,{onDelete:'CASCADE'})
     user:User;
 
     constructor(
