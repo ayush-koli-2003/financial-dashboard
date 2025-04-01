@@ -39,13 +39,10 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
     this.year = date.getFullYear();
     this.budgetService.updateBudgetObs$.subscribe(
       ()=>{
-        let currDate = new Date();
-        let month = currDate.getMonth()+1;
-        let year = currDate.getFullYear();
         this.getExpenseCategories();
         // console.log(month,year);
         
-        this.selectDate({month:month,year:year});
+        this.selectDate({month:this.month,year:this.year});
       }
     )
   }
@@ -59,7 +56,8 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
       next:(res:any)=>{
         this.categories = res.data;
         // console.log(this.categories);
-        
+        this.getBudgets(this.month,this.year);
+        this.getTotalExpenseByCategory(this.month,this.year);
       }
     })
   }

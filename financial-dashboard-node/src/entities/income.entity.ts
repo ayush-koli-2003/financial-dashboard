@@ -7,7 +7,9 @@ export class Income{
     @PrimaryGeneratedColumn()
     id:number;
 
-    @Column()
+    @Column({
+        type:'float'
+    })
     amount:number;
 
     @Column({
@@ -16,7 +18,9 @@ export class Income{
     category:IncomeCategory;
 
     @Column({
-        nullable:true
+        nullable:true,
+        type:'varchar',
+        length: "MAX"
     })
     note?:string;
 

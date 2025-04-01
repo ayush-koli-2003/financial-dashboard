@@ -7,11 +7,16 @@ export class Investment{
     @PrimaryGeneratedColumn()
     id:number;
 
-    @Column()
+    @Column({
+        type:'varchar',
+        length:100
+    })
     name:string;
 
     @Column({
-        nullable:true
+        nullable:true,
+        type:'varchar',
+        length: "MAX"
     })
     note?:string;
 
@@ -20,11 +25,14 @@ export class Investment{
     })
     category:InvestmentCategory;
 
-    @Column()
+    @Column({
+        type:'float'
+    })
     amount:number;
 
     @Column({
-        nullable:true
+        nullable:true,
+        type:'float'
     })
     returns?:number;
 

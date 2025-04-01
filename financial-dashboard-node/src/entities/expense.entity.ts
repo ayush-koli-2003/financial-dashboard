@@ -7,11 +7,16 @@ export class Expense{
     @PrimaryGeneratedColumn()
     id:number;
 
-    @Column()
+    @Column({
+        type:'varchar',
+        length:100
+    })
     name:string;
 
     @Column({
-        nullable:true
+        nullable:true,
+        type:'varchar',
+        length: "MAX"
     })
     note?:string;
 
@@ -20,7 +25,9 @@ export class Expense{
     })
     category:ExpenseCategory;
 
-    @Column()
+    @Column({
+        type:'float'
+    })
     amount:number;
 
     @Column({

@@ -11,6 +11,7 @@ export class DatePickerComponent {
 
   ngOnInit(){
     this.date = new Date();
+    this.dateSelected();
   }
 
   dateSelected(){

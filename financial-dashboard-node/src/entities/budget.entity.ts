@@ -12,7 +12,9 @@ export class Budget{
     })
     category:BudgetCategory; 
 
-    @Column()
+    @Column({
+        type:'float'
+    })
     amount:number;
 
     @Column({
