@@ -1,41 +1,47 @@
-<!-- <p>list-expenses works!</p> -->
-<div>
-    <button (click)="openDialogue('add')">Add expense</button>
-    <app-date-picker  (dateEvent)="selectDate($event)"></app-date-picker>
-</div>
+<div class="main">
+    <!-- <p>list-expenses works!</p> -->
+    <div>
+        <!-- <button (click)="openDialogue('add')">Add expense</button> -->
+        <!-- <app-date-picker  ></app-date-picker> -->
+        <app-filter-options [categories]="categories" (addEvent)="openDialogue('add')" (filterEvent)="takeFilters($event)" (dateEvent)="selectDate($event)"></app-filter-options>
+    </div>
 
 
-    <!-- <div style="z-index: 1000; width: auto; left: 40%; right: 40%; position: absolute;">
-        
-    </div> -->
+        <!-- <div style="z-index: 1000; width: auto; left: 40%; right: 40%; position: absolute;">
+            
+        </div> -->
 
-<p-dialog [header]="dialogLabel" [modal]="true" [(visible)]="isDialogVisible" [style]="{ width: '25rem' }">
-    <ng-container loadDynamicComponent></ng-container>
-</p-dialog>
-
-    <!-- <app-generic-edit [id]="editId" [header]="'Edit component'" [visible]="isEditOpen"></app-generic-edit> -->
-
-
-<div class="list-container">
-    <ng-container *ngFor="let expense of expenseList"> 
-        <div>
-            <p-card [header]="expense.name">
-                
-                <div class="list-card">
-                    <div>
-                        <p class="m-0">
-                            Category: {{expense.category}} <br>
-                            Amount: {{expense.amount}} <br>
-                            Date: {{expense.date | date:'fullDate'}}
-                        </p>
+    <div>
+        <p-dialog [header]="dialogLabel" [modal]="true" [(visible)]="isDialogVisible" [style]="{ width: '25rem' }">
+            <ng-container loadDynamicComponent></ng-container>
+        </p-dialog>
+    
+            <!-- <app-generic-edit [id]="editId" [header]="'Edit component'" [visible]="isEditOpen"></app-generic-edit> -->
+    
+    
+        <div class="list-container">
+            <ng-container *ngFor="let expense of expenseList"> 
+                <div>
+                    <p-card [header]="expense.name">
+                        
+                        <div class="list-card">
+                            <div>
+                                <p class="m-0">
+                                    Category: {{expense.category}} <br>
+                                    Amount: {{expense.amount}} <br>
+                                    Date: {{expense.date | date:'fullDate'}}
+                                </p>
+                            </div>
+    
+                            <div>
+                                <app-item-options [id]="expense.id"  (selectOption)="selectEvent($event)"></app-item-options>
+                            </div>
                     </div>
-
-                    <div>
-                        <app-item-options [id]="expense.id"  (selectOption)="selectEvent($event)"></app-item-options>
-                    </div>
-               </div>
-                    
-            </p-card>
+                            
+                    </p-card>
+                </div>
+            </ng-container>
         </div>
-    </ng-container>
+    </div>
+
 </div>

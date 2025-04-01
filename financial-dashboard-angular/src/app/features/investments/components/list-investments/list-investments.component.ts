@@ -24,6 +24,8 @@ export class ListInvestmentsComponent implements OnInit {
   dialogLabel: string='';
   editId: any;
   isEditOpen: boolean=false;
+  categories:any[]=[];
+  unfilteredList:any[]=[];
 
   constructor(private investmentService:InvestmentService){
     this.investmentList=[]
@@ -36,6 +38,7 @@ export class ListInvestmentsComponent implements OnInit {
     this.investmentService.updateInvestementListObs$.subscribe(
       ()=>{
         this.getInvestments(this.month,this.year);
+        this.getInvestmentCategories();
       }
     )
   }
@@ -48,8 +51,29 @@ export class ListInvestmentsComponent implements OnInit {
     this.investmentService.getInvestments(month,year).subscribe(
       (response:any)=>{
         this.investmentList = response.data;
+        this.unfilteredList = this.investmentList;
       }
     )
+  }
+
+  getInvestmentCategories(){
+    this.investmentService.getCategories().subscribe({
+      next:(res:any)=>{
+        this.categories = res.data;
+      }
+    })
+  }
+
+  takeFilters(filter:any){
+    this.investmentList = this.unfilteredList;
+    if(filter.sortBy || filter.filterBy){
+      this.applyFilters(filter.sortBy,filter.filterBy);
+    }
+  }
+
+  applyFilters(sortByValue:any,filterByValue:any){
+    this.investmentList = this.unfilteredList.filter(e=> filterByValue !== undefined ? e.category===filterByValue: true)
+      .sort((a,b)=> sortByValue===undefined ? 0 : sortByValue==='Low to High' ? a.amount-b.amount:b.amount-a.amount)
   }
 
   selectDate(data:any){

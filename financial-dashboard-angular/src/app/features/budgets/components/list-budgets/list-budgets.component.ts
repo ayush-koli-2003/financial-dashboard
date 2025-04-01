@@ -23,6 +23,8 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
   isDialogVisible = false;
   dialogLabel:string='';
   editId!:number;
+  categories:any[]=[];
+  unFilteredList:any[]=[];
 
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective;
   vcr!:any;
@@ -40,7 +42,7 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
         let currDate = new Date();
         let month = currDate.getMonth()+1;
         let year = currDate.getFullYear();
-
+        this.getExpenseCategories();
         // console.log(month,year);
         
         this.selectDate({month:month,year:year});
@@ -51,12 +53,36 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
   ngAfterViewInit(): void {
     this.vcr = this.loadDynamicComponentDirective.vcr;
   }
+
+  getExpenseCategories(){
+    this.budgetService.getAllCategories().subscribe({
+      next:(res:any)=>{
+        this.categories = res.data;
+        // console.log(this.categories);
+        
+      }
+    })
+  }
+
+  takeFilters(filters:any){
+    console.log(filters);
+    this.totalSpendingOfCategory = this.unFilteredList;
+    if(filters.sortBy || filters.filterBy){
+      this.applyFilters(filters.sortBy,filters.filterBy)
+    }
+  }
+
+  applyFilters(sortByValue:any,filterByValue:any){
+    this.totalSpendingOfCategory = this.unFilteredList.filter(b=> filterByValue !== undefined ? b.category===filterByValue: true)
+      .sort((a,b)=> sortByValue===undefined ? 0 : sortByValue==='Low to High' ? a.totalSpending-b.totalSpending:b.totalSpending-a.totalSpending)
+  }
   
 
   getBudgets(month:any,year:any){
     this.budgetService.getBudgets(month,year).subscribe(
       (response:any)=>{
         this.budgetList = response.data;
+        // console.log(this.budgetList);
         
         this.isLoaded = true;
       }
@@ -72,6 +98,8 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
     this.budgetService.getTotalSpendingOfCategory(month,year).subscribe(
       (response:any)=>{
         this.totalSpendingOfCategory = response.data
+        this.unFilteredList = this.totalSpendingOfCategory;
+        // console.log(this.totalSpendingOfCategory);
         
       }
     )

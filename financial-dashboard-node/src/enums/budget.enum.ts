@@ -9,5 +9,6 @@ export enum BudgetCategory{
     RealEstate="Real Estate",
     OtherInvestments="Other Investments",
     Health = "Health",
-    Kids = "Kids"
+    Kids = "Kids",
+    Electronics = "Electronics"
 }

@@ -1,30 +1,37 @@
-<!-- <p>list-incomes works!</p> -->
-
-<div>
-    <button (click)="openDialogue('add')">Add Income</button>
-    <app-date-picker  (dateEvent)="selectDate($event)"></app-date-picker>
-</div>
-
-<p-dialog [header]="dialogLabel" [modal]="true" [(visible)]="isDialogVisible" [style]="{ width: '25rem' }">
-    <ng-container loadDynamicComponent></ng-container>
-</p-dialog>
-
-<div class="list-container">
-    <ng-container *ngFor="let income of incomeList">
-        <div>
-            <p-card [header]="income.category">
-                <div class="list-card">
-                    <div>
-                        <p class="m-0">
-                            Amount: {{income.amount}}
-                        </p>
-                    </div>
-                    <div>
-                        <app-item-options [id]="income.id" (selectOption)="selectEvent($event)"></app-item-options>
-                    </div>
-                </div>                
-            </p-card>            
+<div class="main">
+    <!-- <div>
+        <button (click)="openDialogue('add')">Add Income</button>
+        <app-date-picker  (dateEvent)="selectDate($event)"></app-date-picker>
+    </div> -->
+    <div>
+        <app-filter-options [categories]="categories" (addEvent)="openDialogue('add')" (filterEvent)="takeFilters($event)" (dateEvent)="selectDate($event)"></app-filter-options>
+    </div>
+    
+    <div>
+        <p-dialog [header]="dialogLabel" [modal]="true" [(visible)]="isDialogVisible" [style]="{ width: '25rem' }">
+            <ng-container loadDynamicComponent></ng-container>
+        </p-dialog>
+        
+        <div class="list-container">
+            <ng-container *ngFor="let income of incomeList">
+                <div>
+                    <p-card [header]="income.category">
+                        <div class="list-card">
+                            <div>
+                                <p class="m-0">
+                                    Amount: {{income.amount}}
+                                </p>
+                            </div>
+                            <div>
+                                <app-item-options [id]="income.id" (selectOption)="selectEvent($event)"></app-item-options>
+                            </div>
+                        </div>                
+                    </p-card>            
+                </div>
+            </ng-container>
         </div>
-    </ng-container>
-</div>
+    
+    </div>    
+    
 
+</div>

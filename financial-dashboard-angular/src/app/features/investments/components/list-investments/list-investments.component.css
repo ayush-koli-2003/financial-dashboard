@@ -12,3 +12,8 @@
     flex-wrap: nowrap;
     align-items: baseline;
 }
+
+.main{
+    display: flex;
+    flex-direction: column;
+}

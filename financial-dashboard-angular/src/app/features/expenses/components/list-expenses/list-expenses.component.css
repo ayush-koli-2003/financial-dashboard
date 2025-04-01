@@ -2,6 +2,11 @@
     position: relative;
 }
 
+.main{
+    display: flex;
+    flex-direction: column;
+}
+
 .filters{
     position: fixed;
     z-index: 1000;

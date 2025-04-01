@@ -1,0 +1,23 @@
+<div class="filter-container">
+    <div class="filter">
+        <p-button (onClick)="emitButton()" label="Add" icon="pi pi-plus-circle"/>
+    </div>
+    <div class="filter">
+        <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+    </div>
+    <!-- <div class="filter">
+        <p-select (onChange)="emitFilter()" [(ngModel)]="groupByValue" [options]="groupOptions"  [style]="{ minWidth: '14rem' }" placeholder="Group By" />
+    </div> -->
+
+    <div class="filter">
+        <p-select (onChange)="emitFilter()" [(ngModel)]="sortByValue" [options]="sortOptions" [style]="{ minWidth: '14rem' }" placeholder="Sort By" />
+    </div>
+
+    <div class="filter">
+        <p-select (onChange)="emitFilter()" [(ngModel)]="filterByValue" [options]="categories" [style]="{ minWidth: '14rem' }" placeholder="Filter By" />
+    </div>
+
+    <div class="filter">
+        <p-button  (onClick)="resetFilter()" icon="pi pi-refresh" severity="danger" variant="text" />
+    </div>
+</div>

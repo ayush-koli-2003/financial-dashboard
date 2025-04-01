@@ -25,6 +25,8 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective
   vcr!: ViewContainerRef;
   compRef!: ComponentRef<any>;
+  categories:any[]=[];
+  unfilteredList:any[]=[];
   constructor(private incomeService:IncomeService){
     this.incomeList=[]
   }
@@ -36,6 +38,7 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
     this.incomeService.updateIncomeListObs$.subscribe(
       ()=>{
         this.getIncomes(this.month,this.year);
+        this.getIncomeCategories();
       }
     )
   }
@@ -48,8 +51,17 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
     this.incomeService.getIncomes(month,year).subscribe(
       (response:any)=>{
         this.incomeList = response.data
+        this.unfilteredList = this.incomeList;
       }
     )
+  }
+
+  getIncomeCategories(){
+    this.incomeService.getCategories().subscribe({
+      next:(res:any)=>{
+        this.categories = res.data;
+      }
+    })
   }
 
   deleteIncome(id:any){
@@ -84,56 +96,69 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
     }
   }
 
-    loadAddComponent(){
-      this.vcr.clear();
-      this.compRef = this.vcr.createComponent(AddIncomeComponent);
-  
-      if(this.compRef){
-        this.compRef.instance.closeEvent.subscribe(
-          (res:any)=>{
-            this.closeModal();
-          }
-        )
-      }
-    }
+  loadAddComponent(){
+    this.vcr.clear();
+    this.compRef = this.vcr.createComponent(AddIncomeComponent);
 
-    loadEditComponent(editId:any) {
-      this.vcr.clear();
-      this.compRef = this.vcr.createComponent(EditIncomeComponent);
-      this.compRef.setInput('id',editId);
-    
+    if(this.compRef){
       this.compRef.instance.closeEvent.subscribe(
-        (res: any) => {
-          console.log(res);
-          
+        (res:any)=>{
           this.closeDialogue();
         }
-      );
+      )
     }
+  }
 
-    openDialogue(value:'add'|'edit',editId?:number){
-      this.isDialogVisible = true;
+  loadEditComponent(editId:any) {
+    this.vcr.clear();
+    this.compRef = this.vcr.createComponent(EditIncomeComponent);
+    this.compRef.setInput('id',editId);
   
-      if(value==='add'){
-        this.loadAddComponent();
-        this.dialogLabel = 'Add Income'
+    this.compRef.instance.closeEvent.subscribe(
+      (res: any) => {
+        console.log(res);
+        
+        this.closeDialogue();
       }
-      else{
-        this.loadEditComponent(editId);
-        this.dialogLabel = 'Edit Income'
-      }
+    );
+  }
+
+  openDialogue(value:'add'|'edit',editId?:number){
+    this.isDialogVisible = true;
+
+    if(value==='add'){
+      this.loadAddComponent();
+      this.dialogLabel = 'Add Income'
     }
-  
-    closeDialogue() {
-      this.isDialogVisible = false;
-      if (this.vcr) {
-        this.vcr.clear();
-      }
+    else{
+      this.loadEditComponent(editId);
+      this.dialogLabel = 'Edit Income'
     }
-  
-    closeModal(){
-      this.compRef.destroy();
-      
-      this.isAddOpen = false;
+  }
+
+  closeDialogue() {
+    this.isDialogVisible = false;
+    if (this.vcr) {
+      this.vcr.clear();
     }
+  }
+
+  closeModal(){
+    this.compRef.destroy();
+    
+    this.isAddOpen = false;
+  }
+
+  takeFilters(filters:any){
+    console.log(filters);
+    this.incomeList = this.unfilteredList
+    if(filters.sortBy || filters.filterBy){
+      this.applyFilters(filters.sortBy,filters.filterBy)
+    }
+  }
+
+  applyFilters(sortByValue:any,filterByValue:any){
+    this.incomeList = this.unfilteredList.filter(e=> filterByValue !== undefined ? e.category===filterByValue: true)
+      .sort((a,b)=> sortByValue===undefined ? 0 : sortByValue==='Low to High' ? a.amount-b.amount:b.amount-a.amount)
+  }
 }

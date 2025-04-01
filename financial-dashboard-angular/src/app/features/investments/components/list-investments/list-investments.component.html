@@ -1,34 +1,32 @@
-<div style="display: flex; flex-direction: row;">
+<div>
     <div>
-        <button (click)="openDialogue('add')">Add Budget</button>
+        <app-filter-options [categories]="categories" (addEvent)="openDialogue('add')" (filterEvent)="takeFilters($event)" (dateEvent)="selectDate($event)"></app-filter-options>
     </div>
-    
     <div>
-        <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
-    </div>
-</div>
-
-<p-dialog [header]="dialogLabel" [modal]="true" [(visible)]="isDialogVisible" [style]="{ width: '25rem' }">
-    <ng-container loadDynamicComponent></ng-container>
-</p-dialog>
-
-<div class="list-container">
-    <ng-container *ngFor="let investment of investmentList">
-        <div>
-            <p-card [header]="investment.name">
-                <div class="list-card">
-                    <div>
-                        <p class="m-0">
-                            Category: {{investment.category}} <br>
-                            Amount: {{investment.amount}}
-                        </p>
-                    </div>
-                    <div>
-                        <app-item-options [id]="investment.id" (selectOption)="selectEvent($event)"></app-item-options>
-                    </div>
+        <p-dialog [header]="dialogLabel" [modal]="true" [(visible)]="isDialogVisible" [style]="{ width: '25rem' }">
+            <ng-container loadDynamicComponent></ng-container>
+        </p-dialog>
+        
+        <div class="list-container">
+            <ng-container *ngFor="let investment of investmentList">
+                <div>
+                    <p-card [header]="investment.name">
+                        <div class="list-card">
+                            <div>
+                                <p class="m-0">
+                                    Category: {{investment.category}} <br>
+                                    Amount: {{investment.amount}}
+                                </p>
+                            </div>
+                            <div>
+                                <app-item-options [id]="investment.id" (selectOption)="selectEvent($event)"></app-item-options>
+                            </div>
+                        </div>
+                    </p-card>
                 </div>
-            </p-card>
+            </ng-container>
         </div>
-    </ng-container>
+        
+        
+    </div>
 </div>
-

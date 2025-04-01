@@ -15,3 +15,8 @@
     flex-direction: row;
     flex-wrap: nowrap;
 }
+
+.main{
+    display: flex;
+    flex-direction: column;
+}

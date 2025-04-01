@@ -14,8 +14,10 @@ import { EditExpenseComponent } from '../edit-expense/edit-expense.component';
 })
 export class ListExpensesComponent implements OnInit, AfterViewInit {
   expenseList:Expense[]=[];
+  unfilteredList:any[]=[];
   month:any;
   year:any;
+  categories:any[]=[];
 
   isAddOpen = false;
 
@@ -37,7 +39,8 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     this.month = date.getMonth()+1;
     this.year = date.getFullYear();
     this.expenseService.updateExpenseList$.subscribe(()=>{
-      this.getExpenses(this.month,this.year)
+      this.getExpenses(this.month,this.year);
+      this.getExpenseCategories();
     })
 
   }
@@ -46,12 +49,36 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     this.vcr = this.loadDynamicComponent.vcr;
   }
 
+  takeFilters(filters:any){
+    // console.log(filters);
+    this.expenseList = this.unfilteredList
+    if(filters.sortBy || filters.filterBy){
+      this.applyFilters(filters.sortBy,filters.filterBy)
+    }
+  }
+
   getExpenses(month:any,year:any){
     this.expenseService.getExpenseList(month,year).subscribe(
       (response:any)=>{
         this.expenseList = response.data;
+        this.unfilteredList = this.expenseList;
       }
     )
+  }
+
+  getExpenseCategories(){
+    this.expenseService.getExpenseCategories().subscribe({
+      next:(res:any)=>{
+        this.categories = res.data;
+        // console.log(this.categories);
+        
+      }
+    })
+  }
+
+  applyFilters(sortByValue:any,filterByValue:any){
+    this.expenseList = this.unfilteredList.filter(e=> filterByValue !== undefined ? e.category===filterByValue: true)
+      .sort((a,b)=> sortByValue===undefined ? 0 : sortByValue==='Low to High' ? a.amount-b.amount:b.amount-a.amount)
   }
 
   deleteExpense(id:any){
