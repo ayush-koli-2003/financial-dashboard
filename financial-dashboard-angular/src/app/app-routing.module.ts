@@ -12,7 +12,8 @@ const routes: Routes = [
   {path:'investments',canActivate:[AuthGuard],loadChildren: ()=> import('./features/investments/investments.module').then(m=>m.InvestmentsModule)},
   {path:'reports',canActivate:[AuthGuard],loadChildren: ()=> import('./features/reports/reports.module').then(m=> m.ReportsModule)},
   {path:'login',component:LoginComponent},
-  {path:'register',component:RegisterComponent}
+  {path:'register',component:RegisterComponent},
+  {path:'profile',loadChildren:()=> import('./features/user-profile/user-profile.module').then(m=> m.UserProfileModule)}
 ];
 
 @NgModule({

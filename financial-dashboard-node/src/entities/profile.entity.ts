@@ -1,7 +1,8 @@
 import { Column, Entity, JoinColumn, OneToOne, PrimaryGeneratedColumn } from "typeorm";
 import { User } from "./user.entity";
+import { CurrencyCategory } from "../enums/currency.enum";
 
-@Entity('db_fd_profile')
+@Entity('db_fd__user__profile')
 export class Profile{
     @PrimaryGeneratedColumn()
     id:number;
@@ -20,10 +21,9 @@ export class Profile{
         nullable:true
     })
     profilePicture:string;
-
+    
     @Column({
-        nullable:true,
-        default:'INR'
+        type:'varchar'
     })
     currencyPreference:string;
 

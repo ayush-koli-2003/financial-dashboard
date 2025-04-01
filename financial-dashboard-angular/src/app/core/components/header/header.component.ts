@@ -69,7 +69,10 @@ export class HeaderComponent {
           items: [
             {
               label: 'Profile',
-              icon: 'pi pi-cog'
+              icon: 'pi pi-cog',
+              command:()=>{
+                this.router.navigate(['/profile'])
+              }
             },
             {
               label: 'Sign Out',

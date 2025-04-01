@@ -9,6 +9,7 @@ import cookieParser from 'cookie-parser';
 import { parseDate } from './middlewares/date.middleware';
 import { reportRouter } from './routes/report.route';
 import { budgetRouter } from './routes/budget.route';
+import { profileRouter } from './routes/profile.route';
 
 const app = express();
 app.use(express.json());
@@ -21,5 +22,6 @@ app.use('/api/budget',verifyToken,parseDate,budgetRouter);
 app.use('/api/income',verifyToken,parseDate,incomeRouter);
 app.use('/api/investment',verifyToken,parseDate,investmentRouter);
 app.use('/api/report',verifyToken,parseDate,reportRouter);
+app.use('/api/profile',verifyToken,profileRouter);
 
 export default app; 
