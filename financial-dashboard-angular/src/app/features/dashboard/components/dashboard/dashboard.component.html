@@ -8,31 +8,65 @@
             <div>
                 <p-card>
                     <ng-template #title>Total Expense</ng-template>
-                    <p>{{totalExpense}}</p>
+                    <p>{{totalExpense | currency:'INR'}}</p>
                 </p-card>
             </div>
             <div>
                 <p-card>
                     <ng-template #title>Total Income</ng-template>
-                    <p>{{totalIncome}}</p>
+                    <p>{{totalIncome | currency:'INR'}}</p>
                 </p-card>
             </div>
             <div>
                 <p-card>
                     <ng-template #title>Total Budget</ng-template>
-                    <p>{{totalBudget}}</p>
+                    <p>{{totalBudget | currency:'INR'}}</p>
                 </p-card>
             </div>
             <div>
                 <p-card>
-                    <ng-template #title>Total Investments</ng-template>
-                    <p>{{totalInvestment}}</p>
+                    <ng-template #title>Total Investment</ng-template>
+                    <p>{{totalInvestment | currency:'INR'}}</p>
                 </p-card>
             </div>
         </div>
         <div class="display-container">
             <div class="transaction-table" style="width: 45%;">
                 <!-- Create generic table component -->
+                <div class="card">
+                    <p-table stripedRows [value]="transactions" [tableStyle]="{ 'min-width': '30rem' }">
+                        <ng-template #caption>
+                            <div class="flex items-center justify-between">
+                                <span class="text-xl font-bold">Recent Tranasactions</span>
+                            </div>
+                        </ng-template>
+                        <ng-template #header>
+                            <tr>
+                                <th>Date</th>
+                                <th>Name</th>
+                                <th>Type</th>
+                                <th>Category</th>
+                                <th>Amount</th>
+                                <th>Note</th>
+                            </tr>
+                        </ng-template>
+                        <ng-template #body let-transaction>
+                            <tr>
+                                <td>{{ transaction.date }}</td>
+                                <td>{{ transaction.name }}</td>
+                                <td>{{ transaction.type }}</td>
+                                <td>{{ transaction.category }}</td>
+                                <td>
+                                    <p-badge [value]="transaction.amount" [severity]="transaction.type ==='Expense'?'danger':transaction.type==='Income'?'success':'warn'" />
+                                </td>
+                                <td>
+                                    <p-button variant="text" severity="secondary" icon="pi pi-eye"></p-button>
+                                </td>
+                            </tr>
+                        </ng-template>
+                        <ng-template #footer> In total there are {{ transactions ? transactions.length : 0 }} transactions. </ng-template>
+                    </p-table>
+                </div>
             </div>
             <div class="charts-container" style="width: 45%;">
                 <!-- generate charts and then show each chart using carousel -->

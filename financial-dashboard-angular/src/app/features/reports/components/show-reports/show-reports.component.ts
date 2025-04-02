@@ -56,10 +56,12 @@ export class ShowReportsComponent {
         this.budgetVsExpense = response.data.budgetVsExpense;
         this.expenseReport = response.data.expenseReport;
 
-        // console.log(this.budgetVsExpense);
+        console.log(this.budgetVsExpense.labels.length);
         
         if(this.budgetVsExpense.labels.length !==0 && this.expenseReport.labels.length !==0){
           this.isLoaded =true;
+          console.log('data found');
+          
         }
         // console.log(this.budgetVsExpense.data);
       }

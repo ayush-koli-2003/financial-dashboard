@@ -40,7 +40,7 @@ export class DashboardComponent implements OnInit{
 
     this.dashboardService.getDashboardTransactions(month,year).subscribe({
       next:(res:any)=>{
-        console.log(res.data);
+        this.transactions = res.data;
         
       }
     })

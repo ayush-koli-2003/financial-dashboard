@@ -21,7 +21,6 @@ export class DashboardService{
 
     async getTransactionsByDate(user:any,startDate:any,endDate:any){
         let expenses = await expenseService.getExpenseByDate(user,startDate,endDate);
-        let budgets = await budgetService.getBudgetByDate(user,startDate,endDate);
         let incomes = await incomeService.getIncomesByDate(user,startDate,endDate);
         let investments = await investmentService.getInvestmentsByDate(user,startDate,endDate);
 
@@ -33,12 +32,6 @@ export class DashboardService{
 
         let incomeList = incomes?.map((i:any)=>{
             let d:any = {...i,type:'Income'}
-            let {user,...data} = d;
-            return data;
-        })
-
-        let budgetList = budgets?.map((e:any)=>{
-            let d:any = {...e,type:'Budget'}
             let {user,...data} = d;
             return data;
         })
@@ -62,8 +55,6 @@ export class DashboardService{
         });
 
         return transactions;
-        
-        
         
     }
 }

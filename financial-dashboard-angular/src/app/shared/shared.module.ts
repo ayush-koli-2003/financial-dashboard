@@ -16,6 +16,7 @@ import { GenericFormComponent } from './components/generic-form/generic-form.com
 import { FilterOptionsComponent } from './components/filter-options/filter-options.component';
 import { SelectModule } from 'primeng/select';
 import { DisplayTransactionComponent } from './components/display-transaction/display-transaction.component';
+import { GenericTableComponent } from './components/generic-table/generic-table.component';
 
 @NgModule({
   declarations: [
@@ -27,7 +28,8 @@ import { DisplayTransactionComponent } from './components/display-transaction/di
     GenericEditComponent,
     GenericFormComponent,
     FilterOptionsComponent,
-    DisplayTransactionComponent
+    DisplayTransactionComponent,
+    GenericTableComponent
   ],
   imports: [
     CommonModule,
