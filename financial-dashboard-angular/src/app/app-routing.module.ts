@@ -5,7 +5,8 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { RegisterComponent } from './core/components/register/register.component';
 
 const routes: Routes = [
-  {path:'',redirectTo:'expenses',pathMatch:'full'},
+  {path:'',redirectTo:'dashboard',pathMatch:'full'},
+  {path:'dashboard',canActivate:[AuthGuard],loadChildren:()=> import('./features/dashboard/dashboard.module').then(m=>m.DashboardModule)},
   {path:'expenses',canActivate:[AuthGuard],loadChildren: ()=> import ('./features/expenses/expenses.module').then(m=>m.ExpensesModule)},
   {path:'incomes',canActivate:[AuthGuard],loadChildren: ()=> import('./features/incomes/income.module').then(m=>m.IncomesModule)},
   {path:'budgets',canActivate:[AuthGuard],loadChildren: ()=> import('./features/budgets/budgets.module').then(m=>m.BudgetsModule)},

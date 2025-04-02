@@ -1,0 +1,21 @@
+.main{
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.card-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.display-container{
+    display: flex;
+    flex-direction: row;
+    margin: 5%;
+}

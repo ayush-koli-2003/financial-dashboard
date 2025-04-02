@@ -91,3 +91,17 @@ export const updateInvestmentById = async(investment:any,id:any)=>{
         
     }
 }
+
+export const getTotalInvestmentByDate = async(user:any,startDate:any,endDate:any)=>{
+    try{
+        return (await investmentRepository.createQueryBuilder('investment')
+            .leftJoinAndSelect('investment.user','user')
+            .select('SUM(investment.amount)','total')
+            .where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate})
+            .getRawOne()).total;
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}

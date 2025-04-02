@@ -11,6 +11,7 @@ export class DatePickerComponent {
 
   ngOnInit(){
     this.date = new Date();
+    // IMP - Remove this and manage state for date in each module
     this.dateSelected();
   }
 

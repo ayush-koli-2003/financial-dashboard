@@ -90,7 +90,23 @@ export const updateBudgetById = async(budget:any,id:any)=>{
     try{
         // console.log(expense);
         
-        return await budgetRepository.createQueryBuilder('budget').update().set({amount:budget.amount,category:budget.category}).where('id = :id',{id}).execute();
+        return await budgetRepository.createQueryBuilder('budget').update()
+            .set({amount:budget.amount,category:budget.category})
+            .where('id = :id',{id}).execute();
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const getTotalBudgetByDate = async(user:any,startDate:any,endDate:any)=>{
+    try{
+        return (await budgetRepository.createQueryBuilder('budget')
+            .leftJoinAndSelect('budget.user','user')
+            .select('SUM(budget.amount)','total')
+            .where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate})
+            .getRawOne()).total;
     }
     catch(err){
         console.log(err);

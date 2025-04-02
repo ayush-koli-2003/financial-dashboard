@@ -1,6 +1,6 @@
 import { Expense } from "../entities/expense.entity";
 import { ExpenseCategory } from "../enums/expense.enum";
-import { addExpense, deleteExpense, getExpenseByDate, getExpenseById, getExpenses, updateExpenseById } from "../repositories/expense.repository";
+import { addExpense, deleteExpense, getExpenseByDate, getExpenseById, getExpenses, getTotalExpenseByDate, updateExpenseById } from "../repositories/expense.repository";
 
 export class ExpenseService{
     async addExpense(expense:any,user:any){
@@ -93,6 +93,16 @@ export class ExpenseService{
     async updateExpenseById(expense:any,id:any){
         try{
             return await updateExpenseById(expense,id);
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    async getTotalExpenseByDate(user:any,startDate:any,endDate:any){
+        try{
+            return await getTotalExpenseByDate(user,startDate,endDate);
         }
         catch(err){
             console.log(err);

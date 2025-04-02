@@ -1,0 +1,5 @@
+<div *ngIf="isDataLoaded">
+    <ng-container *ngFor="let k of keys">
+        {{k}}: {{data[k]}} <br>
+    </ng-container>
+</div>

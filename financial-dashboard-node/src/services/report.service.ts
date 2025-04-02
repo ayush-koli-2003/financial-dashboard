@@ -25,10 +25,12 @@ export class ReportService{
             // let budgetCategories = budgetRawCategories?.map(b=> b.category);
 
             // console.log(budgetCategories);
-            
-            
 
-            const budgetExpenseCategories = new Set([...(budgets as Budget[]).map(b=>b.category)]);
+            let expenseCategories = await expenseService.getExpenseCategories(user);
+            
+            
+ 
+            const budgetExpenseCategories = new Set([...(budgets as Budget[]).map(b=>b.category).filter(cat=> expenseCategories?.find(e=> e as string ===cat as string))]);
 
             let budgetData: any[]=[];
             let expenseData: any[]=[];

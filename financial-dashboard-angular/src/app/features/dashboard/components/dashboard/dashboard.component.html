@@ -1,0 +1,42 @@
+<div class="main">
+    <div>
+        <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+    </div>
+
+    <div *ngIf="isDataLoaded" class="dashboard-container">
+        <div class="card-container">
+            <div>
+                <p-card>
+                    <ng-template #title>Total Expense</ng-template>
+                    <p>{{totalExpense}}</p>
+                </p-card>
+            </div>
+            <div>
+                <p-card>
+                    <ng-template #title>Total Income</ng-template>
+                    <p>{{totalIncome}}</p>
+                </p-card>
+            </div>
+            <div>
+                <p-card>
+                    <ng-template #title>Total Budget</ng-template>
+                    <p>{{totalBudget}}</p>
+                </p-card>
+            </div>
+            <div>
+                <p-card>
+                    <ng-template #title>Total Investments</ng-template>
+                    <p>{{totalInvestment}}</p>
+                </p-card>
+            </div>
+        </div>
+        <div class="display-container">
+            <div class="transaction-table" style="width: 45%;">
+                <!-- Create generic table component -->
+            </div>
+            <div class="charts-container" style="width: 45%;">
+                <!-- generate charts and then show each chart using carousel -->
+            </div>
+        </div>
+    </div>
+</div>

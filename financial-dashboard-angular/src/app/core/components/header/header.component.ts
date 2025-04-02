@@ -33,9 +33,15 @@ export class HeaderComponent {
 
     this.items = [
       {
-        label: 'Expense',
+        label: 'Dashboard',
         command:()=>{
           this.router.navigate([''])
+        }
+      },
+      {
+        label: 'Expense',
+        command:()=>{
+          this.router.navigate(['/expenses'])
         }
       },
       {

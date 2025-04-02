@@ -38,9 +38,11 @@
                                                     <span>{{spending.totalSpending}}</span>
                                                 </ng-template>
                                             </p-progressbar>
+                                            
                                             Budget: {{budget.amount}} <br>
                                             Spent Amount: {{spending.totalSpending}}
                                         </p>
+                                        <!-- <div class="bg-orange-500 h-full" style="width: 50%; background-color: orange; height: 100%;"></div> -->
                                     </div>
                                     <div>
                                         <app-item-options [id]="budget.id" (selectOption)="selectEvent($event)"></app-item-options>

@@ -82,3 +82,13 @@ export const updateIncomeById = async(income:any,id:any)=>{
         
     }
 }
+
+export const getTotalIncomeByDate = async(user:any,startDate:any,endDate:any)=>{
+    try{
+        return (await incomeRepository.createQueryBuilder('income').leftJoinAndSelect('income.user','user').select('SUM(income.amount)','total').where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate}).getRawOne()).total;
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}

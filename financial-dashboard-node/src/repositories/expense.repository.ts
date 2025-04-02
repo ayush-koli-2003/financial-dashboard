@@ -87,3 +87,13 @@ export const updateExpenseById = async(expense:any,id:any)=>{
         
     }
 }
+
+export const getTotalExpenseByDate = async(user:any,startDate:any,endDate:any)=>{
+    try{
+        return (await expenseRepository.createQueryBuilder('expense').leftJoinAndSelect('expense.user','user').select('SUM(expense.amount)','total').where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate}).getRawOne()).total;
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}

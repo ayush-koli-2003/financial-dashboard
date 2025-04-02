@@ -15,6 +15,7 @@ import { Dialog } from 'primeng/dialog';
 import { GenericFormComponent } from './components/generic-form/generic-form.component';
 import { FilterOptionsComponent } from './components/filter-options/filter-options.component';
 import { SelectModule } from 'primeng/select';
+import { DisplayTransactionComponent } from './components/display-transaction/display-transaction.component';
 
 @NgModule({
   declarations: [
@@ -25,7 +26,8 @@ import { SelectModule } from 'primeng/select';
     LoadDynamicComponentDirective,
     GenericEditComponent,
     GenericFormComponent,
-    FilterOptionsComponent
+    FilterOptionsComponent,
+    DisplayTransactionComponent
   ],
   imports: [
     CommonModule,

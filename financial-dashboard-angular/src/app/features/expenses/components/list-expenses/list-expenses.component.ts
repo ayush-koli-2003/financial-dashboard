@@ -5,6 +5,7 @@ import { Router } from '@angular/router';
 import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
 import { AddExpenseComponent } from '../add-expense/add-expense.component';
 import { EditExpenseComponent } from '../edit-expense/edit-expense.component';
+import { DisplayTransactionComponent } from '../../../../shared/components/display-transaction/display-transaction.component';
 
 @Component({
   selector: 'app-list-expenses',
@@ -163,5 +164,17 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     // console.log(data); 
     
     this.getExpenses(data.month,data.year);
+  }
+
+  loadDisplayComponent(value:any){
+    this.vcr.clear();
+    this.compRef = this.loadDynamicComponent.vcr.createComponent(DisplayTransactionComponent);
+    this.compRef.setInput('data',value)
+  }
+
+  openDisplay(value:any){
+    this.isDialogVisible = true;
+    this.dialogLabel = value.category;
+    this.loadDisplayComponent(value);
   }
 }

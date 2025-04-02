@@ -15,6 +15,8 @@ export class LoginComponent {
   loginForm:FormGroup;
   isClicked = false;
 
+  loginError!: string;
+
   constructor(private authService:AuthService,private router:Router){
     this.loginForm = new FormGroup({
       email: new FormControl(null,[Validators.required,Validators.email]),
@@ -38,9 +40,7 @@ export class LoginComponent {
           }
           else{
             console.log('Login failed');
-            
-          }
-            
+          }            
         }
       );
     }

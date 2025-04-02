@@ -13,12 +13,25 @@
 
     <div class="container">
         <label for="uname"><b>Username</b></label>
+        <div class="error-message" *ngIf="registerForm.invalid">
+            <span *ngIf="registerForm.get('username')?.errors?.['required']">Username is required</span>
+            <span *ngIf="registerForm.get('username')?.errors?.['pattern']">Username should not have Whitespaces</span>
+        </div>
         <input type="text" placeholder="Enter Username" formControlName="username">
 
         <label for="email"><b>Email</b></label>
+        <div class="error-message" *ngIf="registerForm.invalid">
+            <small *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['required']">Email is required</small>
+            <small *ngIf="registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['email']">Please enter valid Email address</small>
+          </div>
         <input type="text" placeholder="Enter Email" formControlName="email">
     
         <label for="psw"><b>Password</b></label>
+        <div class="error-message" *ngIf="registerForm.invalid">
+            <small *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['required']">Password is required</small>
+            <small *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['minlength']">Password should be atleast 6 length</small> <br>
+            <small *ngIf="registerForm.get('password')?.touched && registerForm.get('password')?.errors?.['pattern']">Password should not have whitespaces</small>
+          </div>
         <input type="password" placeholder="Enter Password" formControlName="password">
     
         <button type="submit">Register</button>

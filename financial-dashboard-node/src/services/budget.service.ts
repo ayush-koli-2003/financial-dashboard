@@ -2,7 +2,7 @@ import { Budget } from "../entities/budget.entity";
 import { BudgetCategory } from "../enums/budget.enum";
 import { ExpenseCategory } from "../enums/expense.enum";
 import { InvestmentCategory } from "../enums/investment.enum";
-import { createBudget, deleteBudget, getAllBudgets, getBudgetById, getBudgetCategories, getBudgetsByDate, updateBudgetById } from "../repositories/budget.repository";
+import { createBudget, deleteBudget, getAllBudgets, getBudgetById, getBudgetCategories, getBudgetsByDate, getTotalBudgetByDate, updateBudgetById } from "../repositories/budget.repository";
 import { ExpenseService } from "./expenses.service";
 import { InvestmentService } from "./investment.service";
 
@@ -139,6 +139,16 @@ export class BudgetService{
     async updateBudgetById(budget:any,id:any){
         try{
             return await updateBudgetById(budget,id);
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    async getTotalBudgetByDate(user:any,startDate:any,endDate:any){
+        try{
+            return await getTotalBudgetByDate(user,startDate,endDate);
         }
         catch(err){
             console.log(err);
