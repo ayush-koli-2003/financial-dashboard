@@ -10,6 +10,8 @@ import { provideHttpClient } from '@angular/common/http';
 import { MonthlyReportsComponent } from './components/monthly-reports/monthly-reports.component';
 import { TrendReportsComponent } from './components/trend-reports/trend-reports.component';
 import { OtherReportsComponent } from './components/other-reports/other-reports.component';
+import { SelectModule } from 'primeng/select';
+import { FormsModule } from '@angular/forms';
 
 
 @NgModule({
@@ -23,6 +25,8 @@ import { OtherReportsComponent } from './components/other-reports/other-reports.
     CommonModule,
     ReportsRoutingModule,
     SharedModule,
+    SelectModule,
+    FormsModule
   ],
   providers:[
     ReportService,

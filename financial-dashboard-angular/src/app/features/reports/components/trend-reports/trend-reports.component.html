@@ -1,7 +1,5 @@
 <div class="filter-container">
-    <!-- <div>
-        <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
-    </div> -->
+    <p-select [options]="months" [(ngModel)]="pastMonths" (onChange)="monthSelected()" placeholder="Select Months" class="w-full md:w-56" />
 </div>
 
 <div class="reports-container">

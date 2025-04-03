@@ -49,7 +49,7 @@ export class ReportService{
                 } 
             )
 
-            console.log(budgetData);
+            // console.log(budgetData);
             
 
             return {
@@ -130,9 +130,10 @@ export class ReportService{
 
     // Trends Reports
 
-    async getIncomeVsExpenseTrend(user:any,startDate:any,endDate:any){
+    async getIncomeVsExpenseTrend(user:any,startDate:any,endDate:any,pastMonths:any){
         try{
-            let pastMonths = 6;
+            // console.log(pastMonths);
+            
             let year = startDate.split('-')[0];
             let month = startDate.split('-')[1];
 
@@ -147,6 +148,10 @@ export class ReportService{
             let endMonth = parseInt(endDate.split('-')[1]);
 
             // console.log(startMonth,endMonth);
+
+            if(startMonth===endMonth){
+                endMonth --;
+            }
             
 
             for(let m=startMonth+1; m!== endMonth+1;m=((m+1)%12)){              
@@ -206,9 +211,8 @@ export class ReportService{
         }
     }
 
-    async getSavingsTrend(user:any,startDate:any,endDate:any){
+    async getSavingsTrend(user:any,startDate:any,endDate:any,pastMonths:any){
         try{
-            let pastMonths = 6;
             let year = startDate.split('-')[0];
             let month = startDate.split('-')[1];
 
@@ -218,6 +222,10 @@ export class ReportService{
 
             let startMonth = parseInt(startDate.split('-')[1]);
             let endMonth = parseInt(endDate.split('-')[1]);
+
+            if(startMonth===endMonth){
+                endMonth --;
+            }
             
 
             for(let m=startMonth+1; m!== endMonth+1;m=((m+1)%12)){              

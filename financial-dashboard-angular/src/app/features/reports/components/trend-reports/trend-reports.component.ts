@@ -12,16 +12,28 @@ export class TrendReportsComponent implements OnInit{
   year:any = '2025'
   incomeVsExpenseTrend:any;
   savingsTrend:any
+  pastMonths = '3'
+  months = ['3','6','12'];
   constructor(private reportService:ReportService){
 
   }
   ngOnInit(): void {
-    this.reportService.getTrendReports(this.month,this.year).subscribe({
+    this.getTrendReports(this.month,this.year,this.pastMonths);
+  }
+
+  getTrendReports(month:any,year:any,pastMonths:any){
+    this.reportService.getTrendReports(month,year,pastMonths).subscribe({
       next:(res:any)=>{
         
         this.savingsTrend=res.data.savingsTrend;
         this.incomeVsExpenseTrend = res.data.incomeVsExpenseTrend;
       }
     })
+  }
+
+  monthSelected(){
+    // console.log(this.pastMonths);
+    
+    this.getTrendReports(this.month,this.year,this.pastMonths);
   }
 }

@@ -32,12 +32,13 @@ export const generateTrendsReports = async(req:Request,res:Response)=>{
         let user = req.body.user;
         let startDate = req.body.startDate;
         let endDate = req.body.endDate;
+        let pastMonths = parseInt(req.query.pastMonths as string);
         // let expenseReport = await reportService.getExpenseReport(user,startDate,endDate);
         // let incomeReport = await reportService.getIncomeReport(user,startDate,endDate);
 
         // let budgetVsExpense = await reportService.getBudgetVsExpense(user,startDate,endDate);
-        let incomeVsExpenseTrend = await reportService.getIncomeVsExpenseTrend(user,startDate,endDate);
-        let savingsTrend = await reportService.getSavingsTrend(user,startDate,endDate);
+        let incomeVsExpenseTrend = await reportService.getIncomeVsExpenseTrend(user,startDate,endDate,pastMonths);
+        let savingsTrend = await reportService.getSavingsTrend(user,startDate,endDate,pastMonths);
         res.json({
             status:'successfull',
             data:{
