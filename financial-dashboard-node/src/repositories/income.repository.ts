@@ -92,3 +92,20 @@ export const getTotalIncomeByDate = async(user:any,startDate:any,endDate:any)=>{
         
     }
 }
+
+export const groupIncomeByMonths = async(user:any,startDate:any,endDate:any)=>{
+    try{
+        return await incomeRepository.createQueryBuilder('income')
+            .leftJoinAndSelect('income.user','user')
+            .select('MONTH(date)','month')
+            .addSelect('SUM(amount)','income')
+            .where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate})
+            .groupBy('MONTH(date)')
+            .orderBy('MONTH(date)')
+            .getRawMany();
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}

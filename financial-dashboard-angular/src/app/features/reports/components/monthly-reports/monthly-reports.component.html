@@ -1,0 +1,29 @@
+<div class="filter-container">
+    <div>
+        <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+    </div>
+</div>
+<div class="reports-container" *ngIf="isLoaded">
+    <div class="report">
+        <h3>Budget Vs Expense</h3>
+        <div class="chart-container">
+            <app-generic-chart 
+                [data]="budgetVsExpense.data" 
+                [chartType]="budgetVsExpense.chartType" 
+                [legend]="true" 
+                [labels]="budgetVsExpense.labels">
+            </app-generic-chart>
+        </div>
+    </div>
+    <div class="report">
+        <h3>Expense Breakdown</h3>
+        <div class="chart-container">
+            <app-generic-chart 
+                [data]="expenseReport.data" 
+                [chartType]="expenseReport.chartType" 
+                [legend]="true" 
+                [labels]="expenseReport.labels">
+            </app-generic-chart>
+        </div>
+    </div>
+</div>

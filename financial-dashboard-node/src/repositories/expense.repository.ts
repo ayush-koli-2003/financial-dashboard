@@ -97,3 +97,20 @@ export const getTotalExpenseByDate = async(user:any,startDate:any,endDate:any)=>
         
     }
 }
+
+export const groupExpenseByMonth = async(user:any,startDate:any,endDate:any)=>{
+    try{
+        return await expenseRepository.createQueryBuilder('expense')
+        .leftJoinAndSelect('expense.user','user')
+        .select('MONTH(date)','month')
+        .addSelect('SUM(amount)','expense')
+        .where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate})
+        .groupBy('MONTH(date)')
+        .orderBy('MONTH(date)')
+        .getRawMany();
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}

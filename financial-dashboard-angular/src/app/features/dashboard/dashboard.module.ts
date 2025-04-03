@@ -13,8 +13,7 @@ import { ButtonModule } from 'primeng/button';
 
 @NgModule({
   declarations: [
-  
-    DashboardComponent
+    DashboardComponent,
   ],
   imports: [
     CommonModule,

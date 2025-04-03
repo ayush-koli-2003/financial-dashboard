@@ -1,6 +1,7 @@
 import express from 'express';
-import { generateReports } from '../controllers/report.controller';
+import { generateMonthlyReports, generateTrendsReports } from '../controllers/report.controller';
 // IMP change all router to named exports
 export const reportRouter = express.Router();
 
-reportRouter.get('/',generateReports);
+reportRouter.get('/monthly',generateMonthlyReports);
+reportRouter.get('/trends',generateTrendsReports);

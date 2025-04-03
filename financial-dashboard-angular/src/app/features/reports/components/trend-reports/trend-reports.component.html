@@ -1,0 +1,33 @@
+<div class="filter-container">
+    <!-- <div>
+        <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+    </div> -->
+</div>
+
+<div class="reports-container">
+    <div class="report">
+        <h3>Income Vs Expense Trends</h3>
+        <div class="chart-container">
+            <app-generic-chart 
+                [data]="incomeVsExpenseTrend.data" 
+                [chartType]="incomeVsExpenseTrend.chartType" 
+                [legend]="true" 
+                [labels]="incomeVsExpenseTrend.labels">
+            </app-generic-chart>
+        </div>
+    </div>
+
+    <div class="report">
+        <h3>Savings Trends</h3>
+        <div class="chart-container">
+            <app-generic-chart 
+                [data]="savingsTrend.data" 
+                [chartType]="savingsTrend.chartType" 
+                [legend]="true" 
+                [labels]="savingsTrend.labels">
+            </app-generic-chart>
+        </div>
+    </div>
+</div>
+
+

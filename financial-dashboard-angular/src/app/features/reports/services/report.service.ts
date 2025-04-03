@@ -46,6 +46,11 @@ export class ReportService{
 
     getReports(month:any,year:any){
         const params = `month=${month}&year=${year}`;
-        return this.http.get(`http://localhost:3000/api/report?${params}`,{withCredentials:true});
+        return this.http.get(`http://localhost:3000/api/report/monthly?${params}`,{withCredentials:true});
+    }
+
+    getTrendReports(month:any,year:any){
+        const params = `month=${month}&year=${year}`;
+        return this.http.get(`http://localhost:3000/api/report/trends?${params}`,{withCredentials:true});
     }
 }

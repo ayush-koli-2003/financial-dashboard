@@ -49,6 +49,9 @@ export class ReportService{
                 } 
             )
 
+            console.log(budgetData);
+            
+
             return {
                 chartType: 'bar',
                 data:[
@@ -124,4 +127,153 @@ export class ReportService{
 //       ]
 //     };
 //   }
+
+    // Trends Reports
+
+    async getIncomeVsExpenseTrend(user:any,startDate:any,endDate:any){
+        try{
+            let pastMonths = 6;
+            let year = startDate.split('-')[0];
+            let month = startDate.split('-')[1];
+
+            startDate = new Date(year,month-pastMonths+1,1).toISOString().split('T')[0];
+            // console.log(startDate);
+            
+            let monthsList:any[] =[]
+            // let monthlyExpenseData : Map<'string',{expense:number}> = new Map();
+            // let monthlyIncomeDate: Map<'string'> = new Map();
+
+            let startMonth = parseInt(startDate.split('-')[1]);
+            let endMonth = parseInt(endDate.split('-')[1]);
+
+            // console.log(startMonth,endMonth);
+            
+
+            for(let m=startMonth+1; m!== endMonth+1;m=((m+1)%12)){              
+                monthsList.push(m);   
+            }
+
+            // console.log(monthsList);
+            
+
+            let incomes = await incomeService.groupIncomeByMonth(user,startDate,endDate);
+            let expenses = await expenseService.groupExpenseByMonth(user,startDate,endDate);
+
+            // console.log(incomes);
+            monthsList.reverse().map(m=>{
+                if(incomes?.findIndex((i)=>i.month==m)===-1){
+                    incomes.unshift({month:m,income:0})
+                }
+                if(expenses?.findIndex((i)=>i.month==m)===-1){
+                    expenses.unshift({month:m,expense:0})
+                }
+            })
+
+            // console.log(expenses);
+            
+            monthsList = [];
+            for(let i=0; i<Math.min(incomes?.length as number,expenses?.length as number);i++){
+                if(incomes?.[i].month === expenses?.[i].month){
+                    let date = new Date();
+                    date.setMonth(parseInt(incomes?.[i].month)-1);
+                    let month = date.toLocaleString('default', { month: 'short' });
+                    monthsList.push(month)
+                }
+            }
+
+            // monthsList = monthsList.map(m=>{                
+            //     let date = new Date();
+            //     date.setMonth(m-1);
+            //     let month = date.toLocaleString('default', { month: 'short' });
+            //     m = month;
+            //     return m;
+            // })
+            
+            // console.log(monthsList);
+
+            return {
+                chartType:'line',
+                labels: monthsList,
+                data: [
+                    {data:incomes?.map(i=> i.income),label:'Income'},
+                    {data:expenses?.map(e=> e.expense),label:'Expense'}
+                ]
+            }
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
+
+    async getSavingsTrend(user:any,startDate:any,endDate:any){
+        try{
+            let pastMonths = 6;
+            let year = startDate.split('-')[0];
+            let month = startDate.split('-')[1];
+
+            startDate = new Date(year,month-pastMonths+1,1).toISOString().split('T')[0];
+            
+            let monthsList:any[] =[];
+
+            let startMonth = parseInt(startDate.split('-')[1]);
+            let endMonth = parseInt(endDate.split('-')[1]);
+            
+
+            for(let m=startMonth+1; m!== endMonth+1;m=((m+1)%12)){              
+                monthsList.push(m);   
+            }
+
+            let incomes = await incomeService.groupIncomeByMonth(user,startDate,endDate);
+            let expenses = await expenseService.groupExpenseByMonth(user,startDate,endDate);
+
+            monthsList.reverse().map(m=>{
+                if(incomes?.findIndex((i)=>i.month==m)===-1){
+                    incomes.unshift({month:m,income:0})
+                }
+                if(expenses?.findIndex((i)=>i.month==m)===-1){
+                    expenses.unshift({month:m,expense:0})
+                }
+            })
+
+            // monthsList = monthsList.map(m=>{                
+            //     let date = new Date();
+            //     date.setMonth(m-1);
+            //     let month = date.toLocaleString('default', { month: 'short' });
+            //     m = month;
+            //     return m;
+            // })
+
+            // console.log(monthsList);
+            
+
+            let savingsList:any[]=[];
+            monthsList=[];
+            for(let i=0; i<Math.min(incomes?.length as number,expenses?.length as number);i++){
+                if(incomes?.[i].month === expenses?.[i].month){
+                    savingsList.push(incomes?.[i].income-expenses?.[i].expense);
+                    let date = new Date();
+                    date.setMonth(parseInt(incomes?.[i].month)-1);
+                    let month = date.toLocaleString('default', { month: 'short' });
+                    monthsList.push(month);
+                }
+            }
+
+            
+            // console.log(savingsList);
+            
+
+            return {
+                chartType:'line',
+                labels: monthsList,
+                data: [
+                    {data:savingsList,label:'Savings'}
+                ]
+            }
+        }
+        catch(err){
+            console.log(err);
+            
+        }
+    }
 }

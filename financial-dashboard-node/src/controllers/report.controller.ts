@@ -3,7 +3,7 @@ import { ReportService } from "../services/report.service";
 
 const reportService = new ReportService();
 
-export const generateReports = async(req:Request,res:Response)=>{
+export const generateMonthlyReports = async(req:Request,res:Response)=>{
     try{
         let user = req.body.user;
         let startDate = req.body.startDate;
@@ -18,6 +18,31 @@ export const generateReports = async(req:Request,res:Response)=>{
             data:{
                 budgetVsExpense,
                 expenseReport
+            }
+        })
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const generateTrendsReports = async(req:Request,res:Response)=>{
+    try{
+        let user = req.body.user;
+        let startDate = req.body.startDate;
+        let endDate = req.body.endDate;
+        // let expenseReport = await reportService.getExpenseReport(user,startDate,endDate);
+        // let incomeReport = await reportService.getIncomeReport(user,startDate,endDate);
+
+        // let budgetVsExpense = await reportService.getBudgetVsExpense(user,startDate,endDate);
+        let incomeVsExpenseTrend = await reportService.getIncomeVsExpenseTrend(user,startDate,endDate);
+        let savingsTrend = await reportService.getSavingsTrend(user,startDate,endDate);
+        res.json({
+            status:'successfull',
+            data:{
+                incomeVsExpenseTrend,
+                savingsTrend
             }
         })
     }

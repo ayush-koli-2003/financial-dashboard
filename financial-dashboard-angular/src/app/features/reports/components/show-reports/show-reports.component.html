@@ -1,5 +1,8 @@
-<app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
-<div *ngIf="isLoaded" style="max-width: 30%; max-height: 20%;">
-    <app-generic-chart [data]="budgetVsExpense.data" [chartType]="budgetVsExpense.chartType" [legend]="true" [labels]="budgetVsExpense.labels"></app-generic-chart>
-    <app-generic-chart [data]="expenseReport.data" [chartType]="expenseReport.chartType" [legend]="true" [labels]="expenseReport.labels"></app-generic-chart>
+<div>
+    <div>
+        <button routerLink="monthly">Monthly Reports</button>
+        <button routerLink="trends">Financial Trends</button>
+        <button routerLink="others">Others</button>
+    </div>
 </div>
+<router-outlet></router-outlet>

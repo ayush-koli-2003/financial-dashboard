@@ -1,15 +1,15 @@
 import { Component } from '@angular/core';
-import { ReportService } from '../../services/report.service';
+import { Router } from '@angular/router';
 import { ChartType } from 'chart.js';
-import { ActivatedRoute, Router } from '@angular/router';
+import { ReportService } from '../../services/report.service';
 
 @Component({
-  selector: 'app-show-reports',
+  selector: 'app-monthly-reports',
   standalone: false,
-  templateUrl: './show-reports.component.html',
-  styleUrl: './show-reports.component.css'
+  templateUrl: './monthly-reports.component.html',
+  styleUrl: './monthly-reports.component.css'
 })
-export class ShowReportsComponent {
+export class MonthlyReportsComponent {
   data!: { data: number[]; label: string; }[];
   labels!: string[];
   options!: { scaleShowVerticalLines: boolean; responsive: boolean; };
@@ -24,7 +24,7 @@ export class ShowReportsComponent {
 
   month:any;
   year:any;
-  constructor(private reportService:ReportService, private router:Router,private route:ActivatedRoute){
+  constructor(private reportService:ReportService, private router:Router){
     // this.data = [
     //   { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
     //   { data: [28, 48, 40, 19, 86, 27, 90], label: 'Series B' }
@@ -43,12 +43,10 @@ export class ShowReportsComponent {
   }
 
   ngOnInit(){
-    // let date = new Date();
-    // this.month = date.getMonth()+1;
-    // this.year = date.getFullYear();
-    // this.getReports(this.month,this.year);
-
-    this.router.navigate(['monthly'],{relativeTo:this.route})
+    let date = new Date();
+    this.month = date.getMonth()+1;
+    this.year = date.getFullYear();
+    this.getReports(this.month,this.year);
   }
 
   getReports(month:any,year:any){
@@ -59,11 +57,11 @@ export class ShowReportsComponent {
         this.budgetVsExpense = response.data.budgetVsExpense;
         this.expenseReport = response.data.expenseReport;
 
-        // console.log(this.budgetVsExpense.labels.length);
+        console.log(this.budgetVsExpense);
         
         if(this.budgetVsExpense.labels.length !==0 && this.expenseReport.labels.length !==0){
           this.isLoaded =true;
-          console.log('data found');
+          // console.log('data found');
           
         }
         // console.log(this.budgetVsExpense.data);

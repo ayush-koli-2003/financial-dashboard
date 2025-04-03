@@ -1,0 +1,23 @@
+.reports-container{
+    display: flex;
+    flex-direction:row;
+    justify-content: space-between;
+    flex-wrap: wrap;
+}
+
+.report{
+    display: flex;
+    flex-direction: column;
+    min-width: 40%;
+    height: 10%;
+}
+
+.chart-container{
+    height: 100px;
+}
+
+.filter-container{
+    display: flex;
+    flex-direction: row-reverse;
+    margin-right: 20%;
+}
