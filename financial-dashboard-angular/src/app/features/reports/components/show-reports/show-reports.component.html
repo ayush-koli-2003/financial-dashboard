@@ -1,8 +1,6 @@
-<div>
+<div class="filter-container">
     <div>
-        <button routerLink="monthly">Monthly Reports</button>
-        <button routerLink="trends">Financial Trends</button>
-        <button routerLink="others">Others</button>
+        <p-selectButton [options]="reportOptions" [(ngModel)]="selectedReport" (ngModelChange)="navigate()" optionLabel="label" optionValue="value" (onChange)="navigate()"></p-selectButton>
     </div>
 </div>
 <router-outlet></router-outlet>

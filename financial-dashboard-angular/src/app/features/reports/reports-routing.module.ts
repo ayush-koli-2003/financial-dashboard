@@ -6,11 +6,14 @@ import { TrendReportsComponent } from './components/trend-reports/trend-reports.
 import { OtherReportsComponent } from './components/other-reports/other-reports.component';
 
 const routes: Routes = [
-  {path:'',component:ShowReportsComponent,children:[
-    {path:'monthly',component:MonthlyReportsComponent},
-    {path:'trends',component:TrendReportsComponent},
-    {path:'others',component:OtherReportsComponent}
-  ]},
+  {path:'',component:ShowReportsComponent,
+    children:[
+      {path:'monthly',component:MonthlyReportsComponent},
+      {path:'trends',component:TrendReportsComponent},
+      {path:'others',component:OtherReportsComponent},
+      {path:'',redirectTo:'monthly',pathMatch:'full'}
+    ]
+  },
 ];
 
 @NgModule({

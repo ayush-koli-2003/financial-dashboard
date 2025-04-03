@@ -12,7 +12,7 @@ export class TrendReportsComponent implements OnInit{
   year:any = '2025'
   incomeVsExpenseTrend:any;
   savingsTrend:any
-  pastMonths = '3'
+  pastMonths = '6'
   months = ['3','6','12'];
   constructor(private reportService:ReportService){
 

@@ -12,6 +12,7 @@ import { TrendReportsComponent } from './components/trend-reports/trend-reports.
 import { OtherReportsComponent } from './components/other-reports/other-reports.component';
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
+import { SelectButtonModule } from 'primeng/selectbutton';
 
 
 @NgModule({
@@ -26,7 +27,8 @@ import { FormsModule } from '@angular/forms';
     ReportsRoutingModule,
     SharedModule,
     SelectModule,
-    FormsModule
+    FormsModule,
+    SelectButtonModule
   ],
   providers:[
     ReportService,

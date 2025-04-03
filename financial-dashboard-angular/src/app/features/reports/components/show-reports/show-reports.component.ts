@@ -16,7 +16,14 @@ export class ShowReportsComponent {
   legend!: boolean;
   chartType!: ChartType;
 
+  reportOptions = [
+    {label:'Monthly',value:'monthly'},
+    {label:'Trends',value:'trends'},
+    {label:'Others',value:'others'}
+  ]
+
   reports:any;
+  selectedReport:any= {label:'Monthly',value:'monthly'}
 
   isLoaded=false;
   budgetVsExpense:any;
@@ -69,6 +76,12 @@ export class ShowReportsComponent {
         // console.log(this.budgetVsExpense.data);
       }
     )
+  }
+
+  navigate(){
+    // console.log(this.selectedReport);
+    
+    this.router.navigate([this.selectedReport],{relativeTo:this.route})
   }
 
   selectDate(date:any){
