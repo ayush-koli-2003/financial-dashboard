@@ -8,7 +8,8 @@ export const getProfile = async(req:Request,res:Response)=>{
         let user = req.body.user;
 
         let result = await  profileService.getProfile(user);
-
+        
+        
         if(result){
             res.status(200).json({
                 status:'successfull',

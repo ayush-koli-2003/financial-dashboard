@@ -1,29 +1,93 @@
 <p-dialog [header]="'Update profile'" [modal]="true" [(visible)]="isUpdateVisible" [style]="{ width: '25rem' }">
-    <app-update-profile></app-update-profile>
+    <app-update-profile (closeEvent)="closeUpdate()" [currData]="userProfile"></app-update-profile>
 </p-dialog>
-<div class="mb-4 p-8 flex items-center justify-center">
-    <button (click)="openUpdate()">Update profile</button>
-    <div style="display: flex; flex-direction: column; width: 60%; margin-left: 20%; margin-right: 20%; margin-top: 5%;">
+
+<p-dialog [header]="'Change password'" [modal]="true" [(visible)]="isChangePasswordVisible" [style]="{ width: '25rem' }">
+    <app-change-password (closeEvent)="closeChangePassword()"></app-change-password>
+</p-dialog>
+
+<div *ngIf="isProfileLoaded" class="mb-4 p-8 flex items-center justify-center">
+    <div style="display: flex; flex-direction: column; width: 60%; margin-left: 20%; margin-right: 20%;">
         <div style="display: flex; justify-content: center; flex-direction: row; width: 100%; height: 100%;">
             <div>
-                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" [style]="{width:'100%',height:'100%'}" size="xlarge" shape="circle" />
+                <p-avatar image="https://primefaces.org/cdn/primeng/images/demo/avatar/amyelsner.png" [style]="{width:'60%',height:'80%'}" size="xlarge" shape="circle" />
             </div>
         </div>
         <div>
-            <p-card [style]="{overflow: 'hidden'}">
-                <ng-template #header>
-                    <!-- Hello, {{userProfile.firstname}} {{userProfile.lastname}}! -->
-                </ng-template>
-                <!-- <ng-template #title> Advanced Card </ng-template>
-                <ng-template #subtitle> Card subtitle </ng-template> -->
-                <ng-container *ngFor="let k of keys">
-                    <p> {{k}}: {{userProfile[k]}} </p>
-                </ng-container>
-                <!-- <ng-template #footer>
-                    <div class="flex gap-4 mt-1">
-                    </div>
-                </ng-template> -->
-            </p-card>
+            <p-tabs value="0">
+                <p-tablist>
+                    <p-tab value="0">Personal Details</p-tab>
+                    <p-tab value="1">Preferences</p-tab>
+                    <p-tab value="2">Settings</p-tab>
+                </p-tablist>
+                <p-tabpanels>
+                    <p-tabpanel value="0">
+                        <div class="profile-header">
+                            <div>
+                                <h3>Personal Details</h3>
+                            </div>
+                            <div>
+                                <p-button label="Update" icon="pi pi-pencil" severity="info" (onClick)="openUpdate()" />
+                            </div>
+                        </div>
+                        <div class="profile-details">
+                            <div class="detail">
+                                <span>First Name: </span>
+                                <span>{{userProfile.firstname}}</span>
+                            </div>
+                            <div class="detail">
+                                <span>Last Name: </span>
+                                <span>{{userProfile.lastname}}</span>
+                            </div>
+                        </div>
+                    </p-tabpanel>
+                    <p-tabpanel value="1">
+                        <div class="profile-header">
+                            <div>
+                                <h3>Account Preferences</h3>
+                            </div>
+                            <div>
+                                <p-button label="Update" icon="pi pi-pencil" severity="info" (onClick)="openUpdate()" />
+                            </div>
+                        </div>
+                        <div class="profile-details">
+                            <div class="detail">
+                                <span>Currency Preference: </span>
+                                <span>{{userProfile.currencyPreference}}</span>
+                            </div>
+                            <div class="detail">
+                                <span>Notification Preference: </span>
+                                <span>{{userProfile.notificationPreference === true? 'ON':'OFF'}}</span>
+                            </div>
+                        </div>
+                    </p-tabpanel>
+                    <p-tabpanel value="2">
+                        <div class="profile-header">
+                            <div>
+                                <h3>User Settings</h3>
+                            </div>
+                            <div class="change-container">
+                                <div>
+                                    <p-button label="Change Password" icon="pi pi-pencil" severity="warn" (onClick)="openChangePassword()" />
+                                </div>
+                                <div>
+                                    <p-button label="Change Email" icon="pi pi-pencil" severity="warn" (onClick)="openUpdate()" />
+                                </div>
+                            </div>
+
+                        </div>
+                        <div class="profile-details">
+                            <div class="detail">
+                                <span>Email: </span>
+                                <span>{{user.email}}</span>
+                            </div>
+                        </div>
+                    </p-tabpanel>
+                </p-tabpanels>
+            </p-tabs>
+        </div>
+        <div class="">
+            <p-button icon="pi pi-cross" label="Delete Account" variant="outlined" severity="danger"></p-button>
         </div>
     </div>
 </div>

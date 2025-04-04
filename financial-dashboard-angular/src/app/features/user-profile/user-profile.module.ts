@@ -10,12 +10,15 @@ import { UpdateProfileComponent } from './components/update-profile/update-profi
 import { SharedModule } from '../../shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
 import { Dialog } from 'primeng/dialog';
-
+import { TabsModule } from 'primeng/tabs';
+import { ButtonModule } from 'primeng/button';
+import { ChangePasswordComponent } from './components/change-password/change-password.component';
 
 @NgModule({
   declarations: [
     DisplayProfileComponent,
-    UpdateProfileComponent
+    UpdateProfileComponent,
+    ChangePasswordComponent
   ],
   imports: [
     CommonModule,
@@ -24,7 +27,9 @@ import { Dialog } from 'primeng/dialog';
     AvatarModule,
     SharedModule,
     ReactiveFormsModule,
-    Dialog
+    Dialog,
+    TabsModule,
+    ButtonModule
   ],
   providers:[provideHttpClient()]
 })

@@ -1,7 +1,7 @@
 import { Injectable } from "@angular/core";
 import { User } from "../models/User.model";
-import { BehaviorSubject } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { BehaviorSubject, tap } from "rxjs";
+import { HttpClient, HttpResponse } from "@angular/common/http";
 import { Router } from "@angular/router";
 
 const serverUrl = 'http://localhost:3000';
@@ -71,5 +71,19 @@ export class AuthService{
 
     register(user:any){
         return this.http.post(`${serverUrl}/auth/register`,user,{withCredentials:true});
+    }
+
+    changePassword(user:any){
+        return this.http.post(`${serverUrl}/auth/changePassword`,user).pipe(
+            tap(response=>{
+                if(response instanceof HttpResponse){
+                    if(response.status ===200){
+                        console.log('logout user');
+                        
+                        this.logOut();
+                    }
+                }
+            })
+        );
     }
 }

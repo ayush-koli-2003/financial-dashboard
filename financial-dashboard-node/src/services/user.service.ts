@@ -1,4 +1,4 @@
-import { getUser, loginUser, registerUser } from "../repositories/user.repository";
+import { changePassword, getUser, loginUser, registerUser } from "../repositories/user.repository";
 
 export class UserService{
     async login(user:any){
@@ -12,10 +12,14 @@ export class UserService{
         // console.log(existingUser);
         
 
-        return existingUser.length > 0 ? null : await registerUser(user);
+        return existingUser ? null : await registerUser(user);
     }
 
     async getUser(user:any){
         return await getUser(user);
+    }
+
+    async changePassword(user:any,password:string){
+        return await changePassword(user,password);
     }
 }

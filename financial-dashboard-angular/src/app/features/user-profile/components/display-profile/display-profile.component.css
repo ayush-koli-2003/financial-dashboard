@@ -1,0 +1,11 @@
+.profile-header{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.change-container{
+    display: flex;
+    flex-direction: row-reverse;
+    justify-content:space-between;
+}

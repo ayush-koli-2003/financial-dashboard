@@ -5,6 +5,8 @@ import bcrypt from 'bcrypt';
 
 const userService = new UserService();
 
+const SALT_ROUNDS = 10;
+
 export const login = async(req:Request,res:Response)=>{
     try{
         let body = req.body;
@@ -15,14 +17,14 @@ export const login = async(req:Request,res:Response)=>{
         // console.log(body);
         
         
-        let result:any = await userService.login({username,email});
+        let result = await userService.login({username,email});
 
         // console.log(result[0]);
         let isCorrect = false;
         let token='';
 
-        if(result.length>0){
-            let {password,...validatedUser} = result[0];
+        if(result){
+            let {password,...validatedUser} = result;
 
             isCorrect = await bcrypt.compare(pass,password);
             
@@ -31,13 +33,25 @@ export const login = async(req:Request,res:Response)=>{
                 // console.log(token);
                 
                 res.cookie('user',token,{httpOnly:true,maxAge:(1*24*60*60*1000),secure:true});
+
+                res.status(200).json({
+                    status: 'successfull',
+                    data:token
+                });
+            }
+            else{
+                res.status(400).json({
+                    status:'failed',
+                    data:'password incorrect'
+                });
             }
         }
-
-        res.status(200).json({
-            status:result.length > 0 && isCorrect ? 'successfull':'failed',
-            data:result.length > 0 && isCorrect ? token : 'user does not exist'
-        });
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'user does not exist'
+            });
+        }
     }
     catch(err){
         console.log(err); 
@@ -47,10 +61,10 @@ export const login = async(req:Request,res:Response)=>{
 export const register = async(req:Request,res:Response)=>{
     try{
         let user = req.body;
-        user.password = await bcrypt.hash(user.password,10);
+        user.password = await bcrypt.hash(user.password,SALT_ROUNDS);
         let result = await userService.register(user);
 
-        // console.log(result);
+        console.log(result);
         
 
         res.status(200).json({
@@ -73,6 +87,63 @@ export const logout = async(req:Request,res:Response)=>{
             status:'successfull',
             data:'user is logged out'
         })
+    }
+    catch(err){
+        console.log(err);
+        
+    }
+}
+
+export const changePassword = async(req:Request,res:Response)=>{
+    try{
+        console.log('got change password request');
+        
+        let {email,currPassword,newPassword} = req.body;
+
+        let user = await userService.login({email});
+
+        let isCorrect = false;
+        let token='';
+
+        if(user){
+            let {password,...validatedUser} = user;
+
+            isCorrect = await bcrypt.compare(currPassword,password);
+            
+            if(isCorrect){
+                console.log(validatedUser);
+                
+                let hasedPassword = await bcrypt.hash(newPassword,SALT_ROUNDS);
+                let passwordChange = await userService.changePassword(validatedUser,hasedPassword);
+
+                // console.log(passwordChange);
+                
+                if(passwordChange?.affected as number>0){
+                    res.status(200).json({
+                        status: 'successfull',
+                        data:token
+                    });
+                }
+                else{
+                    res.status(400).json({
+                        status:'failed',
+                        data:'password change failed'
+                    });
+                }
+            }
+            else{
+                res.status(400).json({
+                    status:'failed',
+                    data:'password incorrect'
+                });
+            }
+        }
+        else{
+            res.status(400).json({
+                status:'failed',
+                data:'user does not exist'
+            });
+        }
     }
     catch(err){
         console.log(err);

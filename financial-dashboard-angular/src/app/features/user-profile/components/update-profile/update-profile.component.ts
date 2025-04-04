@@ -1,6 +1,7 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserProfileService } from '../../services/user-profile.service';
+import { Profile } from '../../../../core/models/Profile.model';
 
 @Component({
   selector: 'app-update-profile',
@@ -8,17 +9,18 @@ import { UserProfileService } from '../../services/user-profile.service';
   templateUrl: './update-profile.component.html',
   styleUrl: './update-profile.component.css'
 })
-export class UpdateProfileComponent {
+export class UpdateProfileComponent implements OnInit, OnChanges {
   updateProfileForm:FormGroup;
   inputControls = [{name:'firstname',label:'First name',type:'text'},{name:'lastname',label:'Last name',type:'text'},{name:'currencyPreference',label:'Currency',type:'select'}];
   currencyCategories:any[]=[];
   isSubmitted = false;
+  @Input() currData!:Partial<Profile>
   @Output() closeEvent = new EventEmitter();
 
   constructor(private userProfileService:UserProfileService){
     this.updateProfileForm = new FormGroup({
-      firstname: new FormControl(null,[Validators.required,Validators.minLength(2)]),
-      lastname: new FormControl(null,[Validators.required,Validators.minLength(2)]),
+      firstname: new FormControl(null,[Validators.required,Validators.minLength(2),Validators.pattern(/^\S*$/)]),
+      lastname: new FormControl(null,[Validators.required,Validators.minLength(2),Validators.pattern(/^\S*$/)]),
       currencyPreference: new FormControl(null,[Validators.required]),
       notificationPreference: new FormControl(null,[Validators.required])
     })
@@ -32,6 +34,14 @@ export class UpdateProfileComponent {
     })
   }
 
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['currData']){
+      if(this.currData){
+        this.updateProfileForm.patchValue(this.currData);
+      }
+
+    }
+  }
   onSubmit(){
     if(this.updateProfileForm.valid){
       console.log('valid');

@@ -12,8 +12,11 @@ import { UpdateProfileComponent } from '../update-profile/update-profile.compone
 export class DisplayProfileComponent implements OnInit, AfterViewInit{
   userProfile:any;
   isUpdateVisible = false;
+  isProfileLoaded = false;
   keys:any[]=[];
+  user:any;
   @ViewChild(UpdateProfileComponent) updateProfile!:UpdateProfileComponent;
+  isChangePasswordVisible: boolean = false;
 
   constructor(private userProfileService:UserProfileService){
 
@@ -30,12 +33,16 @@ export class DisplayProfileComponent implements OnInit, AfterViewInit{
   getUserProfile(){
     this.userProfileService.getUserProfile().subscribe({
       next:(res:any)=>{
-        this.userProfile = res.data;
+        let {user,...profile} = res.data;
+        this.userProfile = profile;
+        this.user = user;
         console.log(this.userProfile);
         this.keys = Object.keys(this.userProfile);
+        this.isProfileLoaded = true;
       },
       error:(err)=>{
         // console.log(err);
+        this.userProfile=undefined;
         console.log('profile not found');
         this.openUpdate();
       }
@@ -45,16 +52,24 @@ export class DisplayProfileComponent implements OnInit, AfterViewInit{
   openUpdate(){
     this.isUpdateVisible = true;
 
-    if(this.updateProfile){
-      this.updateProfile.closeEvent.subscribe({
-        next:(res:any)=>{
-          this.closeUpdate();
-        }
-      })
-    }
+    // if(this.updateProfile){
+    //   this.updateProfile.closeEvent.subscribe({
+    //     next:(res:any)=>{
+    //       this.closeUpdate();
+    //     }
+    //   })
+    // }
   }
 
   closeUpdate(){
     this.isUpdateVisible = false;
+  }
+
+  openChangePassword(){
+    this.isChangePasswordVisible= true;
+  }
+
+  closeChangePassword(){
+    this.isChangePasswordVisible= false;
   }
 }
