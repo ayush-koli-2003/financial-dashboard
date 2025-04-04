@@ -10,6 +10,10 @@ import { SharedModule } from '../../shared/shared.module';
 import { CardModule } from 'primeng/card';
 import { Dialog } from 'primeng/dialog';
 import { EditBudgetComponent } from './components/edit-budget/edit-budget.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
+import { ButtonModule } from 'primeng/button';
 
 
 @NgModule({
@@ -25,8 +29,11 @@ import { EditBudgetComponent } from './components/edit-budget/edit-budget.compon
     ProgressBar,
     SharedModule,
     CardModule,
-    Dialog
+    Dialog,
+    ButtonModule,
+    ToastModule,
+    ConfirmDialog
   ],
-  providers:[provideHttpClient()]
+  providers:[provideHttpClient(),ConfirmationService, MessageService]
 })
 export class BudgetsModule { }

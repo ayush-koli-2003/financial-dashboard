@@ -51,6 +51,9 @@ export const getInvestmentByDate = async(user:any,startDate:any,endDate:any)=>{
             where:{
                 date: Between(startDate,endDate), 
                 user:user
+            },
+            order:{
+                date:'DESC'
             }
         })
     }

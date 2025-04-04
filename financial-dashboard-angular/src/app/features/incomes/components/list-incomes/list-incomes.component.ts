@@ -4,6 +4,7 @@ import { Income } from '../../../../core/models/Income.model';
 import { AddIncomeComponent } from '../add-income/add-income.component';
 import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
 import { EditIncomeComponent } from '../edit-income/edit-income.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-list-incomes',
@@ -27,7 +28,7 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
   compRef!: ComponentRef<any>;
   categories:any[]=[];
   unfilteredList:any[]=[];
-  constructor(private incomeService:IncomeService){
+  constructor(private incomeService:IncomeService,private confirmationService: ConfirmationService, private messageService: MessageService){
     this.incomeList=[]
   }
 
@@ -92,7 +93,30 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
       this.openDialogue('edit',this.editId);
     }
     else{
-      this.deleteIncome(option.data);
+      this.confirmationService.confirm({
+        message: 'Do you want to delete this Income?',
+        header: 'Danger Zone',
+        icon: 'pi pi-info-circle',
+        rejectLabel: 'Cancel',
+        rejectButtonProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true,
+        },
+        acceptButtonProps: {
+            label: 'Delete',
+            severity: 'danger',
+        },
+
+        accept: () => {
+            this.messageService.add({ severity: 'error', summary: 'Confirmed', detail: 'Income deleted' });
+            this.deleteIncome(option.data);
+        },
+        reject: () => {
+            this.messageService.add({ severity: 'info', summary: 'Rejected', detail: 'You have rejected' });
+        },
+      });
+      
     }
   }
 
@@ -104,6 +128,7 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
       this.compRef.instance.closeEvent.subscribe(
         (res:any)=>{
           this.closeDialogue();
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Income added' });
         }
       )
     }

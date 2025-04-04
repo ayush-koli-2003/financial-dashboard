@@ -11,6 +11,9 @@ import { SharedModule } from '../../shared/shared.module';
 import { CardModule } from 'primeng/card';
 import { Dialog } from 'primeng/dialog';
 import { EditInvestmentComponent } from './components/edit-investment/edit-investment.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 
 @NgModule({
@@ -25,8 +28,11 @@ import { EditInvestmentComponent } from './components/edit-investment/edit-inves
     ReactiveFormsModule,
     SharedModule,
     CardModule,
-    Dialog
+    Dialog,
+    ConfirmDialog,
+    ToastModule
+
   ],
-  providers:[provideHttpClient()]
+  providers:[provideHttpClient(),MessageService,ConfirmationService]
 })
 export class InvestmentsModule { }

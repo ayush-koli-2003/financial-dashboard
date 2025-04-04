@@ -11,7 +11,8 @@
         <p-dialog [header]="dialogLabel" [modal]="true" [(visible)]="isDialogVisible" [style]="{ width: '25rem' }">
             <ng-container loadDynamicComponent></ng-container>
         </p-dialog>
-        
+        <p-toast />
+        <p-confirmdialog />
         <div class="list-container">
             <ng-container *ngFor="let income of incomeList">
                 <div>

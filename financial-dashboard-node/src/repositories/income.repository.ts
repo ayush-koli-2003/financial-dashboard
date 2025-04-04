@@ -12,6 +12,9 @@ export const getAllIncomes = async(user:any)=>{
             },
             where:{
                 user:user
+            },
+            order:{
+                date:'DESC'
             }
         })
     }

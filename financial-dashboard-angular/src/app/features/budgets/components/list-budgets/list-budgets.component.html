@@ -24,6 +24,9 @@
             <ng-container loadDynamicComponent></ng-container>
         </p-dialog>
 
+        
+        <p-toast />
+        <p-confirmdialog />
         <div *ngIf="isLoaded" class="list-container">
             <ng-container *ngFor="let budget of budgetList">
                 <ng-container *ngFor="let spending of totalSpendingOfCategory">

@@ -4,6 +4,7 @@ import { Budget } from '../../../../core/models/Budget.model';
 import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
 import { AddBudgetComponent } from '../add-budget/add-budget.component';
 import { EditBudgetComponent } from '../edit-budget/edit-budget.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-list-budgets',
@@ -29,7 +30,7 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective;
   vcr!:any;
   compRef!:ComponentRef<any>;
-  constructor(private budgetService:BudgetsService){
+  constructor(private budgetService:BudgetsService,private confirmationService: ConfirmationService, private messageService: MessageService){
     this.budgetList=[];
   }
 
@@ -122,8 +123,30 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
       
     }
     else if(option.operation==='delete'){
+      this.confirmationService.confirm({
+          message: 'Do you want to delete this record?',
+          header: 'Danger Zone',
+          icon: 'pi pi-info-circle',
+          rejectLabel: 'Cancel',
+          rejectButtonProps: {
+              label: 'Cancel',
+              severity: 'secondary',
+              outlined: true,
+          },
+          acceptButtonProps: {
+              label: 'Delete',
+              severity: 'danger',
+          },
+
+          accept: () => {
+              this.messageService.add({ severity: 'error', summary: 'Confirmed', detail: 'Record deleted' });
+              this.deleteBudget(option.data);
+          },
+          reject: () => {
+              this.messageService.add({ severity: 'info', summary: 'Rejected', detail: 'You have rejected' });
+          },
+        });
       
-      this.deleteBudget(option.data);
     }
   }
 
@@ -137,6 +160,7 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
       this.compRef.instance.closeEvent.subscribe(
         (res:any)=>{
           this.closeDialogue();
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Budget added' });
         }
       )
     }

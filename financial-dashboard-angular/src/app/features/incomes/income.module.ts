@@ -10,6 +10,9 @@ import { SharedModule } from "../../shared/shared.module";
 import { CardModule } from "primeng/card";
 import { Dialog } from "primeng/dialog";
 import { EditIncomeComponent } from './components/edit-income/edit-income.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
     declarations:[ListIncomesComponent, AddIncomeComponent, EditIncomeComponent],
@@ -20,9 +23,11 @@ import { EditIncomeComponent } from './components/edit-income/edit-income.compon
         ReactiveFormsModule,
         SharedModule,
         CardModule,
-        Dialog
+        Dialog,
+        ConfirmDialog,
+        ToastModule
     ],
-    providers:[provideHttpClient()]
+    providers:[provideHttpClient(),MessageService,ConfirmationService]
 })
 
 export class IncomesModule{}

@@ -4,6 +4,7 @@ import { InvestmentService } from '../../services/investment.service';
 import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
 import { AddInvestmentComponent } from '../add-investment/add-investment.component';
 import { EditInvestmentComponent } from '../edit-investment/edit-investment.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-list-investments',
@@ -27,7 +28,7 @@ export class ListInvestmentsComponent implements OnInit {
   categories:any[]=[];
   unfilteredList:any[]=[];
 
-  constructor(private investmentService:InvestmentService){
+  constructor(private investmentService:InvestmentService,private confirmationService: ConfirmationService, private messageService: MessageService){
     this.investmentList=[]
   }
 
@@ -102,7 +103,30 @@ export class ListInvestmentsComponent implements OnInit {
       this.openDialogue('edit',this.editId);
     }
     else{
-      this.deleteInvestment(option.data);
+      this.confirmationService.confirm({
+        message: 'Do you want to delete this Investment?',
+        header: 'Danger Zone',
+        icon: 'pi pi-info-circle',
+        rejectLabel: 'Cancel',
+        rejectButtonProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true,
+        },
+        acceptButtonProps: {
+            label: 'Delete',
+            severity: 'danger',
+        },
+
+        accept: () => {
+            this.messageService.add({ severity: 'error', summary: 'Confirmed', detail: 'Investment deleted' });
+            this.deleteInvestment(option.data);
+        },
+        reject: () => {
+            this.messageService.add({ severity: 'info', summary: 'Rejected', detail: 'You have rejected' });
+        },
+      });
+      
     }
   }
 
@@ -143,6 +167,7 @@ export class ListInvestmentsComponent implements OnInit {
       this.compRef.instance.closeEvent.subscribe(
         (res:any)=>{
           this.closeDialogue();
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Investment added' });
         }
       )
     }

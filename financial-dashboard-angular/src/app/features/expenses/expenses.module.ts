@@ -13,6 +13,9 @@ import { CardModule } from 'primeng/card';
 import { Dialog } from 'primeng/dialog';
 import { ButtonModule } from 'primeng/button';
 import { EditExpenseComponent } from './components/edit-expense/edit-expense.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
+import { ConfirmDialog } from 'primeng/confirmdialog';
+import { ToastModule } from 'primeng/toast';
 
 @NgModule({
   declarations: [
@@ -29,8 +32,10 @@ import { EditExpenseComponent } from './components/edit-expense/edit-expense.com
     CardModule,
     SharedModule,
     Dialog,
-    ButtonModule
+    ButtonModule,
+    ToastModule,
+    ConfirmDialog
   ],
-  providers:[provideHttpClient()]
+  providers:[provideHttpClient(),ConfirmationService, MessageService]
 })
 export class ExpensesModule { }

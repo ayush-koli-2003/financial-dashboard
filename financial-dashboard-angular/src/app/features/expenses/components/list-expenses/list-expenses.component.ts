@@ -6,6 +6,7 @@ import { LoadDynamicComponentDirective } from '../../../../shared/directives/loa
 import { AddExpenseComponent } from '../add-expense/add-expense.component';
 import { EditExpenseComponent } from '../edit-expense/edit-expense.component';
 import { DisplayTransactionComponent } from '../../../../shared/components/display-transaction/display-transaction.component';
+import { ConfirmationService, MessageService } from 'primeng/api';
 
 @Component({
   selector: 'app-list-expenses',
@@ -32,7 +33,7 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponent!:LoadDynamicComponentDirective;
   compRef!:ComponentRef<any>;
   vcr:any;
-  constructor(private expenseService:ExpenseService, private router:Router){
+  constructor(private expenseService:ExpenseService, private router:Router,private confirmationService: ConfirmationService, private messageService: MessageService){
   }
 
   ngOnInit(): void {
@@ -107,7 +108,31 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     }
     else if(option.operation==='delete'){
       // console.log(option.id);
-      this.deleteExpense(option.data);
+      this.confirmationService.confirm({
+        message: 'Do you want to delete this Expense?',
+        header: 'Danger Zone',
+        icon: 'pi pi-info-circle',
+        rejectLabel: 'Cancel',
+        rejectButtonProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true,
+        },
+        acceptButtonProps: {
+            label: 'Delete',
+            severity: 'danger',
+        },
+
+        accept: () => {
+            this.messageService.add({ severity: 'error', summary: 'Confirmed', detail: 'Expense deleted' });
+            this.deleteExpense(option.data);
+        },
+        reject: () => {
+            this.messageService.add({ severity: 'info', summary: 'Rejected', detail: 'You have rejected' });
+        },
+      });
+
+      
       
     }
   }
@@ -122,6 +147,7 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
         console.log(res);
         
         this.closeDialogue();
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Expense added' });
       }
     );
   }
