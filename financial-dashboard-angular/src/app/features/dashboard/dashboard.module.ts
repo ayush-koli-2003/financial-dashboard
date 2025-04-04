@@ -8,6 +8,7 @@ import { provideHttpClient } from '@angular/common/http';
 import { TableModule } from 'primeng/table';
 import { BadgeModule } from 'primeng/badge';
 import { ButtonModule } from 'primeng/button';
+import { CarouselModule } from 'primeng/carousel';
 
 
 
@@ -23,7 +24,8 @@ import { ButtonModule } from 'primeng/button';
     TableModule, 
     ButtonModule,
     BadgeModule,
-    CardModule
+    CardModule,
+    CarouselModule
   ],
   providers:[provideHttpClient()]
 })

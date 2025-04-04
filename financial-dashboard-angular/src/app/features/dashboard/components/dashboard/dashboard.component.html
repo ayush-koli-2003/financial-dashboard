@@ -69,7 +69,21 @@
                 </div>
             </div>
             <div class="charts-container" style="width: 45%;">
-                <!-- generate charts and then show each chart using carousel -->
+                <p-carousel *ngIf="isChartsLoaded" [value]="charts" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="3500">
+                    <ng-template pTemplate="item" let-chart>
+                        <div style="width: 90%; margin-top: 10%;">
+
+                            <app-generic-chart 
+                                [data]="chart.data" 
+                                [chartType]="chart.chartType" 
+                                [legend]="true" 
+                                [labels]="chart.labels">
+                            </app-generic-chart>
+                        </div>
+
+
+                    </ng-template>
+                </p-carousel>
             </div>
         </div>
     </div>

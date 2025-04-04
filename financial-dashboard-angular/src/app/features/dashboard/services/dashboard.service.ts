@@ -25,5 +25,15 @@ export class DashboardService{
         const params = `month=${month}&year=${year}`
         return this.http.get(`http://localhost:3000/api/dashboard/transactions?${params}`);
     }
+
+    getReports(month:any,year:any){
+        const params = `month=${month}&year=${year}`;
+        return this.http.get(`http://localhost:3000/api/report/monthly?${params}`,{withCredentials:true});
+    }
+
+    getTrendReports(month:any,year:any,pastMonths:any){
+        const params = `month=${month}&year=${year}&pastMonths=${pastMonths}`;
+        return this.http.get(`http://localhost:3000/api/report/trends?${params}`,{withCredentials:true});
+    }
     
 }
