@@ -31,6 +31,8 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
 
   editId!:number;
 
+  isDataLoaded:boolean = false;
+
   filter:{filterBy?:any,sortBy?:any}={}
 
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponent!:LoadDynamicComponentDirective;
@@ -47,12 +49,6 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
       this.getExpenses(this.month,this.year);
       this.getExpenseCategories();
     })
-
-    this.route.queryParams.subscribe(
-      (map:any)=>{
-        this.takeFilters({sortBy:undefined,filterBy:map.category});
-      }
-    )
 
   }
 
@@ -75,6 +71,12 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
       (response:any)=>{
         this.expenseList = response.data;
         this.unfilteredList = this.expenseList;
+        this.isDataLoaded = true;
+        this.route.queryParams.subscribe(
+          (map:any)=>{
+            this.takeFilters({sortBy:undefined,filterBy:map.category})
+          }
+        )
       }
     )
   }
@@ -89,11 +91,9 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     })
   }
 
-  applyFilters(sortByValue:any,filterByValue:any){   
-    console.log(sortByValue,filterByValue);
-     
-    this.expenseList = this.unfilteredList.filter(e=> filterByValue !== undefined ? e.category===filterByValue: true)
-      .sort((a,b)=> sortByValue===undefined ? 0 : sortByValue==='Low to High' ? a.amount-b.amount:b.amount-a.amount)
+  applyFilters(sortByValue:any,filterByValue:any){
+    
+    this.expenseList = this.unfilteredList.filter(e=> filterByValue !== undefined ? e.category as string===filterByValue : true);    
   }
 
   deleteExpense(id:any){

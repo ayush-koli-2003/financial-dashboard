@@ -156,16 +156,12 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
 
   navigateToTransaction(category:any){
     let expenseCategories = Object.values(ExpenseCategory);
-    let incomeCategories = Object.values(IncomeCategory);
     let investmentCategories = Object.values(InvestmentCategory);
 
     if(expenseCategories.findIndex((e)=>e === category)!== -1){
       this.router.navigate(['/expenses'],{queryParams:{category:category}});
     }
-    else if(incomeCategories.findIndex((i)=>i === category)!== -1){
-      this.router.navigate(['/incomes'],{queryParams:{category:category}});
-    }
-    else if(investmentCategories.findIndex((e)=>e === category)!== -1){
+    else{
       this.router.navigate(['/investments'],{queryParams:{category:category}});
     }
   }

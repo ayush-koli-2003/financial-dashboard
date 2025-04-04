@@ -5,6 +5,7 @@ import { LoadDynamicComponentDirective } from '../../../../shared/directives/loa
 import { AddInvestmentComponent } from '../add-investment/add-investment.component';
 import { EditInvestmentComponent } from '../edit-investment/edit-investment.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ActivatedRoute } from '@angular/router';
 
 @Component({
   selector: 'app-list-investments',
@@ -28,7 +29,7 @@ export class ListInvestmentsComponent implements OnInit {
   categories:any[]=[];
   unfilteredList:any[]=[];
 
-  constructor(private investmentService:InvestmentService,private confirmationService: ConfirmationService, private messageService: MessageService){
+  constructor(private route:ActivatedRoute,private investmentService:InvestmentService,private confirmationService: ConfirmationService, private messageService: MessageService){
     this.investmentList=[]
   }
 
@@ -53,6 +54,11 @@ export class ListInvestmentsComponent implements OnInit {
       (response:any)=>{
         this.investmentList = response.data;
         this.unfilteredList = this.investmentList;
+        this.route.queryParams.subscribe(
+          (map:any)=>{
+            this.takeFilters({sortBy:undefined,filterBy:map.category})
+          }
+        )
       }
     )
   }
