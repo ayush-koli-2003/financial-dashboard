@@ -4,8 +4,7 @@ import { ListExpensesComponent } from './components/list-expenses/list-expenses.
 import { AddExpenseComponent } from './components/add-expense/add-expense.component';
 
 const routes: Routes = [
-  {path:'',component:ListExpensesComponent},
-  {path:'addExpense',component:AddExpenseComponent}
+  {path:'',component:ListExpensesComponent}
 ];
 
 @NgModule({

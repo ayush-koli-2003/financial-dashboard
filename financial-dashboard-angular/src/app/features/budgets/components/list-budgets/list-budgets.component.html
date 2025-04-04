@@ -34,7 +34,7 @@
                         <div>
                             <p-card [header]="budget.category">
                                 <div class="list-card">
-                                    <div style="width: 90%;">
+                                    <div style="width: 75%;">
                                         <p class="m-0" style="width: 100%;">
                                             <p-progressbar [ngClass]="'customProgress'" [value]="(spending.totalSpending/budget.amount)*100">
                                                 <ng-template #content let-value>
@@ -48,7 +48,12 @@
                                         <!-- <div class="bg-orange-500 h-full" style="width: 50%; background-color: orange; height: 100%;"></div> -->
                                     </div>
                                     <div>
-                                        <app-item-options [id]="budget.id" (selectOption)="selectEvent($event)"></app-item-options>
+                                        <div>
+                                            <p-button icon="pi pi-eye" (onClick)="navigateToTransaction(budget.category)" variant="outlined"></p-button>
+                                        </div>
+                                        <div>
+                                            <app-item-options [id]="budget.id" (selectOption)="selectEvent($event)"></app-item-options>
+                                        </div>
                                     </div>
                                 </div>
                             </p-card>

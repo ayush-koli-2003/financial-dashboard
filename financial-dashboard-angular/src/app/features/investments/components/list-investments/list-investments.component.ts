@@ -183,6 +183,7 @@ export class ListInvestmentsComponent implements OnInit {
         console.log(res);
         
         this.closeDialogue();
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Investment is updated' });
       }
     );
   }

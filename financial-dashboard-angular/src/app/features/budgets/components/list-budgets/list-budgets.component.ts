@@ -5,6 +5,10 @@ import { LoadDynamicComponentDirective } from '../../../../shared/directives/loa
 import { AddBudgetComponent } from '../add-budget/add-budget.component';
 import { EditBudgetComponent } from '../edit-budget/edit-budget.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { ExpenseCategory } from '../../../../core/enums/expense-category.enum';
+import { IncomeCategory } from '../../../../core/enums/income-category.enum';
+import { InvestmentCategory } from '../../../../core/enums/investment-category.enum';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-list-budgets',
@@ -30,7 +34,7 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective;
   vcr!:any;
   compRef!:ComponentRef<any>;
-  constructor(private budgetService:BudgetsService,private confirmationService: ConfirmationService, private messageService: MessageService){
+  constructor(private router:Router,private budgetService:BudgetsService,private confirmationService: ConfirmationService, private messageService: MessageService){
     this.budgetList=[];
   }
 
@@ -150,6 +154,22 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
     }
   }
 
+  navigateToTransaction(category:any){
+    let expenseCategories = Object.values(ExpenseCategory);
+    let incomeCategories = Object.values(IncomeCategory);
+    let investmentCategories = Object.values(InvestmentCategory);
+
+    if(expenseCategories.findIndex((e)=>e === category)!== -1){
+      this.router.navigate(['/expenses'],{queryParams:{category:category}});
+    }
+    else if(incomeCategories.findIndex((i)=>i === category)!== -1){
+      this.router.navigate(['/incomes'],{queryParams:{category:category}});
+    }
+    else if(investmentCategories.findIndex((e)=>e === category)!== -1){
+      this.router.navigate(['/investments'],{queryParams:{category:category}});
+    }
+  }
+
   // load modal renamed
 
   loadAddComponent(){
@@ -176,6 +196,7 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
         console.log(res);
         
         this.closeDialogue();
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Budget is updated' });
       }
     );
   }

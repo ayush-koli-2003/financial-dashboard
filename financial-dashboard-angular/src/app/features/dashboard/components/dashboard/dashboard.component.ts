@@ -12,6 +12,7 @@ export class DashboardComponent implements OnInit{
   totalIncome:number = 0;
   totalInvestment:number = 0;
   isDataLoaded = false;
+  isTransactionsLoaded=false;
   month:any;
   year:any;
 
@@ -19,7 +20,7 @@ export class DashboardComponent implements OnInit{
 
   charts:any[]=[]
 
-  transactions:any[]=[];
+  transactions:any[]=[1,2,3,4,5,6,7,8,9,10];
   
   constructor(private dashboardService:DashboardService){
 
@@ -43,6 +44,7 @@ export class DashboardComponent implements OnInit{
 
     this.dashboardService.getDashboardTransactions(month,year).subscribe({
       next:(res:any)=>{
+        this.isTransactionsLoaded = true;
         this.transactions = res.data;
         
       }

@@ -144,6 +144,7 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
         console.log(res);
         
         this.closeDialogue();
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Income is updated' });
       }
     );
   }

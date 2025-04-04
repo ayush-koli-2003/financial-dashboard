@@ -3,33 +3,39 @@
         <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
     </div>
 
-    <div *ngIf="isDataLoaded" class="dashboard-container">
+    <div class="dashboard-container">
         <div class="card-container">
             <div>
-                <p-card>
+                <p-card *ngIf="isDataLoaded">
                     <ng-template #title>Total Expense</ng-template>
                     <p>{{totalExpense | currency:'INR'}}</p>
+
                 </p-card>
+                <p-skeleton *ngIf="!isDataLoaded" size="7rem" />
             </div>
             <div>
-                <p-card>
+                <p-card *ngIf="isDataLoaded">
                     <ng-template #title>Total Income</ng-template>
                     <p>{{totalIncome | currency:'INR'}}</p>
                 </p-card>
+                <p-skeleton *ngIf="!isDataLoaded" size="7rem" />
             </div>
             <div>
-                <p-card>
+                <p-card *ngIf="isDataLoaded">
                     <ng-template #title>Total Budget</ng-template>
                     <p>{{totalBudget | currency:'INR'}}</p>
                 </p-card>
+                <p-skeleton *ngIf="!isDataLoaded" size="7rem" />
             </div>
             <div>
-                <p-card>
+                <p-card *ngIf="isDataLoaded">
                     <ng-template #title>Total Investment</ng-template>
                     <p>{{totalInvestment | currency:'INR'}}</p>
                 </p-card>
+                <p-skeleton *ngIf="!isDataLoaded" size="7rem" />
             </div>
         </div>
+        
         <div class="display-container">
             <div class="transaction-table" style="width: 45%;">
                 <!-- Create generic table component -->
@@ -51,7 +57,7 @@
                             </tr>
                         </ng-template>
                         <ng-template #body let-transaction>
-                            <tr>
+                            <tr *ngIf="isTransactionsLoaded">
                                 <td>{{ transaction.date }}</td>
                                 <td>{{ transaction.name }}</td>
                                 <td>{{ transaction.type }}</td>
@@ -63,13 +69,21 @@
                                     <p-button variant="text" severity="secondary" icon="pi pi-eye"></p-button>
                                 </td>
                             </tr>
+                            <tr *ngIf="!isTransactionsLoaded">
+                                <td><p-skeleton /></td>
+                                <td><p-skeleton /></td>
+                                <td><p-skeleton /></td>
+                                <td><p-skeleton /></td>
+                                <td><p-skeleton /></td>
+                                <td><p-skeleton /></td>
+                            </tr>
                         </ng-template>
-                        <ng-template #footer> In total there are {{ transactions ? transactions.length : 0 }} transactions. </ng-template>
+                        <ng-template *ngIf="isDataLoaded" #footer> In total there are {{ transactions ? transactions.length : 0 }} transactions. </ng-template>
                     </p-table>
                 </div>
             </div>
             <div class="charts-container" style="width: 45%;">
-                <p-carousel *ngIf="isChartsLoaded" [value]="charts" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="3500">
+                <p-carousel *ngIf="isChartsLoaded; else loader" [value]="charts" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="3500">
                     <ng-template pTemplate="item" let-chart>
                         <div style="width: 90%; margin-top: 10%;">
 
@@ -84,6 +98,9 @@
 
                     </ng-template>
                 </p-carousel>
+                <ng-template #loader>
+                    <p-skeleton size="100%" />
+                </ng-template>
             </div>
         </div>
     </div>

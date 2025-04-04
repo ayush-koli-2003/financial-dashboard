@@ -1,12 +1,13 @@
 import { AfterViewInit, Component, ComponentRef, OnInit, ViewChild } from '@angular/core';
 import { ExpenseService } from '../../services/expense.service';
 import { Expense } from '../../../../core/models/Expense.model';
-import { Router } from '@angular/router';
+import { ActivatedRoute, Router } from '@angular/router';
 import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
 import { AddExpenseComponent } from '../add-expense/add-expense.component';
 import { EditExpenseComponent } from '../edit-expense/edit-expense.component';
 import { DisplayTransactionComponent } from '../../../../shared/components/display-transaction/display-transaction.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { filter } from 'rxjs';
 
 @Component({
   selector: 'app-list-expenses',
@@ -30,10 +31,12 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
 
   editId!:number;
 
+  filter:{filterBy?:any,sortBy?:any}={}
+
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponent!:LoadDynamicComponentDirective;
   compRef!:ComponentRef<any>;
   vcr:any;
-  constructor(private expenseService:ExpenseService, private router:Router,private confirmationService: ConfirmationService, private messageService: MessageService){
+  constructor(private route:ActivatedRoute,private expenseService:ExpenseService, private router:Router,private confirmationService: ConfirmationService, private messageService: MessageService){
   }
 
   ngOnInit(): void {
@@ -45,6 +48,12 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
       this.getExpenseCategories();
     })
 
+    this.route.queryParams.subscribe(
+      (map:any)=>{
+        this.takeFilters({sortBy:undefined,filterBy:map.category});
+      }
+    )
+
   }
 
   ngAfterViewInit(): void {
@@ -52,10 +61,12 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
   }
 
   takeFilters(filters:any){
-    // console.log(filters);
     this.expenseList = this.unfilteredList
-    if(filters.sortBy || filters.filterBy){
-      this.applyFilters(filters.sortBy,filters.filterBy)
+    this.filter.filterBy = filters.filterBy;
+    this.filter.sortBy = filters.sortBy;
+    if(this.filter.filterBy || this.filter.sortBy){
+      
+      this.applyFilters(this.filter.sortBy,this.filter.filterBy)
     }
   }
 
@@ -78,7 +89,9 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     })
   }
 
-  applyFilters(sortByValue:any,filterByValue:any){
+  applyFilters(sortByValue:any,filterByValue:any){   
+    console.log(sortByValue,filterByValue);
+     
     this.expenseList = this.unfilteredList.filter(e=> filterByValue !== undefined ? e.category===filterByValue: true)
       .sort((a,b)=> sortByValue===undefined ? 0 : sortByValue==='Low to High' ? a.amount-b.amount:b.amount-a.amount)
   }
@@ -163,6 +176,7 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
         console.log(res);
         
         this.closeDialogue();
+        this.messageService.add({ severity: 'info', summary: 'Info', detail: 'Expense is updated' });
       }
     );
   }

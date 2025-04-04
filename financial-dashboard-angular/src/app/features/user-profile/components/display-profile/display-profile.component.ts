@@ -23,7 +23,11 @@ export class DisplayProfileComponent implements OnInit, AfterViewInit{
   }
 
   ngOnInit(){
-    this.getUserProfile();
+    this.userProfileService.userProfileObs$.subscribe(
+      (res:any)=>{
+        this.getUserProfile();
+      }
+    )
   }
 
   ngAfterViewInit(): void {
@@ -39,6 +43,8 @@ export class DisplayProfileComponent implements OnInit, AfterViewInit{
         console.log(this.userProfile);
         this.keys = Object.keys(this.userProfile);
         this.isProfileLoaded = true;
+        console.log('got profile');
+        
       },
       error:(err)=>{
         // console.log(err);
