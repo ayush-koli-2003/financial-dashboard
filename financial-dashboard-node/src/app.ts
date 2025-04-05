@@ -11,6 +11,7 @@ import { reportRouter } from './routes/report.route';
 import { budgetRouter } from './routes/budget.route';
 import { profileRouter } from './routes/profile.route';
 import { dashboardRouter } from './routes/dashboard.route';
+import { globalErrorHandler } from './middlewares/global-error-handler.middleware';
 
 const app = express();
 app.use(express.json());
@@ -25,5 +26,5 @@ app.use('/api/investment',verifyToken,parseDate,investmentRouter);
 app.use('/api/report',verifyToken,parseDate,reportRouter);
 app.use('/api/profile',verifyToken,profileRouter);
 app.use('/api/dashboard',verifyToken,parseDate,dashboardRouter);
-
+app.use(globalErrorHandler);
 export default app; 
