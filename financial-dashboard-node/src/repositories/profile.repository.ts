@@ -15,7 +15,7 @@ export const getProfile = async(user:any)=>{
         })
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -25,7 +25,7 @@ export const createProfile = async(profile:Partial<Profile>)=>{
         return await profileRepository.save(profile);
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -36,7 +36,7 @@ export const updateProfile = async(profile:any)=>{
         return await profileRepository.update({id:profile.id},updatedProfile);
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }

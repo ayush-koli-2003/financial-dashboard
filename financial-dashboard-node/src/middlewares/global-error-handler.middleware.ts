@@ -1,6 +1,6 @@
-import { Request, Response } from "express";
-
-export const globalErrorHandler = async(err:any,req:Request,res:Response)=>{
+import { Request, Response, NextFunction } from "express";
+import { AppError } from "../types/app-error";
+export const globalErrorHandler = (err: any, req: Request, res: Response, next: NextFunction)=>{
     console.log('Error occured');
     if(err instanceof AppError){
         res.status(err.statusCode).json({
@@ -9,6 +9,9 @@ export const globalErrorHandler = async(err:any,req:Request,res:Response)=>{
         })
     }
     else{
-
+        res.status(500).json({
+            status:'error',
+            message:'Something went wrong'
+        })
     }
 }

@@ -16,7 +16,7 @@ export const getAllBudgets = async(user:any)=>{
         });
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -28,7 +28,7 @@ export const createBudget = async (newBudget:any)=> {
         return await budgetRepository.save(newBudget);
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -50,7 +50,7 @@ export const getBudgetsByDate = async(user:any,startDate:any,endDate:any)=>{
         })
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -60,7 +60,7 @@ export const deleteBudget = async(user:any,id:any)=>{
         return await budgetRepository.delete({id:id});
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -74,7 +74,7 @@ export const getBudgetCategories=  async(user:any)=>{
             .getMany();
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -84,7 +84,7 @@ export const getBudgetById = async(id:any)=>{
         return await budgetRepository.findOneBy({id:id});
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -98,7 +98,7 @@ export const updateBudgetById = async(budget:any,id:any)=>{
             .where('id = :id',{id}).execute();
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -112,7 +112,7 @@ export const getTotalBudgetByDate = async(user:any,startDate:any,endDate:any)=>{
             .getRawOne()).total;
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }

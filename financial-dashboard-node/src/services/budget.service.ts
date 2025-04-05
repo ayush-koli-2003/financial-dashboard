@@ -3,6 +3,7 @@ import { BudgetCategory } from "../enums/budget.enum";
 import { ExpenseCategory } from "../enums/expense.enum";
 import { InvestmentCategory } from "../enums/investment.enum";
 import { createBudget, deleteBudget, getAllBudgets, getBudgetById, getBudgetCategories, getBudgetsByDate, getTotalBudgetByDate, updateBudgetById } from "../repositories/budget.repository";
+import { AppError } from "../types/app-error";
 import { ExpenseService } from "./expenses.service";
 import { InvestmentService } from "./investment.service";
 
@@ -14,7 +15,10 @@ export class BudgetService{
             return await getAllBudgets(user);
         }
         catch(err){
-            console.log(err);
+            if (err instanceof AppError) {
+                throw err;
+            }
+            throw new AppError("Failed to get budgets", 500);
         }
     }
     async createBudget(budget:any,user:any){
@@ -23,8 +27,10 @@ export class BudgetService{
             return await createBudget(newBudget);
         }
         catch(err){
-            console.log(err);
-            
+            if (err instanceof AppError) {
+                throw err;
+            }
+            throw new AppError("Failed to create budget", 500);
         }
     }
 
@@ -36,8 +42,10 @@ export class BudgetService{
             return enumCategories.filter(cat=> budgetList.find(b => b.category === cat) === undefined);
         }
         catch(err){
-            console.log(err);
-            
+            if (err instanceof AppError) {
+                throw err;
+            }
+            throw new AppError("Failed to get filtered categories", 500);
         }
     }
 
@@ -46,8 +54,10 @@ export class BudgetService{
             return Object.values(BudgetCategory);
         }
         catch(err){
-            console.log(err);
-            
+            if (err instanceof AppError) {
+                throw err;
+            }
+            throw new AppError("Failed to get all categories", 500);
         }
     }
 
@@ -67,8 +77,10 @@ export class BudgetService{
             return await getBudgetsByDate(user,startDate,endDate); 
         }
         catch(err){
-            console.log(err);
-            
+            if (err instanceof AppError) {
+                throw err;
+            }
+            throw new AppError("Failed to get budget by date", 500);
         }
     }
 
@@ -101,8 +113,10 @@ export class BudgetService{
             return totalSpendingByCategory;
         }
         catch(err){
-            console.log(err);
-            
+            if (err instanceof AppError) {
+                throw err;
+            }
+            throw new AppError("Failed to total spending", 500);
         }
     }
 
@@ -111,8 +125,10 @@ export class BudgetService{
             return await deleteBudget(user,id);
         }
         catch(err){
-            console.log(err);
-            
+            if (err instanceof AppError) {
+                throw err;
+            }
+            throw new AppError("Failed to delete budget", 500);
         }
     }
 
@@ -121,8 +137,10 @@ export class BudgetService{
             return await getBudgetCategories(user);
         }
         catch(err){
-            console.log(err);
-            
+            if (err instanceof AppError) {
+                throw err;
+            }
+            throw new AppError("Failed to get budget categories", 500);
         }
     }
 
@@ -131,8 +149,10 @@ export class BudgetService{
             return await getBudgetById(id);
         }
         catch(err){
-            console.log(err);
-            
+            if (err instanceof AppError) {
+                throw err;
+            }
+            throw new AppError("Failed to get budget by id", 500);
         }
     }
 
@@ -141,8 +161,10 @@ export class BudgetService{
             return await updateBudgetById(budget,id);
         }
         catch(err){
-            console.log(err);
-            
+            if (err instanceof AppError) {
+                throw err;
+            }
+            throw new AppError("Failed to update budget", 500);
         }
     }
 
@@ -151,8 +173,10 @@ export class BudgetService{
             return await getTotalBudgetByDate(user,startDate,endDate);
         }
         catch(err){
-            console.log(err);
-            
+            if (err instanceof AppError) {
+                throw err;
+            }
+            throw new AppError("Failed to get total budget", 500);
         }
     }
 }

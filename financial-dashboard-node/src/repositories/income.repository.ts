@@ -19,7 +19,7 @@ export const getAllIncomes = async(user:any)=>{
         })
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -31,7 +31,7 @@ export const addIncome = async(income:any,user:any)=>{
         return await incomeRepository.save(newIncome);
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -49,7 +49,7 @@ export const getIncomesByDate = async(user:any,startDate:any,endDate:any)=>{
         })
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -59,7 +59,7 @@ export const deleteIncome = async(user:any,id:any)=>{
         return await incomeRepository.delete({id:id});
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -69,7 +69,7 @@ export const getIncomeById = async(id:any)=>{
         return await incomeRepository.findOneBy({id:id});
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -81,7 +81,7 @@ export const updateIncomeById = async(income:any,id:any)=>{
         return await incomeRepository.createQueryBuilder('income').update().set({category:income.category,amount:income.amount,note:income.note}).where('id = :id',{id}).execute();
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -91,7 +91,7 @@ export const getTotalIncomeByDate = async(user:any,startDate:any,endDate:any)=>{
         return (await incomeRepository.createQueryBuilder('income').leftJoinAndSelect('income.user','user').select('SUM(income.amount)','total').where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate}).getRawOne()).total;
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -108,7 +108,7 @@ export const groupIncomeByMonths = async(user:any,startDate:any,endDate:any)=>{
             .getRawMany();
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }

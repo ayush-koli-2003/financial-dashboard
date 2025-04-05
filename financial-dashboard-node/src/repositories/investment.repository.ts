@@ -17,7 +17,7 @@ export const getAllInvestments = async (user:any)=>{
         })
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -27,7 +27,7 @@ export const addInvestment =  async(newInvestment:any)=>{
         return await investmentRepository.save(newInvestment);
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -37,7 +37,7 @@ export const getCategories = async(user:any)=>{
         return Object.values(InvestmentCategory);
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -58,7 +58,7 @@ export const getInvestmentByDate = async(user:any,startDate:any,endDate:any)=>{
         })
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -68,7 +68,7 @@ export const deleteInvestment = async(user:any,id:any)=>{
         return await investmentRepository.delete({id:id});
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -78,7 +78,7 @@ export const getInvestmentById = async(id:any)=>{
         return await investmentRepository.findOneBy({id:id});
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -90,7 +90,7 @@ export const updateInvestmentById = async(investment:any,id:any)=>{
         return await investmentRepository.createQueryBuilder('investment').update().set({name:investment.name,amount:investment.amount,category:investment.category,note:investment.note}).where('id = :id',{id}).execute();
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -104,7 +104,7 @@ export const getTotalInvestmentByDate = async(user:any,startDate:any,endDate:any
             .getRawOne()).total;
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }

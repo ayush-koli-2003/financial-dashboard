@@ -16,7 +16,7 @@ export const getExpenses = async(user:any)=>{
         });
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -26,7 +26,7 @@ export const addExpense = async(newExpense:any)=>{
         return await expenseRepository.save(newExpense);
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -37,7 +37,7 @@ export const deleteExpense = async(user:any,id:any)=>{
         return await expenseRepository.delete({id:id});
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -61,7 +61,7 @@ export const getExpenseByDate = async(user:any,startDate:any,endDate:any)=>{
         //     .getMany();
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -71,7 +71,7 @@ export const getExpenseById = async(id:any)=>{
         return await expenseRepository.findOneBy({id:id});
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -83,7 +83,7 @@ export const updateExpenseById = async(expense:any,id:any)=>{
         return await expenseRepository.createQueryBuilder('expense').update().set({name:expense.name,amount:expense.amount,category:expense.category,note:expense.note}).where('id = :id',{id}).execute();
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -93,7 +93,7 @@ export const getTotalExpenseByDate = async(user:any,startDate:any,endDate:any)=>
         return (await expenseRepository.createQueryBuilder('expense').leftJoinAndSelect('expense.user','user').select('SUM(expense.amount)','total').where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate}).getRawOne()).total;
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
@@ -110,7 +110,7 @@ export const groupExpenseByMonth = async(user:any,startDate:any,endDate:any)=>{
         .getRawMany();
     }
     catch(err){
-        console.log(err);
+        throw err;
         
     }
 }
