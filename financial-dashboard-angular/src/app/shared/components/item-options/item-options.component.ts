@@ -11,6 +11,8 @@ export class ItemOptionsComponent {
   @Output() selectOption = new EventEmitter();
 
   emitEdit(){
+    console.log(this.id);
+    
     this.selectOption.emit({data:this.id,operation:'edit'});
   }
 

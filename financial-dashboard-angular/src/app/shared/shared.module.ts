@@ -17,6 +17,14 @@ import { FilterOptionsComponent } from './components/filter-options/filter-optio
 import { SelectModule } from 'primeng/select';
 import { DisplayTransactionComponent } from './components/display-transaction/display-transaction.component';
 import { GenericTableComponent } from './components/generic-table/generic-table.component';
+import { HeaderComponent } from './components/header/header.component';
+import { Menu } from 'primeng/menu';
+import { Menubar } from 'primeng/menubar';
+import { Ripple } from 'primeng/ripple';
+import { AvatarModule } from 'primeng/avatar';
+import { TableModule } from 'primeng/table';
+import { TagModule } from 'primeng/tag';
+import { Skeleton } from 'primeng/skeleton';
 
 @NgModule({
   declarations: [
@@ -29,7 +37,8 @@ import { GenericTableComponent } from './components/generic-table/generic-table.
     GenericFormComponent,
     FilterOptionsComponent,
     DisplayTransactionComponent,
-    GenericTableComponent
+    GenericTableComponent,
+    HeaderComponent
   ],
   imports: [
     CommonModule,
@@ -39,7 +48,14 @@ import { GenericTableComponent } from './components/generic-table/generic-table.
     ButtonModule,
     ReactiveFormsModule,
     Dialog,
-    SelectModule
+    SelectModule,
+    Menu,
+    Ripple,
+    Menubar,
+    AvatarModule,
+    TableModule,
+    TagModule,
+    Skeleton
   ],
   exports:[
     GenericChartComponent,
@@ -49,7 +65,9 @@ import { GenericTableComponent } from './components/generic-table/generic-table.
     LoadDynamicComponentDirective,
     GenericFormComponent,
     GenericEditComponent,
-    FilterOptionsComponent
+    FilterOptionsComponent,
+    HeaderComponent,
+    GenericTableComponent
   ],
   providers:[provideCharts(withDefaultRegisterables())]
 })

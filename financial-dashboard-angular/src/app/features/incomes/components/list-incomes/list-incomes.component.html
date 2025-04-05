@@ -13,24 +13,7 @@
         </p-dialog>
         <p-toast />
         <p-confirmdialog />
-        <div class="list-container">
-            <ng-container *ngFor="let income of incomeList">
-                <div>
-                    <p-card [header]="income.category">
-                        <div class="list-card">
-                            <div>
-                                <p class="m-0">
-                                    Amount: {{income.amount}}
-                                </p>
-                            </div>
-                            <div>
-                                <app-item-options [id]="income.id" (selectOption)="selectEvent($event)"></app-item-options>
-                            </div>
-                        </div>                
-                    </p-card>            
-                </div>
-            </ng-container>
-        </div>
+        <app-generic-table [columns]="columns" [inputData]="incomeList" (selectActionEvent)="selectEvent($event)"></app-generic-table>
     
     </div>    
     

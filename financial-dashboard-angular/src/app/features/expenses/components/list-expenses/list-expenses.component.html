@@ -20,29 +20,5 @@
     
         <p-toast />
         <p-confirmdialog />
-        <div class="list-container">
-            <ng-container *ngFor="let expense of expenseList"> 
-                <div>
-                    <p-card [header]="expense.name">
-                        
-                        <div class="list-card">
-                            <div>
-                                <p class="m-0">
-                                    Category: {{expense.category}} <br>
-                                    Amount: {{expense.amount}} <br>
-                                    Date: {{expense.date | date:'fullDate'}}
-                                </p>
-                            </div>
-    
-                            <div>
-                                <app-item-options [id]="expense.id"  (selectOption)="selectEvent($event)"></app-item-options>
-                            </div>
-                    </div>
-                            
-                    </p-card>
-                </div>
-            </ng-container>
-        </div>
-    </div>
-
+        <app-generic-table [columns]="columns" (selectActionEvent)="selectEvent($event)" [inputData]="expenseList"></app-generic-table>
 </div>

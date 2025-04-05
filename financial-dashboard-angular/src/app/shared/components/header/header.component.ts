@@ -1,9 +1,7 @@
 import { Component } from '@angular/core';
-import { Router, RouterLink } from '@angular/router';
-import { AuthService } from '../../services/auth.service';
+import { Router } from '@angular/router';
 import { MenuItem } from 'primeng/api';
-import { Menu } from 'primeng/menu';
-
+import { AuthService } from '../../../core/services/auth.service';
 @Component({
   selector: 'app-header',
   standalone: false,
@@ -94,5 +92,5 @@ export class HeaderComponent {
 
   logOut(){
     this.authService.logOut();
-  }
+    }
 }

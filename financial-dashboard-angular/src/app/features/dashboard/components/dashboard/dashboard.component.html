@@ -40,7 +40,7 @@
             <div class="transaction-table" style="width: 45%;">
                 <!-- Create generic table component -->
                 <div class="card">
-                    <p-table stripedRows [value]="transactions" [tableStyle]="{ 'min-width': '30rem' }">
+                    <p-table [paginator]="true" [rows]="5" stripedRows [value]="transactions" [tableStyle]="{ 'min-width': '30rem' }">
                         <ng-template #caption>
                             <div class="flex items-center justify-between">
                                 <span class="text-xl font-bold">Recent Tranasactions</span>
@@ -78,7 +78,7 @@
                                 <td><p-skeleton /></td>
                             </tr>
                         </ng-template>
-                        <ng-template *ngIf="isDataLoaded" #footer> In total there are {{ transactions ? transactions.length : 0 }} transactions. </ng-template>
+                        <!-- <ng-template *ngIf="isTransactionsLoaded" #footer> In total there are {{ transactions ? transactions.length : 0 }} transactions. </ng-template> -->
                     </p-table>
                 </div>
             </div>

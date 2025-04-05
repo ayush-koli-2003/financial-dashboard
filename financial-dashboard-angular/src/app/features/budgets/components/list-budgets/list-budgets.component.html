@@ -47,9 +47,9 @@
                                         </p>
                                         <!-- <div class="bg-orange-500 h-full" style="width: 50%; background-color: orange; height: 100%;"></div> -->
                                     </div>
-                                    <div>
+                                    <div class="actions">
                                         <div>
-                                            <p-button icon="pi pi-eye" (onClick)="navigateToTransaction(budget.category)" variant="outlined"></p-button>
+                                            <p-button icon="pi pi-arrow-up-right" (onClick)="navigateToTransaction(budget.category)" variant="outlined"></p-button>
                                         </div>
                                         <div>
                                             <app-item-options [id]="budget.id" (selectOption)="selectEvent($event)"></app-item-options>

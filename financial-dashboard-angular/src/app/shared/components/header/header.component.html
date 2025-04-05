@@ -1,0 +1,19 @@
+<div style="margin-bottom: 7%;" class="card">
+    <p-menubar [model]="items">
+        <ng-template #start>
+        </ng-template>
+        <ng-template #item let-item let-root="root">
+            <a pRipple class="flex items-center p-menubar-item-link">
+                <span>{{ item.label }}</span>
+                <span *ngIf="item.shortcut" class="ml-auto border border-surface rounded bg-emphasis text-muted-color text-xs p-1">{{ item.shortcut }}</span>
+                <i *ngIf="item.items" [ngClass]="['ml-auto pi', root ? 'pi-angle-down' : 'pi-angle-right']"></i>
+            </a>
+        </ng-template>
+        <ng-template #end>
+            <div class="flex items-center gap-2">
+                <p-avatar (click)="menu.toggle($event)" image="https://th.bing.com/th/id/OIP.4Q7-yMnrlnqwR4ORH7c06AHaHa?rs=1&pid=ImgDetMain" shape="circle" />
+                <p-menu #menu [model]="profileItems" [popup]="true" />
+            </div>
+        </ng-template>
+    </p-menubar>
+</div>

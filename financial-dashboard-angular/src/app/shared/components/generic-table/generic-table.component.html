@@ -1,1 +1,35 @@
-<p>generic-table works!</p>
+<p-table [paginator]="true" [rows]="10" stripedRows [columns]="columns" [value]="inputData">
+    <ng-template #header let-columns>
+        <tr>
+            <th *ngFor="let col of columns">
+                {{ col.label }}
+            </th>
+            <th>
+                Actions
+            </th>
+        </tr>
+    </ng-template>
+    <ng-template #body let-rowData let-columns="columns">
+        <tr>
+            <td *ngFor="let col of columns">
+                <ng-container *ngIf="!col.tag else withTag">
+                    {{ rowData[col.field] }}
+                </ng-container>
+                
+                <ng-template #withTag>
+                    <p-tag [value]="rowData[col.field]" [severity]="col.severity" />
+                </ng-template>
+            </td>
+            <td>
+                <div class="actions">
+                    <div>
+                        <p-button icon="pi pi-eye" severity="info" variant="outlined"></p-button>
+                    </div>
+                    <div>
+                        <app-item-options [id]="rowData['id']" (selectOption)="selectEvent($event)"></app-item-options>
+                    </div>
+                </div>
+            </td>
+        </tr>
+    </ng-template>
+</p-table>

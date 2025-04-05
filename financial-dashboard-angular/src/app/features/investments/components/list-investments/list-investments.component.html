@@ -9,25 +9,7 @@
         
         <p-toast />
         <p-confirmdialog />
-        <div class="list-container">
-            <ng-container *ngFor="let investment of investmentList">
-                <div>
-                    <p-card [header]="investment.name">
-                        <div class="list-card">
-                            <div>
-                                <p class="m-0">
-                                    Category: {{investment.category}} <br>
-                                    Amount: {{investment.amount}}
-                                </p>
-                            </div>
-                            <div>
-                                <app-item-options [id]="investment.id" (selectOption)="selectEvent($event)"></app-item-options>
-                            </div>
-                        </div>
-                    </p-card>
-                </div>
-            </ng-container>
-        </div>
+        <app-generic-table [columns]="columns" [inputData]="investmentList" (selectActionEvent)="selectEvent($event)"></app-generic-table>
         
         
     </div>

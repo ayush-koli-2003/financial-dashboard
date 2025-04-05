@@ -10,6 +10,7 @@ import { ProgressBarModule } from 'primeng/progressbar';
 import Aura from '@primeng/themes/aura';
 import Material from '@primeng/themes/material';
 import {StyleClassModule} from 'primeng/styleclass';
+import { SharedModule } from './shared/shared.module';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import {StyleClassModule} from 'primeng/styleclass';
     AppRoutingModule,
     CoreModule,
     ProgressBarModule,
-    StyleClassModule
+    StyleClassModule,
+    SharedModule
   ],
   providers: [provideCharts(withDefaultRegisterables()),provideAnimationsAsync(),providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } })],
   bootstrap: [AppComponent]

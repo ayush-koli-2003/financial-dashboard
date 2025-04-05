@@ -28,6 +28,7 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
   compRef!: ComponentRef<any>;
   categories:any[]=[];
   unfilteredList:any[]=[];
+  columns=[{field:'category',label:'Category'},{field:'date',label:'Date'},{field:'amount',label:'Amount',tag:true,severity:'success'}];
   constructor(private incomeService:IncomeService,private confirmationService: ConfirmationService, private messageService: MessageService){
     this.incomeList=[]
   }
@@ -53,6 +54,8 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
       (response:any)=>{
         this.incomeList = response.data
         this.unfilteredList = this.incomeList;
+        console.log(this.incomeList[0]);
+        
       }
     )
   }

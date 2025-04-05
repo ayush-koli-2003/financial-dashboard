@@ -1,7 +1,5 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { HeaderComponent } from './components/header/header.component';
-
 import { NgbModule } from '@ng-bootstrap/ng-bootstrap';
 import { FooterComponent } from './components/footer/footer.component';
 import { RouterModule } from '@angular/router';
@@ -22,7 +20,6 @@ import { InputTextModule } from 'primeng/inputtext';
 
 @NgModule({
   declarations: [
-    HeaderComponent,
     FooterComponent,
     LoginComponent,
     RegisterComponent
@@ -40,7 +37,7 @@ import { InputTextModule } from 'primeng/inputtext';
     InputTextModule
 
   ],
-  exports:[HeaderComponent],
+  exports:[],
   providers:[AuthService,
     AuthGuard,
     provideHttpClient(withInterceptorsFromDi()),

@@ -18,6 +18,8 @@ export class ListInvestmentsComponent implements OnInit {
   month:any;
   year:any;
   isAddOpen: boolean=false;
+
+  columns=[{field:'name',label:'Name'},{field:'date',label:'Date',tag:undefined,severity:undefined},{field:'category',label:'Category'},{field:'amount',label:'Amount',tag:true,severity:'warn'}];
   
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective
   vcr!: ViewContainerRef;
@@ -59,6 +61,7 @@ export class ListInvestmentsComponent implements OnInit {
             this.takeFilters({sortBy:undefined,filterBy:map.category})
           }
         )
+        
       }
     )
   }
