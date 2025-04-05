@@ -27,6 +27,9 @@ import { TagModule } from 'primeng/tag';
 import { Skeleton } from 'primeng/skeleton';
 import { GenericDisplayDetailsComponent } from './components/generic-display-details/generic-display-details.component';
 import { TextareaModule } from 'primeng/textarea';
+import { DrawerModule } from 'primeng/drawer';
+import { NotificationsPanelComponent } from './components/notifications-panel/notifications-panel.component';
+
 
 @NgModule({
   declarations: [
@@ -41,7 +44,8 @@ import { TextareaModule } from 'primeng/textarea';
     DisplayTransactionComponent,
     GenericTableComponent,
     HeaderComponent,
-    GenericDisplayDetailsComponent
+    GenericDisplayDetailsComponent,
+    NotificationsPanelComponent
   ],
   imports: [
     CommonModule,
@@ -59,7 +63,8 @@ import { TextareaModule } from 'primeng/textarea';
     TableModule,
     TagModule,
     Skeleton,
-    TextareaModule
+    TextareaModule,
+    DrawerModule
   ],
   exports:[
     GenericChartComponent,

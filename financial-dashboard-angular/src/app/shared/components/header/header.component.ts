@@ -10,6 +10,7 @@ import { AuthService } from '../../../core/services/auth.service';
 })
 export class HeaderComponent {
   isLogged:boolean = false;
+  isNotificationVisible:boolean = false;
   profileItems: MenuItem[] | undefined;
   items:MenuItem[] | undefined
   constructor(private authService:AuthService,private router:Router){
@@ -92,5 +93,13 @@ export class HeaderComponent {
 
   logOut(){
     this.authService.logOut();
-    }
+  }
+
+  showNotificationPanel(){
+    this.isNotificationVisible = true
+  }
+
+  closeNotificationPanel(){
+    this.isNotificationVisible =false;
+  }
 }
