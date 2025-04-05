@@ -1,13 +1,14 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { UserService } from "../services/user.service";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
+import { AppError } from "../types/app-error";
 
 const userService = new UserService();
 
 const SALT_ROUNDS = 10;
 
-export const login = async(req:Request,res:Response)=>{
+export const login = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let body = req.body;
         
@@ -40,25 +41,20 @@ export const login = async(req:Request,res:Response)=>{
                 });
             }
             else{
-                res.status(400).json({
-                    status:'failed',
-                    data:'password incorrect'
-                });
+
+                throw new AppError('password incorrect',500)
             }
         }
         else{
-            res.status(400).json({
-                status:'failed',
-                data:'user does not exist'
-            });
+            throw new AppError('user does not exist',500)
         }
     }
     catch(err){
-        console.log(err); 
+        next(err); 
     }
 }
 
-export const register = async(req:Request,res:Response)=>{
+export const register = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body;
         user.password = await bcrypt.hash(user.password,SALT_ROUNDS);
@@ -73,12 +69,12 @@ export const register = async(req:Request,res:Response)=>{
         })
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const logout = async(req:Request,res:Response)=>{
+export const logout = async(req:Request,res:Response,next:NextFunction)=>{
     try{
 
         res.cookie('user',null,{maxAge:0});
@@ -89,12 +85,12 @@ export const logout = async(req:Request,res:Response)=>{
         })
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const changePassword = async(req:Request,res:Response)=>{
+export const changePassword = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         console.log('got change password request');
         
@@ -146,7 +142,7 @@ export const changePassword = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }

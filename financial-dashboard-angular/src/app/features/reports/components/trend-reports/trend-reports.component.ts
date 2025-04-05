@@ -27,6 +27,10 @@ export class TrendReportsComponent implements OnInit{
         
         this.savingsTrend=res.data.savingsTrend;
         this.incomeVsExpenseTrend = res.data.incomeVsExpenseTrend;
+      },
+      error:(err)=>{
+        console.log(err);
+        
       }
     })
   }

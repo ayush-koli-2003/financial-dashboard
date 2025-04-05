@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ExpenseService } from "../services/expenses.service";
 
 const expenseService = new ExpenseService();
 
-export const addExpense = async(req:Request,res:Response)=>{
+export const addExpense = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let expense = req.body;
         expense.amount = parseFloat(expense.amount);
@@ -25,12 +25,12 @@ export const addExpense = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getExpenses = async(req:Request,res:Response)=>{
+export const getExpenses = async(req:Request,res:Response,next:NextFunction)=>{
     try{
 
         let user = req.body.user;
@@ -38,6 +38,8 @@ export const getExpenses = async(req:Request,res:Response)=>{
         let result = await expenseService.getExpenses(user);
 
         if(result){
+            console.log('got expenses');
+            
             res.status(200).json({
                 status:'successfull',
                 data:result
@@ -51,12 +53,12 @@ export const getExpenses = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getExpenseByDate = async(req:Request,res:Response)=>{
+export const getExpenseByDate = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let startDate = req.body.startDate;
@@ -79,12 +81,12 @@ export const getExpenseByDate = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getExpenseById = async(req:Request,res:Response)=>{
+export const getExpenseById = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let id = req.params.id;
         let user = req.body.user;
@@ -105,12 +107,12 @@ export const getExpenseById = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getCategories = async(req:Request,res:Response)=>{
+export const getCategories = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
 
@@ -130,12 +132,12 @@ export const getCategories = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getTotalExpenseByCategory = async(req:Request,res:Response)=>{
+export const getTotalExpenseByCategory = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let startDate = req.body.startDate;
@@ -157,12 +159,12 @@ export const getTotalExpenseByCategory = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const deleteExpense = async(req:Request,res:Response)=>{
+export const deleteExpense = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let id = req.params.id;
@@ -183,12 +185,12 @@ export const deleteExpense = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const updateExpenseById = async(req:Request,res:Response)=>{
+export const updateExpenseById = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let expense = req.body;
         let user = req.body.user;
@@ -210,7 +212,7 @@ export const updateExpenseById = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }

@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { ProfileService } from "../services/profile.service";
 
 const profileService = new ProfileService();
 
-export const getProfile = async(req:Request,res:Response)=>{
+export const getProfile = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
 
@@ -24,12 +24,12 @@ export const getProfile = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getCurrencyCategories = async(req:Request,res:Response)=>{
+export const getCurrencyCategories = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let result = await profileService.getCurrencyCategories();
 
@@ -47,12 +47,12 @@ export const getCurrencyCategories = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const updateProfile = async(req:Request,res:Response)=>{
+export const updateProfile = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let {user,...profile} = req.body;
         
@@ -72,6 +72,6 @@ export const updateProfile = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
     }
 }

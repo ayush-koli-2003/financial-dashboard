@@ -1,6 +1,7 @@
 import { Between, LessThanOrEqual, MoreThan } from "typeorm";
 import { AppDataSource } from "../configs/database.config";
 import { Income } from "../entities/income.entity";
+import { AppError } from "../types/app-error";
 
 const incomeRepository = AppDataSource.getRepository(Income);
 
@@ -56,7 +57,13 @@ export const getIncomesByDate = async(user:any,startDate:any,endDate:any)=>{
 
 export const deleteIncome = async(user:any,id:any)=>{
     try{
-        return await incomeRepository.delete({id:id});
+        let result = await incomeRepository.delete({id:id});
+        if(result.affected===0){
+            throw new AppError('Failed delete income by Id',500);
+        }
+        else{
+            return result;
+        }
     }
     catch(err){
         throw err;
@@ -66,7 +73,13 @@ export const deleteIncome = async(user:any,id:any)=>{
 
 export const getIncomeById = async(id:any)=>{
     try{
-        return await incomeRepository.findOneBy({id:id});
+        let result = await incomeRepository.findOneBy({id:id});
+        if(result===null){
+            throw new AppError('Failed get income by Id',500);
+        }
+        else{
+            return result;
+        }
     }
     catch(err){
         throw err;
@@ -78,7 +91,13 @@ export const updateIncomeById = async(income:any,id:any)=>{
     try{
         // console.log(expense);
         
-        return await incomeRepository.createQueryBuilder('income').update().set({category:income.category,amount:income.amount,note:income.note}).where('id = :id',{id}).execute();
+        let result = await incomeRepository.createQueryBuilder('income').update().set({category:income.category,amount:income.amount,note:income.note}).where('id = :id',{id}).execute();
+        if(result.affected===0){
+            throw new AppError('Failed update income by Id',500);
+        }
+        else{
+            return result;
+        }
     }
     catch(err){
         throw err;

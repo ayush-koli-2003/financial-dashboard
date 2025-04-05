@@ -7,7 +7,7 @@ export class ProfileService{
             return await getProfile(user);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -41,7 +41,7 @@ export class ProfileService{
             }
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }

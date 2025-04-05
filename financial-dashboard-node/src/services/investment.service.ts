@@ -12,7 +12,7 @@ export class InvestmentService{
             return await addInvestment(newInvestment);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -22,7 +22,7 @@ export class InvestmentService{
             return await getCategories(user);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -32,7 +32,7 @@ export class InvestmentService{
             return await getInvestmentByDate(user,startDate,endDate);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -42,7 +42,7 @@ export class InvestmentService{
             return await deleteInvestment(user,id);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -52,7 +52,7 @@ export class InvestmentService{
             return await getInvestmentById(id);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -62,7 +62,7 @@ export class InvestmentService{
             return await updateInvestmentById(investment,id);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -72,7 +72,7 @@ export class InvestmentService{
             return await getTotalInvestmentByDate(user,startDate,endDate);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }

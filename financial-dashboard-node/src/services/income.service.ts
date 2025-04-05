@@ -7,7 +7,7 @@ export class IncomeService{
             return await getAllIncomes(user);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -18,7 +18,7 @@ export class IncomeService{
 
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -28,7 +28,7 @@ export class IncomeService{
             return Object.values(IncomeCategory);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -38,7 +38,7 @@ export class IncomeService{
             return await getIncomesByDate(user,startDate,endDate);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -48,7 +48,7 @@ export class IncomeService{
             return await deleteIncome(user,id);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -58,7 +58,7 @@ export class IncomeService{
             return await getIncomeById(id);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -68,7 +68,7 @@ export class IncomeService{
             return await updateIncomeById(income,id);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -78,7 +78,7 @@ export class IncomeService{
             return await getTotalIncomeByDate(user,startDate,endDate);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -88,7 +88,7 @@ export class IncomeService{
             return await groupIncomeByMonths(user,startDate,endDate);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }

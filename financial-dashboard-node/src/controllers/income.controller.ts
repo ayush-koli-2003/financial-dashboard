@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { IncomeService } from "../services/income.service";
 
 const incomeService = new IncomeService();
 
-export const getAllIncomes = async(req:Request,res:Response)=>{
+export const getAllIncomes = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
 
@@ -23,12 +23,12 @@ export const getAllIncomes = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const addIncome = async(req:Request,res:Response)=>{
+export const addIncome = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let income = req.body;
         let user = req.body.user;
@@ -49,12 +49,12 @@ export const addIncome = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getIncomeCategories = async(req:Request,res:Response)=>{
+export const getIncomeCategories = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
 
@@ -74,12 +74,12 @@ export const getIncomeCategories = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getIncomesByDate = async(req:Request,res:Response)=>{
+export const getIncomesByDate = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let startDate = req.body.startDate;
@@ -101,12 +101,12 @@ export const getIncomesByDate = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const deleteIncome = async(req:Request,res:Response)=>{
+export const deleteIncome = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let id = req.params.id;
@@ -127,12 +127,12 @@ export const deleteIncome = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getIncomeById = async(req:Request,res:Response)=>{
+export const getIncomeById = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let id = req.params.id;
         let user = req.body.user;
@@ -153,12 +153,12 @@ export const getIncomeById = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const updateIncomeById = async(req:Request,res:Response)=>{
+export const updateIncomeById = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let income = req.body;
         let user = req.body.user;
@@ -180,7 +180,7 @@ export const updateIncomeById = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }

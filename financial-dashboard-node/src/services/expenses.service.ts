@@ -9,7 +9,7 @@ export class ExpenseService{
             return await addExpense(newExpense);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -19,7 +19,7 @@ export class ExpenseService{
             return await getExpenses(user);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -29,7 +29,7 @@ export class ExpenseService{
             return Object.values(ExpenseCategory);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -39,7 +39,7 @@ export class ExpenseService{
             return await getExpenseById(id);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -54,7 +54,7 @@ export class ExpenseService{
             return await getExpenseByDate(user,startDate,endDate); 
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -75,7 +75,7 @@ export class ExpenseService{
             return totalExpenseByCategory;
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -85,7 +85,7 @@ export class ExpenseService{
             return await deleteExpense(user,id);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -95,7 +95,7 @@ export class ExpenseService{
             return await updateExpenseById(expense,id);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -105,7 +105,7 @@ export class ExpenseService{
             return await getTotalExpenseByDate(user,startDate,endDate);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -115,7 +115,7 @@ export class ExpenseService{
             return await groupExpenseByMonth(user,startDate,endDate);
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }

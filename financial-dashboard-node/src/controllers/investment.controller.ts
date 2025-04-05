@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { NextFunction, Request, Response } from "express";
 import { InvestmentService } from "../services/investment.service";
 
 const investmentService = new InvestmentService();
 
-export const getAllInvestments = async(req:Request,res:Response)=>{
+export const getAllInvestments = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
 
@@ -23,12 +23,12 @@ export const getAllInvestments = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const addInvestment = async(req:Request,res:Response)=>{
+export const addInvestment = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let investment = req.body;
         let user = req.body.user;
@@ -48,12 +48,12 @@ export const addInvestment = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getInvestmentCategories = async(req:Request,res:Response)=>{ 
+export const getInvestmentCategories = async(req:Request,res:Response,next:NextFunction)=>{ 
     try{
         let user = req.body.user;
         let result = await investmentService.getInvestmentCategories(user);
@@ -71,12 +71,12 @@ export const getInvestmentCategories = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getInvestmentByDate = async(req:Request,res:Response)=>{ 
+export const getInvestmentByDate = async(req:Request,res:Response,next:NextFunction)=>{ 
     try{
         let user = req.body.user;
         let startDate = req.body.startDate;
@@ -97,12 +97,12 @@ export const getInvestmentByDate = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const deleteInvestment = async(req:Request,res:Response)=>{
+export const deleteInvestment = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let id = req.params.id;
@@ -123,12 +123,12 @@ export const deleteInvestment = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getInvestmentById = async(req:Request,res:Response)=>{
+export const getInvestmentById = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let id = req.params.id;
         let user = req.body.user;
@@ -149,12 +149,12 @@ export const getInvestmentById = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const updateInvestmentById = async(req:Request,res:Response)=>{
+export const updateInvestmentById = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let investment = req.body;
         let user = req.body.user;
@@ -176,7 +176,7 @@ export const updateInvestmentById = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }

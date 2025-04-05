@@ -87,7 +87,7 @@ export class ReportService{
             
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     } 
@@ -206,7 +206,7 @@ export class ReportService{
             }
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }
@@ -280,7 +280,7 @@ export class ReportService{
             }
         }
         catch(err){
-            console.log(err);
+            throw err;
             
         }
     }

@@ -1,9 +1,9 @@
 import { DashboardService } from "../services/dashboard.service"
-import { Request,Response } from "express";
+import { NextFunction, Request,Response } from "express";
 
 const dashboardService = new DashboardService();
 
-export const getDashboardData = async(req:Request,res:Response)=>{
+export const getDashboardData = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let startDate = req.body.startDate;
@@ -19,12 +19,12 @@ export const getDashboardData = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getDashboardTransactions = async(req:Request,res:Response)=>{
+export const getDashboardTransactions = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let startDate = req.body.startDate;
@@ -40,7 +40,7 @@ export const getDashboardTransactions = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }

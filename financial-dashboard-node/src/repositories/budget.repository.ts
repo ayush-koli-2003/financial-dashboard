@@ -1,6 +1,7 @@
 import { Between, LessThanOrEqual, MoreThan } from "typeorm";
 import { AppDataSource } from "../configs/database.config";
 import { Budget } from "../entities/budget.entity";
+import { AppError } from "../types/app-error";
 
 const budgetRepository = AppDataSource.getRepository(Budget);
 
@@ -57,7 +58,14 @@ export const getBudgetsByDate = async(user:any,startDate:any,endDate:any)=>{
 
 export const deleteBudget = async(user:any,id:any)=>{
     try{
-        return await budgetRepository.delete({id:id});
+        let result = await budgetRepository.delete({id:id});
+
+        if(result.affected===0){
+            throw new AppError('Failed delete budget',500);
+        }
+        else{
+            result;
+        }
     }
     catch(err){
         throw err;
@@ -81,7 +89,13 @@ export const getBudgetCategories=  async(user:any)=>{
 
 export const getBudgetById = async(id:any)=>{
     try{
-        return await budgetRepository.findOneBy({id:id});
+        let result = await budgetRepository.findOneBy({id:id});
+        if(result===null){
+            throw new AppError('Failed get budget by Id',500);
+        }
+        else{
+            return result;
+        }
     }
     catch(err){
         throw err;
@@ -93,9 +107,13 @@ export const updateBudgetById = async(budget:any,id:any)=>{
     try{
         // console.log(expense);
         
-        return await budgetRepository.createQueryBuilder('budget').update()
+        let result = await budgetRepository.createQueryBuilder('budget').update()
             .set({amount:budget.amount,category:budget.category})
             .where('id = :id',{id}).execute();
+        
+        if(result.affected===0){
+            throw new AppError('Update budget failed',500);
+        }
     }
     catch(err){
         throw err;

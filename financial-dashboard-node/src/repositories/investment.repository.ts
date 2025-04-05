@@ -2,6 +2,7 @@ import { MoreThan, LessThanOrEqual, Between } from "typeorm";
 import { AppDataSource } from "../configs/database.config";
 import { Investment } from "../entities/investment.entity";
 import { InvestmentCategory } from "../enums/investment.enum";
+import { AppError } from "../types/app-error";
 
 const investmentRepository = AppDataSource.getRepository(Investment);
 
@@ -65,7 +66,13 @@ export const getInvestmentByDate = async(user:any,startDate:any,endDate:any)=>{
 
 export const deleteInvestment = async(user:any,id:any)=>{
     try{
-        return await investmentRepository.delete({id:id});
+        let result = await investmentRepository.delete({id:id});
+        if(result.affected===0){
+            throw new AppError('Failed delete investment',500);
+        }
+        else{
+            return result;
+        }
     }
     catch(err){
         throw err;
@@ -75,7 +82,13 @@ export const deleteInvestment = async(user:any,id:any)=>{
 
 export const getInvestmentById = async(id:any)=>{
     try{
-        return await investmentRepository.findOneBy({id:id});
+        let result = await investmentRepository.findOneBy({id:id});
+        if(result===null){
+            throw new AppError('Failed get investment by Id',500);
+        }
+        else{
+            return result;
+        }
     }
     catch(err){
         throw err;
@@ -87,8 +100,15 @@ export const updateInvestmentById = async(investment:any,id:any)=>{
     try{
         // console.log(expense);
         
-        return await investmentRepository.createQueryBuilder('investment').update().set({name:investment.name,amount:investment.amount,category:investment.category,note:investment.note}).where('id = :id',{id}).execute();
+        let result = await investmentRepository.createQueryBuilder('investment').update().set({name:investment.name,amount:investment.amount,category:investment.category,note:investment.note}).where('id = :id',{id}).execute();
+        if(result.affected===0){
+            throw new AppError('Failed update investment by Id',500);
+        }
+        else{
+            return result;
+        }
     }
+        
     catch(err){
         throw err;
         

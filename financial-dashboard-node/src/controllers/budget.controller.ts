@@ -1,9 +1,9 @@
-import { Request, Response } from "express";
+import { Request, Response, NextFunction } from "express";
 import { BudgetService } from "../services/budget.service";
 import { BudgetCategory } from "../enums/budget.enum";
 
 const budgetService = new BudgetService();
-export const getAllBudgets = async(req:Request,res:Response)=>{
+export const getAllBudgets = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let budget = req.body;
         budget.amount = parseFloat(budget.amount);
@@ -17,12 +17,12 @@ export const getAllBudgets = async(req:Request,res:Response)=>{
         })
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const addBudget = async(req:Request,res:Response)=>{
+export const addBudget = async(req:Request,res:Response,next:NextFunction)=>{
     try{   
         let user = req.body.user;
         let budget = req.body;
@@ -43,12 +43,12 @@ export const addBudget = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getCategories = async(req:Request,res:Response)=>{
+export const getCategories = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let results = await budgetService.getAllCategories();
@@ -67,11 +67,11 @@ export const getCategories = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
     }
 }
 
-export const getFilteredCategories = async(req:Request,res:Response)=>{
+export const getFilteredCategories = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let results = await budgetService.getFilteredCategories(user);
@@ -90,12 +90,12 @@ export const getFilteredCategories = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getBudgetByDate = async(req:Request,res:Response)=>{
+export const getBudgetByDate = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let startDate = req.body.startDate;
@@ -123,12 +123,12 @@ export const getBudgetByDate = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getTotalSpendingOfCategory = async(req:Request,res:Response)=>{
+export const getTotalSpendingOfCategory = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let startDate = req.body.startDate;
@@ -150,37 +150,29 @@ export const getTotalSpendingOfCategory = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const deleteBudget = async(req:Request,res:Response)=>{
+export const deleteBudget = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
         let id = req.params.id;
         let result = await budgetService.deleteBudget(user,id);
 
-        if(result?.affected as number >0){
-            res.status(200).json({
-                status:'successfull',
-                data:'budget is deleted'
-            })
-        }
-        else{
-            res.status(400).json({
-                status:'failed',
-                data:'budget is not deleted'
-            })
-        }
+        res.status(200).json({
+            status:'successfull',
+            data:'budget is deleted'
+        })
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const getBudgetById = async(req:Request,res:Response)=>{
+export const getBudgetById = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let id = req.params.id;
         let user = req.body.user;
@@ -201,12 +193,12 @@ export const getBudgetById = async(req:Request,res:Response)=>{
         }
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
 
-export const updateBudgetById = async(req:Request,res:Response)=>{
+export const updateBudgetById = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let budget = req.body;
         let user = req.body.user;
@@ -214,21 +206,13 @@ export const updateBudgetById = async(req:Request,res:Response)=>{
 
         let result = await budgetService.updateBudgetById(budget,id);
 
-        if(result?.affected as number>0){
-            res.status(200).json({
-                status:'successfull',
-                data:'budget updated'
-            })
-        }
-        else{
-            res.status(400).json({
-                status:'failed',
-                data:'budget update failed'
-            })
-        }
+        res.status(200).json({
+            status:'successfull',
+            data:'budget updated'
+        })
     }
     catch(err){
-        console.log(err);
+        next(err);
         
     }
 }
