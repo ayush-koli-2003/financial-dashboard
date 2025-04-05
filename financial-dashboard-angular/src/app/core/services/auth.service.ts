@@ -62,11 +62,12 @@ export class AuthService{
         this.http.get(`${serverUrl}/auth/logout`).subscribe(
             (response:any)=>{
               if(response.status==='successfull'){
-                this.removeCurrentUser();
-                this.router.navigate(['/login']);
+                
               }
             }
-          );
+        );
+        this.removeCurrentUser();
+        this.router.navigate(['/login']);
     }
 
     register(user:any){

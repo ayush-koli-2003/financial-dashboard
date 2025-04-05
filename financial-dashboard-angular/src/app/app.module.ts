@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -11,6 +11,7 @@ import Aura from '@primeng/themes/aura';
 import Material from '@primeng/themes/material';
 import {StyleClassModule} from 'primeng/styleclass';
 import { SharedModule } from './shared/shared.module';
+import { GlobalErrorHandlerService } from './core/services/global-error-handler.service';
 
 @NgModule({
   declarations: [
@@ -24,7 +25,11 @@ import { SharedModule } from './shared/shared.module';
     StyleClassModule,
     SharedModule
   ],
-  providers: [provideCharts(withDefaultRegisterables()),provideAnimationsAsync(),providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } })],
+  providers: [provideCharts(withDefaultRegisterables()),
+    provideAnimationsAsync(),
+    providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
+    { provide: ErrorHandler, useClass: GlobalErrorHandlerService }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }
