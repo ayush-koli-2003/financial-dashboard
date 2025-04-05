@@ -1,4 +1,4 @@
-<p-table [paginator]="true" [rows]="10" stripedRows [columns]="columns" [value]="inputData">
+<p-table [paginator]="true" [rows]="6" stripedRows [columns]="columns" [value]="inputData">
     <ng-template #header let-columns>
         <tr>
             <th *ngFor="let col of columns">
@@ -21,14 +21,7 @@
                 </ng-template>
             </td>
             <td>
-                <div class="actions">
-                    <div>
-                        <p-button icon="pi pi-eye" severity="info" variant="outlined"></p-button>
-                    </div>
-                    <div>
-                        <app-item-options [id]="rowData['id']" (selectOption)="selectEvent($event)"></app-item-options>
-                    </div>
-                </div>
+                <app-item-options [id]="rowData['id']" (selectOption)="selectEvent($event)"></app-item-options>
             </td>
         </tr>
     </ng-template>

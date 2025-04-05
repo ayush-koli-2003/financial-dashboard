@@ -8,6 +8,7 @@ import { EditExpenseComponent } from '../edit-expense/edit-expense.component';
 import { DisplayTransactionComponent } from '../../../../shared/components/display-transaction/display-transaction.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { filter } from 'rxjs';
+import { GenericDisplayDetailsComponent } from '../../../../shared/components/generic-display-details/generic-display-details.component';
 
 @Component({
   selector: 'app-list-expenses',
@@ -153,6 +154,10 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
       
       
     }
+    else{
+      this.openDisplay(option.data);
+      
+    }
   }
 
   loadAddComponent() {
@@ -213,8 +218,13 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
 
   loadDisplayComponent(value:any){
     this.vcr.clear();
-    this.compRef = this.loadDynamicComponent.vcr.createComponent(DisplayTransactionComponent);
-    this.compRef.setInput('data',value)
+    this.expenseService.getExpenseById(value).subscribe(
+      (res:any)=>{
+        let inputData = res.data;
+        this.compRef = this.loadDynamicComponent.vcr.createComponent(GenericDisplayDetailsComponent);
+        this.compRef.setInput('inputData',inputData);
+      }
+    )
   }
 
   openDisplay(value:any){

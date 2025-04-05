@@ -9,6 +9,7 @@ import { ExpenseCategory } from '../../../../core/enums/expense-category.enum';
 import { IncomeCategory } from '../../../../core/enums/income-category.enum';
 import { InvestmentCategory } from '../../../../core/enums/investment-category.enum';
 import { Router } from '@angular/router';
+import { GenericDisplayDetailsComponent } from '../../../../shared/components/generic-display-details/generic-display-details.component';
 
 @Component({
   selector: 'app-list-budgets',
@@ -128,29 +129,32 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
     }
     else if(option.operation==='delete'){
       this.confirmationService.confirm({
-          message: 'Do you want to delete this record?',
-          header: 'Danger Zone',
-          icon: 'pi pi-info-circle',
-          rejectLabel: 'Cancel',
-          rejectButtonProps: {
-              label: 'Cancel',
-              severity: 'secondary',
-              outlined: true,
-          },
-          acceptButtonProps: {
-              label: 'Delete',
-              severity: 'danger',
-          },
+        message: 'Do you want to delete this record?',
+        header: 'Danger Zone',
+        icon: 'pi pi-info-circle',
+        rejectLabel: 'Cancel',
+        rejectButtonProps: {
+            label: 'Cancel',
+            severity: 'secondary',
+            outlined: true,
+        },
+        acceptButtonProps: {
+            label: 'Delete',
+            severity: 'danger',
+        },
 
-          accept: () => {
-              this.messageService.add({ severity: 'error', summary: 'Confirmed', detail: 'Record deleted' });
-              this.deleteBudget(option.data);
-          },
-          reject: () => {
-              this.messageService.add({ severity: 'info', summary: 'Rejected', detail: 'You have rejected' });
-          },
-        });
+        accept: () => {
+            this.messageService.add({ severity: 'error', summary: 'Confirmed', detail: 'Record deleted' });
+            this.deleteBudget(option.data);
+        },
+        reject: () => {
+            this.messageService.add({ severity: 'info', summary: 'Rejected', detail: 'You have rejected' });
+        },
+      });
       
+    }
+    else{
+      this.openDisplay(option.data);
     }
   }
 
@@ -219,5 +223,22 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
   closeModal(){
     this.isAddOpen = false;
     this.vcr.clear();
+  }
+
+  loadDisplayComponent(value:any){
+    this.vcr.clear();
+    this.budgetService.getBudgetById(value).subscribe(
+      (res:any)=>{
+        let inputData = res.data;
+        this.compRef = this.loadDynamicComponentDirective.vcr.createComponent(GenericDisplayDetailsComponent);
+        this.compRef.setInput('inputData',inputData);
+      }
+    )
+  }
+
+  openDisplay(value:any){
+    this.isDialogVisible = true;
+    this.dialogLabel = value.category;
+    this.loadDisplayComponent(value);
   }
 }

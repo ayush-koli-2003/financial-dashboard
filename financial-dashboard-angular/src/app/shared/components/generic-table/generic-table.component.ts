@@ -19,6 +19,8 @@ export class GenericTableComponent implements OnChanges{
   }
 
   selectEvent(value:any){
+    console.log(value);
+    
     this.selectActionEvent.emit(value);
   }
 }

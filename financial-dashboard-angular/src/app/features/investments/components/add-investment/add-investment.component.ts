@@ -13,7 +13,7 @@ export class AddInvestmentComponent implements OnInit {
   addInvestmentForm:FormGroup;
   categories:any;
   @Output() closeEvent = new EventEmitter();
-  inputControls= [{name:'category',label:'Investment Category',type:'select'},{name:'name',label:'Name',type:'text'},{name:'note',label:'Note',type:'text'},{name:'amount',label:'Amount',type:'number'}]
+  inputControls= [{name:'category',label:'Investment Category',type:'select'},{name:'name',label:'Name',type:'text'},{name:'amount',label:'Amount',type:'number'},{name:'note',label:'Note',type:'textarea'}]
   constructor(private investmentService:InvestmentService,private router:Router,private route:ActivatedRoute){
     this.addInvestmentForm = new FormGroup({
       name: new FormControl(null,[Validators.required]),

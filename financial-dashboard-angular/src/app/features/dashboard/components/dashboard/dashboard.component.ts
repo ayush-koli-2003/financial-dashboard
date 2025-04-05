@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { DashboardService } from '../../services/dashboard.service';
+import { Router } from '@angular/router';
 @Component({
   selector: 'app-dashboard',
   standalone: false,
@@ -22,7 +23,7 @@ export class DashboardComponent implements OnInit{
 
   transactions:any[]=[1,2,3,4,5,6,7,8,9,10];
   
-  constructor(private dashboardService:DashboardService){
+  constructor(private dashboardService:DashboardService,private router:Router){
 
   }
 
@@ -86,5 +87,9 @@ export class DashboardComponent implements OnInit{
     
     this.getDashboardData(this.month,this.year);
     this.getDashboardCharts(this.month,this.year);
+  }
+
+  navigateTo(){
+    this.router.navigate(['/reports'])
   }
 }

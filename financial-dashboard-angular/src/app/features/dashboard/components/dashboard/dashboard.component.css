@@ -19,3 +19,15 @@
     flex-direction: row;
     margin: 5%;
 }
+
+.charts-with-option{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.options{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}

@@ -19,4 +19,8 @@ export class ItemOptionsComponent {
   emitDelete(){
     this.selectOption.emit({data:this.id,operation:'delete'});
   }
+
+  emitOpen(){
+    this.selectOption.emit({data:this.id,operation:'open'});
+  }
 }

@@ -15,7 +15,7 @@ export class EditIncomeComponent {
   isSubmitted=false;
   editData:any;
   @Output() closeEvent = new EventEmitter();
-  inputControls= [{name:'category',label:'Income Category',type:'select'},{name:'amount',label:'Amount',type:'number'},{name:'note',label:'Note',type:'text'}]
+  inputControls= [{name:'category',label:'Income Category',type:'select'},{name:'amount',label:'Amount',type:'number'},{name:'note',label:'Note',type:'textarea'}]
   editIncomeForm:FormGroup;
 
   constructor(private incomeService:IncomeService,private router:Router,private route:ActivatedRoute){

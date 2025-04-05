@@ -5,6 +5,7 @@ import { AddIncomeComponent } from '../add-income/add-income.component';
 import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
 import { EditIncomeComponent } from '../edit-income/edit-income.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
+import { GenericDisplayDetailsComponent } from '../../../../shared/components/generic-display-details/generic-display-details.component';
 
 @Component({
   selector: 'app-list-incomes',
@@ -95,7 +96,7 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
       // console.log(this.isEditOpen);
       this.openDialogue('edit',this.editId);
     }
-    else{
+    else if(option.operation==='delete'){
       this.confirmationService.confirm({
         message: 'Do you want to delete this Income?',
         header: 'Danger Zone',
@@ -120,6 +121,9 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
         },
       });
       
+    }
+    else{
+      this.openDisplay(option.data);
     }
   }
 
@@ -189,5 +193,22 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
   applyFilters(sortByValue:any,filterByValue:any){
     this.incomeList = this.unfilteredList.filter(e=> filterByValue !== undefined ? e.category===filterByValue: true)
       .sort((a,b)=> sortByValue===undefined ? 0 : sortByValue==='Low to High' ? a.amount-b.amount:b.amount-a.amount)
+  }
+
+  loadDisplayComponent(value:any){
+    this.vcr.clear();
+    this.incomeService.getIncomeById(value).subscribe(
+      (res:any)=>{
+        let inputData = res.data;
+        this.compRef = this.loadDynamicComponentDirective.vcr.createComponent(GenericDisplayDetailsComponent);
+        this.compRef.setInput('inputData',inputData);
+      }
+    )
+  }
+
+  openDisplay(value:any){
+    this.isDialogVisible = true;
+    this.dialogLabel = value.category;
+    this.loadDisplayComponent(value);
   }
 }

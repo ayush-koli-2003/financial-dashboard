@@ -5,7 +5,7 @@
                 <div style="width: 100%;">
                     <ng-container *ngFor="let control of inputControls">
                         <div class="form-control">
-                            <ng-template #dropdown>
+                            <ng-container *ngIf="control.type==='select'">
                                 <div>
                                     <label >Category </label>
                                 </div>
@@ -17,8 +17,8 @@
                                         </ng-container>
                                     </select><br>
                                 </div>
-                            </ng-template>
-                            <ng-container *ngIf="control.type!=='select' else dropdown">
+                            </ng-container>
+                            <ng-container *ngIf="control.type!=='select' && control.type!=='textarea'">
                                 <div>
                                     <label>{{control.label}} </label>
                                 </div>
@@ -26,12 +26,20 @@
                                     <input [type]="control.type" [formControlName]="control.name"><br>
                                 </div>
                             </ng-container>
-                
+                            
+                            <ng-container *ngIf="control.type==='textarea'">
+                                <div>
+                                    <label>{{control.label}} </label>
+                                </div>
+                                <div>
+                                    <textarea rows="2" cols="25" [autoResize]="true" pTextarea [formControlName]="control.name"></textarea>
+                                </div>
+                            </ng-container>
                         
                     </div>
                     </ng-container>
                 </div>
-                <div class="btn-container" style="width: 100%;">
+                <div class="btn-container" style="width: 100%; margin-top: 2%;">
                     <button class="submit-btn" type="submit" [disabled]="isSubmitted">{{formLabel}}</button>
                 </div>
             </div>

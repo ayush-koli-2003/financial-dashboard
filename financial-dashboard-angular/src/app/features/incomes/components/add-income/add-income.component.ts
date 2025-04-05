@@ -15,7 +15,7 @@ export class AddIncomeComponent{
   incomeCategories:any[]=[];
   isSubmitted = false;
   @Output() closeEvent = new EventEmitter();
-  inputControls= [{name:'category',label:'Income Category',type:'select'},{name:'amount',label:'Amount',type:'number'},{name:'note',label:'Note',type:'text'}]
+  inputControls= [{name:'category',label:'Income Category',type:'select'},{name:'amount',label:'Amount',type:'number'},{name:'note',label:'Note',type:'textarea'}]
   constructor(private incomeService:IncomeService,private router:Router,private route:ActivatedRoute){
     this.addIncomeForm=new FormGroup({
       category: new FormControl(null,[Validators.required]),

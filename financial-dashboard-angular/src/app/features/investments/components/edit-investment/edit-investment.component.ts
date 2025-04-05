@@ -11,7 +11,7 @@ import { InvestmentService } from '../../services/investment.service';
 export class EditInvestmentComponent implements OnInit,OnChanges {
   editInvestmentForm:FormGroup;
   categories:any[]=[];
-  inputControls = [{name:'category',label:'Investment Category',type:'select'},{name:'name',label:'Name',type:'text'},{name:'note',label:'Note',type:'text'},{name:'amount',label:'Amount',type:'number'}]
+  inputControls = [{name:'category',label:'Investment Category',type:'select'},{name:'name',label:'Name',type:'text'},{name:'amount',label:'Amount',type:'number'},{name:'note',label:'Note',type:'textarea'}]
   editData:any
 
   @Input() id!:number;

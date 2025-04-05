@@ -4,29 +4,30 @@
             <div class="form-group">
                 <div style="width: 100%;">
                     <ng-container *ngFor="let control of inputControls">
-                        <div class="form-control">
-                            <ng-template #dropdown>
-                                <div>
-                                    <label >Category </label>
-                                </div>
-                                <div>
-                                    <select [name]="control.label" [formControlName]="control.name">
-                                        <!-- <option value="" disabled selected>Select category</option> -->
-                                        <ng-container *ngFor="let cat of categories">
-                                            <option [value]="cat">{{cat}}</option>
-                                        </ng-container>
-                                    </select><br>
-                                </div>
-                            </ng-template>
-                            <ng-container *ngIf="control.type!=='select' else dropdown">
-                                <div>
-                                    <label>{{control.label}} </label>
-                                </div>
-                                <div>
-                                    <input [type]="control.type" [formControlName]="control.name"><br>
-                                </div>
-                            </ng-container>
-                
+                        <div class="form-control" [ngSwitch]="control.type">
+                                <ng-container *ngSwitchCase="'select'">
+                                    <div>
+                                        <label>Category</label>
+                                    </div>
+                                    <div>
+                                        <select [name]="control.label" [formControlName]="control.name">
+                                            <ng-container *ngFor="let cat of categories">
+                                                <option [value]="cat">{{cat}}</option>
+                                            </ng-container>
+                                        </select><br>
+                                    </div>
+                                </ng-container>
+                                <ng-container *ngSwitchCase="'textarea'">
+                                    <textarea rows="5" cols="30" pTextarea [formControlName]="control.name" [autoResize]="true"></textarea>
+                                </ng-container>
+                                <ng-container *ngSwitchDefault>
+                                    <div>
+                                        <label>{{control.label}}</label>
+                                    </div>
+                                    <div>
+                                        <input [type]="control.type" [formControlName]="control.name"><br>
+                                    </div>
+                                </ng-container>   
                         
                     </div>
                     </ng-container>

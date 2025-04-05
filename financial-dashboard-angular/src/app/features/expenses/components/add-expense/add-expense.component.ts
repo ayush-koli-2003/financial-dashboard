@@ -15,7 +15,7 @@ export class AddExpenseComponent {
   addExpenseForm:FormGroup;
   categories:any[]=[];
   isSubmitted=false;
-  inputControls = [{name:'name',label:'Name',type:'text'},{name:'note',label:'Note',type:'text'},{name:'amount',label:'Amount',type:'number'},{name:'category',label:'Expense Category',type:'select'}]
+  inputControls = [{name:'name',label:'Name',type:'text'},{name:'amount',label:'Amount',type:'number'},{name:'category',label:'Expense Category',type:'select'},{name:'note',label:'Note',type:'textarea'}]
   @Output() closeEvent = new EventEmitter();
   // expenseId:number,
   //   expenseName:string,

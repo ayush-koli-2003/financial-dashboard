@@ -37,7 +37,7 @@
         </div>
         
         <div class="display-container">
-            <div class="transaction-table" style="width: 45%;">
+            <div class="transaction-table" style="width: 55%;">
                 <!-- Create generic table component -->
                 <div class="card">
                     <p-table [paginator]="true" [rows]="5" stripedRows [value]="transactions" [tableStyle]="{ 'min-width': '30rem' }">
@@ -53,7 +53,6 @@
                                 <th>Type</th>
                                 <th>Category</th>
                                 <th>Amount</th>
-                                <th>Note</th>
                             </tr>
                         </ng-template>
                         <ng-template #body let-transaction>
@@ -65,12 +64,8 @@
                                 <td>
                                     <p-badge [value]="transaction.amount" [severity]="transaction.type ==='Expense'?'danger':transaction.type==='Income'?'success':'warn'" />
                                 </td>
-                                <td>
-                                    <p-button variant="text" severity="secondary" icon="pi pi-eye"></p-button>
-                                </td>
                             </tr>
                             <tr *ngIf="!isTransactionsLoaded">
-                                <td><p-skeleton /></td>
                                 <td><p-skeleton /></td>
                                 <td><p-skeleton /></td>
                                 <td><p-skeleton /></td>
@@ -83,24 +78,33 @@
                 </div>
             </div>
             <div class="charts-container" style="width: 45%;">
-                <p-carousel *ngIf="isChartsLoaded; else loader" [value]="charts" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="3500">
-                    <ng-template pTemplate="item" let-chart>
-                        <div style="width: 90%; margin-top: 10%;">
-
-                            <app-generic-chart 
-                                [data]="chart.data" 
-                                [chartType]="chart.chartType" 
-                                [legend]="true" 
-                                [labels]="chart.labels">
-                            </app-generic-chart>
+                <div class="charts-with-option">
+                    <div class="options">
+                        <div>
+                            <p-button icon="pi pi-arrow-up-right" (onClick)="navigateTo()" label="See more" variant="outlined" severity="info"></p-button>
                         </div>
-
-
-                    </ng-template>
-                </p-carousel>
-                <ng-template #loader>
-                    <p-skeleton size="100%" />
-                </ng-template>
+                    </div>
+                    <div>
+                        <p-carousel *ngIf="isChartsLoaded; else loader" [value]="charts" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="3500">
+                            <ng-template pTemplate="item" let-chart>
+                                <div style="width: 90%; margin-top: 10%;">
+        
+                                    <app-generic-chart 
+                                        [data]="chart.data" 
+                                        [chartType]="chart.chartType" 
+                                        [legend]="true" 
+                                        [labels]="chart.labels">
+                                    </app-generic-chart>
+                                </div>
+        
+        
+                            </ng-template>
+                        </p-carousel>
+                        <ng-template #loader>
+                            <p-skeleton size="100%" />
+                        </ng-template>
+                    </div>
+                </div>
             </div>
         </div>
     </div>

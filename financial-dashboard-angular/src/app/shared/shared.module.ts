@@ -25,6 +25,8 @@ import { AvatarModule } from 'primeng/avatar';
 import { TableModule } from 'primeng/table';
 import { TagModule } from 'primeng/tag';
 import { Skeleton } from 'primeng/skeleton';
+import { GenericDisplayDetailsComponent } from './components/generic-display-details/generic-display-details.component';
+import { TextareaModule } from 'primeng/textarea';
 
 @NgModule({
   declarations: [
@@ -38,7 +40,8 @@ import { Skeleton } from 'primeng/skeleton';
     FilterOptionsComponent,
     DisplayTransactionComponent,
     GenericTableComponent,
-    HeaderComponent
+    HeaderComponent,
+    GenericDisplayDetailsComponent
   ],
   imports: [
     CommonModule,
@@ -55,7 +58,8 @@ import { Skeleton } from 'primeng/skeleton';
     AvatarModule,
     TableModule,
     TagModule,
-    Skeleton
+    Skeleton,
+    TextareaModule
   ],
   exports:[
     GenericChartComponent,

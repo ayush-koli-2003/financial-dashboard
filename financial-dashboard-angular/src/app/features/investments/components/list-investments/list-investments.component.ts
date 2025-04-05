@@ -6,6 +6,7 @@ import { AddInvestmentComponent } from '../add-investment/add-investment.compone
 import { EditInvestmentComponent } from '../edit-investment/edit-investment.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ActivatedRoute } from '@angular/router';
+import { GenericDisplayDetailsComponent } from '../../../../shared/components/generic-display-details/generic-display-details.component';
 
 @Component({
   selector: 'app-list-investments',
@@ -111,7 +112,7 @@ export class ListInvestmentsComponent implements OnInit {
       this.isEditOpen = true;
       this.openDialogue('edit',this.editId);
     }
-    else{
+    else if(option.operation==='delete'){
       this.confirmationService.confirm({
         message: 'Do you want to delete this Investment?',
         header: 'Danger Zone',
@@ -136,6 +137,9 @@ export class ListInvestmentsComponent implements OnInit {
         },
       });
       
+    }
+    else{
+      this.openDisplay(option.data);
     }
   }
 
@@ -207,5 +211,21 @@ export class ListInvestmentsComponent implements OnInit {
     else{
       this.loadEditComponent(editId);
     }
+  }
+  loadDisplayComponent(value:any){
+    this.vcr.clear();
+    this.investmentService.getInvestmentById(value).subscribe(
+      (res:any)=>{
+        let inputData = res.data;
+        this.compRef = this.loadDynamicComponentDirective.vcr.createComponent(GenericDisplayDetailsComponent);
+        this.compRef.setInput('inputData',inputData);
+      }
+    )
+  }
+
+  openDisplay(value:any){
+    this.isDialogVisible = true;
+    this.dialogLabel = value.category;
+    this.loadDisplayComponent(value);
   }
 }
