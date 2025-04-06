@@ -12,7 +12,8 @@ export class EditInvestmentComponent implements OnInit,OnChanges {
   editInvestmentForm:FormGroup;
   categories:any[]=[];
   inputControls = [{name:'category',label:'Investment Category',type:'select'},{name:'name',label:'Name',type:'text'},{name:'amount',label:'Amount',type:'number'},{name:'note',label:'Note',type:'textarea'}]
-  editData:any
+  editData:any;
+  serverError!:string[];
 
   @Input() id!:number;
   @Output() closeEvent = new EventEmitter();
@@ -49,11 +50,14 @@ export class EditInvestmentComponent implements OnInit,OnChanges {
       this.closeEvent.emit('exit');
     }
     else{
+      this.serverError = [];
       this.investmentService.editInvestment(value,this.id).subscribe({
-        next:(res:any)=>{
-          if(res.status==='successfull'){
-            this.closeEvent.emit('edited')
-          }
+        next:()=>{
+          this.closeEvent.emit();
+        },
+        error:(err:any)=>{
+          this.serverError?.push(err);
+          throw err;
         }
       })
     }

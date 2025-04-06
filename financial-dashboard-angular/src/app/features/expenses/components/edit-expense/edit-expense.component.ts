@@ -14,6 +14,7 @@ export class EditExpenseComponent {
   editExpenseForm:FormGroup;
   categories:any[]=[];
   isSubmitted=false;
+  serverError!:string[];
   inputControls = [{name:'name',label:'Name',type:'text'},{name:'amount',label:'Amount',type:'number'},{name:'category',label:'Expense Category',type:'select'},{name:'note',label:'Note',type:'textarea'}];
   editData:any;
   @Output() closeEvent = new EventEmitter();
@@ -57,14 +58,16 @@ export class EditExpenseComponent {
     }
     else{
       let expense = value;
-            
-      this.expenseService.editExpense(expense,this.id).subscribe(
-        (res:any)=>{
-          if(res.status === 'successfull'){
-            this.closeEvent.emit('edited');
-          }
+      this.serverError=[]
+      this.expenseService.editExpense(expense,this.id).subscribe({
+        next:()=>{
+          this.closeEvent.emit();
+        },
+        error:(err:any)=>{
+          this.serverError?.push(err);
+          throw err;
         }
-      );
+      });
     } 
   }
 }

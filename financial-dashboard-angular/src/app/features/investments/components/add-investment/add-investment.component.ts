@@ -14,6 +14,7 @@ export class AddInvestmentComponent implements OnInit {
   categories:any;
   @Output() closeEvent = new EventEmitter();
   inputControls= [{name:'category',label:'Investment Category',type:'select'},{name:'name',label:'Name',type:'text'},{name:'amount',label:'Amount',type:'number'},{name:'note',label:'Note',type:'textarea'}]
+  serverError!:string[];
   constructor(private investmentService:InvestmentService,private router:Router,private route:ActivatedRoute){
     this.addInvestmentForm = new FormGroup({
       name: new FormControl(null,[Validators.required]),
@@ -32,10 +33,15 @@ export class AddInvestmentComponent implements OnInit {
   }
 
   onSubmit(value:any){
-    this.investmentService.addInvestment(value).subscribe(
-      ()=>{
+    this.serverError = [];
+    this.investmentService.addInvestment(value).subscribe({
+      next:()=>{
         this.closeEvent.emit();
+      },
+      error:(err:any)=>{
+        this.serverError?.push(err);
+        throw err;
       }
-    )
+    })
   }
 }

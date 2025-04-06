@@ -14,6 +14,7 @@ export class AddIncomeComponent{
   addIncomeForm:FormGroup;
   incomeCategories:any[]=[];
   isSubmitted = false;
+  serverError!:string[]
   @Output() closeEvent = new EventEmitter();
   inputControls= [{name:'category',label:'Income Category',type:'select'},{name:'amount',label:'Amount',type:'number'},{name:'note',label:'Note',type:'textarea'}]
   constructor(private incomeService:IncomeService,private router:Router,private route:ActivatedRoute){
@@ -34,10 +35,15 @@ export class AddIncomeComponent{
 
   onSubmit(value:any){
       this.isSubmitted = true;
-      this.incomeService.addIncome(value).subscribe(
-        (response)=>{
+      this.serverError = [];
+      this.incomeService.addIncome(value).subscribe({
+        next:()=>{
           this.closeEvent.emit();
+        },
+        error:(err:any)=>{
+          this.serverError?.push(err);
+          throw err;
         }
-      );
+      });
   }
 }

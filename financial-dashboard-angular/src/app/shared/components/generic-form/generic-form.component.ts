@@ -15,6 +15,7 @@ export class GenericFormComponent {
   @Input() formType!:'add'|'edit';
   @Input() editData:any;
   @Output() submitEvent = new EventEmitter();
+  @Input() serverError!:string[];
 
   formLabel!:string;
   isSubmitted!:boolean;
@@ -35,6 +36,16 @@ export class GenericFormComponent {
     
     if(changes['editData'] && this.editData !== undefined){
       this.form.patchValue(this.editData);
+    }
+
+    if(changes['serverError']){
+      console.log(this.serverError);
+      
+      if(this.serverError){
+        this.isSubmitted = false;
+        console.log(this.isSubmitted);
+        
+      }
     }
   }
 

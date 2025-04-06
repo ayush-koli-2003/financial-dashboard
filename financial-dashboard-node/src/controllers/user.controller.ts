@@ -61,12 +61,16 @@ export const register = async(req:Request,res:Response,next:NextFunction)=>{
         let result = await userService.register(user);
 
         console.log(result);
-        
 
-        res.status(200).json({
-            status:result !== null ? 'successfull':'failed',
-            data:result !== null ? 'user created' : 'user already exist'
-        })
+        if(result){
+            res.status(200).json({
+                status:'successfull',
+                data:'user created'
+            })
+        }
+        else{
+            throw new AppError('user already exist',500);
+        }
     }
     catch(err){
         next(err);
@@ -121,24 +125,15 @@ export const changePassword = async(req:Request,res:Response,next:NextFunction)=
                     });
                 }
                 else{
-                    res.status(400).json({
-                        status:'failed',
-                        data:'password change failed'
-                    });
+                    throw new AppError('Failed password change',500);
                 }
             }
             else{
-                res.status(400).json({
-                    status:'failed',
-                    data:'password incorrect'
-                });
+                throw new AppError('Password incorrect',500);
             }
         }
         else{
-            res.status(400).json({
-                status:'failed',
-                data:'user does not exist'
-            });
+            throw new AppError('Failed user does not exist',500);
         }
     }
     catch(err){

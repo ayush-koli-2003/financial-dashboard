@@ -15,6 +15,7 @@ export class AddExpenseComponent {
   addExpenseForm:FormGroup;
   categories:any[]=[];
   isSubmitted=false;
+  serverError!:string[];
   inputControls = [{name:'name',label:'Name',type:'text'},{name:'amount',label:'Amount',type:'number'},{name:'category',label:'Expense Category',type:'select'},{name:'note',label:'Note',type:'textarea'}]
   @Output() closeEvent = new EventEmitter();
   // expenseId:number,
@@ -48,19 +49,18 @@ export class AddExpenseComponent {
       else{
         let expense = value;
 
-
+        this.serverError = [];
         
-
-        // console.log(expense);
-        
-        
-        this.expenseService.addExpense(expense).subscribe(
-          (res:any)=>{
-            if(res.status === 'successfull'){
-              this.closeEvent.emit('add');
-            }
+       
+        this.expenseService.addExpense(expense).subscribe({
+          next:()=>{
+            this.closeEvent.emit();
+          },
+          error:(err:any)=>{
+            this.serverError?.push(err);
+            throw err;
           }
-        );
+        });
 
       
       }

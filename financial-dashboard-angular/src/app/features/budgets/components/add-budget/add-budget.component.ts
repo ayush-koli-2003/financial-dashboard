@@ -13,7 +13,8 @@ export class AddBudgetComponent implements OnInit {
   addBudgetForm:FormGroup;
   categories:any;
   isSubmitted=false;
-  inputControls = [{name:'category',label:'Budget Category',type:'select'},{name:'amount',label:'Amount',type:'number'}]
+  inputControls = [{name:'category',label:'Budget Category',type:'select'},{name:'amount',label:'Amount',type:'number'}];
+  serverError!:string[];
   @Output() closeEvent = new EventEmitter();
   
   constructor(private budgetService:BudgetsService,private router:Router,private route:ActivatedRoute){
@@ -37,10 +38,15 @@ export class AddBudgetComponent implements OnInit {
 
   onSubmit(value:any){
       this.isSubmitted = true;
-      this.budgetService.addBudget(value).subscribe(
-        ()=>{
+      this.serverError = [];
+      this.budgetService.addBudget(value).subscribe({
+        next:()=>{
           this.closeEvent.emit();
+        },
+        error:(err:any)=>{
+          this.serverError?.push(err);
+          throw err;
         }
-      );
+      });
   }
 }

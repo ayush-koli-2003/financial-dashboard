@@ -21,4 +21,4 @@
     
 </form> -->
 
-<app-generic-form [form]="addExpenseForm" [categories]="categories" [inputControls]="inputControls" (submitEvent)="onSubmit($event)" [formType]="'add'"></app-generic-form>
+<app-generic-form [serverError]="serverError" [form]="addExpenseForm" [categories]="categories" [inputControls]="inputControls" (submitEvent)="onSubmit($event)" [formType]="'add'"></app-generic-form>

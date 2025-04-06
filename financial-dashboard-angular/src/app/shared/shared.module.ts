@@ -29,6 +29,7 @@ import { GenericDisplayDetailsComponent } from './components/generic-display-det
 import { TextareaModule } from 'primeng/textarea';
 import { DrawerModule } from 'primeng/drawer';
 import { NotificationsPanelComponent } from './components/notifications-panel/notifications-panel.component';
+import { FloatLabelModule } from 'primeng/floatlabel';
 
 
 @NgModule({
@@ -64,7 +65,8 @@ import { NotificationsPanelComponent } from './components/notifications-panel/no
     TagModule,
     Skeleton,
     TextareaModule,
-    DrawerModule
+    DrawerModule,
+    FloatLabelModule
   ],
   exports:[
     GenericChartComponent,

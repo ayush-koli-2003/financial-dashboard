@@ -17,6 +17,7 @@ export class EditBudgetComponent implements OnInit,OnChanges {
   inputControls = [{name:'category',label:'Budget Category',type:'select'},{name:'amount',label:'Amount',type:'number'}]
   editData:any;
   @Output() closeEvent = new EventEmitter();
+  serverError!: string[];
 
   constructor(private budgetService:BudgetsService,private router:Router,private route:ActivatedRoute){
     this.editBudgetForm = new FormGroup({
@@ -59,14 +60,16 @@ export class EditBudgetComponent implements OnInit,OnChanges {
     }
     else{
       let budget = value;
-            
-      this.budgetService.editBudget(budget,this.id).subscribe(
-        (res:any)=>{
-          if(res.status === 'successfull'){
-            this.closeEvent.emit('edited');
-          }
+      this.serverError =[];
+      this.budgetService.editBudget(budget,this.id).subscribe({
+        next:()=>{
+          this.closeEvent.emit();
+        },
+        error:(err:any)=>{
+          this.serverError?.push(err);
+          throw err;
         }
-      );
+      });
     }
   }
 }

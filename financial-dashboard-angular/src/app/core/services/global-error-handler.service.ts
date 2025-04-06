@@ -15,13 +15,18 @@ export class GlobalErrorHandlerService implements ErrorHandler {
         if(error.status===500){
             error.message = error.error.message;
         }
+        else{
+            error.message = 'Try again later!'
+        }
         Swal.fire({
             icon: "error",
             title:'Something went wrong',
             text: `${error.message}`,
         }).then(
             (result:any)=>{
-                // this.authService.logOut();
+                if(error.status===0){
+                    this.authService.logOut();
+                }
             }
         );
    }

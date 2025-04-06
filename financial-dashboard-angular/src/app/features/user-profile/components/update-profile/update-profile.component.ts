@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChange
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserProfileService } from '../../services/user-profile.service';
 import { Profile } from '../../../../core/models/Profile.model';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-update-profile',
@@ -50,9 +51,15 @@ export class UpdateProfileComponent implements OnInit, OnChanges {
       this.userProfileService.updateProfile(this.updateProfileForm.value).subscribe({
         next:(res:any)=>{
           this.closeEvent.emit('updated')
+          Swal.fire({
+            title: "Success",
+            text: "Update profile successfull",
+            icon: "success"
+          });
         },
         error:(err)=>{
           this.isSubmitted =  false;
+          throw err;
         }
       })
     }

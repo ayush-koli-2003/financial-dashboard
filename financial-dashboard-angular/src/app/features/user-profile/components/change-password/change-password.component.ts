@@ -1,6 +1,7 @@
 import { Component, EventEmitter, Output } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { UserProfileService } from '../../services/user-profile.service';
+import Swal from 'sweetalert2'
 
 @Component({
   selector: 'app-change-password',
@@ -12,6 +13,7 @@ export class ChangePasswordComponent {
   changePasswordForm:FormGroup
   @Output() closeEvent = new EventEmitter();
   inputControls = [{name:'email',label:'Email',type:'email'},{name:'currPassword',label:'Current Password',type:'password'},{name:'newPassword',label:'New Password',type:'password'}]
+  serverError!:string[];
 
   constructor(private userProfileService:UserProfileService){
     this.changePasswordForm = new FormGroup({
@@ -22,9 +24,19 @@ export class ChangePasswordComponent {
   }
 
   onSubmit(value:any){
+    this.serverError = [];
     this.userProfileService.changePassword(value).subscribe({
-      next:(res:any)=>{
+      next:()=>{
         this.closeEvent.emit();
+        Swal.fire({
+          title: "Success",
+          text: "Change password successfull",
+          icon: "success"
+        });
+      },
+      error:(err:any)=>{
+        this.serverError?.push(err);
+        throw err;
       }
     })
   }
