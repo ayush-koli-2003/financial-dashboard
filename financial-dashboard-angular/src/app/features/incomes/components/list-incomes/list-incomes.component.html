@@ -4,7 +4,7 @@
         <app-date-picker  (dateEvent)="selectDate($event)"></app-date-picker>
     </div> -->
     <div>
-        <app-filter-options [categories]="categories" (addEvent)="openDialogue('add')" (filterEvent)="takeFilters($event)" (dateEvent)="selectDate($event)"></app-filter-options>
+        <app-filter-options [currDate]="currDate" [categories]="categories" (addEvent)="openDialogue('add')" (filterEvent)="takeFilters($event)" (dateEvent)="selectDate($event)"></app-filter-options>
     </div>
     
     <div>

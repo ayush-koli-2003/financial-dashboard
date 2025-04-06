@@ -14,8 +14,7 @@ export class DashboardComponent implements OnInit{
   totalInvestment:number = 0;
   isDataLoaded = false;
   isTransactionsLoaded=false;
-  month:any;
-  year:any;
+  currDate!:{month:string,year:string};
 
   isChartsLoaded=false;
 
@@ -29,7 +28,25 @@ export class DashboardComponent implements OnInit{
 
   ngOnInit(){
     // this.getDashboardData(this.month,this.year);
+    let date = new Date();
+    this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
+    this.dashboardService.updateDate(this.currDate);
+    this.dashboardService.currDateObs$.subscribe({
+      next:(date:any)=>{
+        this.currDate = {month:date.month,year:date.year};
+        this.getDashboardData(this.currDate.month,this.currDate.year);
+        this.getDashboardCharts(this.currDate.month,this.currDate.year);
+      }
+    })
   }
+
+  // this.month=data.month;
+  // this.year=data.year;
+  // console.log(this.month,this.year);
+  
+  // this.getDashboardData(this.month,this.year);
+  // this.getDashboardCharts(this.month,this.year);
+
 
   getDashboardData(month:any,year:any){
     this.dashboardService.getDashboardData(month,year).subscribe({
@@ -81,12 +98,7 @@ export class DashboardComponent implements OnInit{
 
   selectDate(data:any){
     // console.log(data);
-    this.month=data.month;
-    this.year=data.year;
-    console.log(this.month,this.year);
-    
-    this.getDashboardData(this.month,this.year);
-    this.getDashboardCharts(this.month,this.year);
+    this.dashboardService.updateDate({month:data.month,year:data.year})
   }
 
   navigateTo(){

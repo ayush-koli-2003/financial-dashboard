@@ -22,8 +22,7 @@ export class MonthlyReportsComponent {
   budgetVsExpense:any;
   expenseReport:any
 
-  month:any;
-  year:any;
+  currDate!:{month:string,year:string};
   constructor(private reportService:ReportService, private router:Router){
     // this.data = [
     //   { data: [65, 59, 80, 81, 56, 55, 40], label: 'Series A' },
@@ -44,9 +43,14 @@ export class MonthlyReportsComponent {
 
   ngOnInit(){
     let date = new Date();
-    this.month = date.getMonth()+1;
-    this.year = date.getFullYear();
-    this.getReports(this.month,this.year);
+    this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
+    this.reportService.updateDate(this.currDate);
+    this.reportService.currDateObs$.subscribe({
+      next:(date:any)=>{
+        this.currDate = {month:date.month,year:date.year};
+        this.getReports(this.currDate.month,this.currDate.year);
+      }
+    })
   }
 
   getReports(month:any,year:any){
@@ -70,6 +74,6 @@ export class MonthlyReportsComponent {
   }
 
   selectDate(date:any){
-    this.getReports(date.month,date.year);
+    this.reportService.updateDate({month:date.month,year:date.year})
   }
 }

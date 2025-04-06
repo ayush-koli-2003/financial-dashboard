@@ -1,6 +1,6 @@
 <div class="main">
     <div>
-        <app-filter-options [categories]="categories" (addEvent)="openDialogue('add')" (filterEvent)="takeFilters($event)" (dateEvent)="selectDate($event)"></app-filter-options>
+        <app-filter-options [categories]="categories" (addEvent)="openDialogue('add')" (filterEvent)="takeFilters($event)" [currDate]="currDate" (dateEvent)="selectDate($event)"></app-filter-options>
     </div>
     <div>
         <!-- <button (click)="loadModal()">Add Budget</button>

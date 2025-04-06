@@ -15,8 +15,7 @@ import { GenericDisplayDetailsComponent } from '../../../../shared/components/ge
 })
 export class ListIncomesComponent implements OnInit, AfterViewInit{
   incomeList:Income[]
-  month:any;
-  year:any;
+  currDate!:{month:string,year:string};
   isAddOpen: boolean=false;
 
   isEditOpen = false;
@@ -36,11 +35,13 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
 
   ngOnInit(): void {
     let date = new Date();
-    this.month = date.getMonth()+1;
-    this.year = date.getFullYear();
+    this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
+    this.incomeService.updateDate(this.currDate);
     this.incomeService.updateIncomeListObs$.subscribe(
       ()=>{
-        this.getIncomes(this.month,this.year);
+        let date = this.incomeService.getDate();
+        this.currDate= {month:date.month,year:date.year};
+        this.getIncomes(this.currDate.month,this.currDate.year);
         this.getIncomeCategories();
       }
     )
@@ -83,7 +84,7 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
   }
 
   selectDate(date:any){
-    this.getIncomes(date.month,date.year);
+    this.incomeService.updateDate({month:date.month,year:date.year})
   }
 
   selectEvent(option:any){

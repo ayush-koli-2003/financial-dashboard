@@ -10,6 +10,7 @@ import { IncomeCategory } from '../../../../core/enums/income-category.enum';
 import { InvestmentCategory } from '../../../../core/enums/investment-category.enum';
 import { Router } from '@angular/router';
 import { GenericDisplayDetailsComponent } from '../../../../shared/components/generic-display-details/generic-display-details.component';
+import { CurrentDateService } from '../../../../core/services/current-date.service';
 
 @Component({
   selector: 'app-list-budgets',
@@ -19,11 +20,10 @@ import { GenericDisplayDetailsComponent } from '../../../../shared/components/ge
 })
 export class ListBudgetsComponent implements OnInit, AfterViewInit{
   budgetList:Budget[];
-  month:any;
-  year:any;
   isLoaded = false;
   isAddOpen = false;
   totalSpendingOfCategory:any[]=[];
+  currDate!:{month:string,year:string};
 
   isEditOpen = false;
   isDialogVisible = false;
@@ -35,20 +35,29 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective;
   vcr!:any;
   compRef!:ComponentRef<any>;
-  constructor(private router:Router,private budgetService:BudgetsService,private confirmationService: ConfirmationService, private messageService: MessageService){
+  constructor(private currentDateService:CurrentDateService,private router:Router,private budgetService:BudgetsService,private confirmationService: ConfirmationService, private messageService: MessageService){
     this.budgetList=[];
+    
   }
 
   ngOnInit(): void {
     let date = new Date();
-    this.month = date.getMonth()+1;
-    this.year = date.getFullYear();
+    this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
+
+    this.budgetService.updateDate(this.currDate);
     this.budgetService.updateBudgetObs$.subscribe(
       ()=>{
+        console.log('get data');
+        let date = this.budgetService.getDate();
+        // this.month = date.month;
+        // this.year = date.year;
+        this.currDate= {month:date.month,year:date.year};
+        console.log(this.currDate);        
+        
         this.getExpenseCategories();
         // console.log(month,year);
-        
-        this.selectDate({month:this.month,year:this.year});
+        this.getBudgets(this.currDate.month,this.currDate.year);
+        this.getTotalExpenseByCategory(this.currDate.month,this.currDate.year);
       }
     )
   }
@@ -62,8 +71,6 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
       next:(res:any)=>{
         this.categories = res.data;
         // console.log(this.categories);
-        this.getBudgets(this.month,this.year);
-        this.getTotalExpenseByCategory(this.month,this.year);
       }
     })
   }
@@ -86,7 +93,7 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
     this.budgetService.getBudgets(month,year).subscribe(
       (response:any)=>{
         this.budgetList = response.data;
-        // console.log(this.budgetList);
+        console.log(this.budgetList);
         
         this.isLoaded = true;
       }
@@ -94,8 +101,7 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
   }
 
   selectDate(date:any){
-    this.getBudgets(date.month,date.year);
-    this.getTotalExpenseByCategory(date.month,date.year);
+    this.budgetService.updateDate({month:date.month,year:date.year})
   }
 
   getTotalExpenseByCategory(month:any,year:any){

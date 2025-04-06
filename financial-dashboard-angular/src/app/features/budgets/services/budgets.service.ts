@@ -2,7 +2,7 @@ import { Injectable } from "@angular/core";
 import { ExpenseCategory } from "../../../core/enums/expense-category.enum";
 import { Budget } from "../../../core/models/Budget.model";
 import { InvestmentCategory } from "../../../core/enums/investment-category.enum";
-import { BehaviorSubject, tap } from "rxjs";
+import { BehaviorSubject, Observable, tap } from "rxjs";
 import { HttpClient } from "@angular/common/http";
 
 @Injectable({
@@ -13,9 +13,14 @@ export class BudgetsService{
     budgetList:Budget[]=[]
     updateBudgetSub:BehaviorSubject<any> = new BehaviorSubject(this.budgetList);
     updateBudgetObs$ = this.updateBudgetSub.asObservable();
+
+    currDate:{month:string,year:string,time?:'string'}
     
     constructor(private http:HttpClient){
-        this.budgetList=[{id:1,category:ExpenseCategory.Food,amount:4000,date:new Date()},{id:2,category:InvestmentCategory.Stocks,amount:2000,date:new Date()}];
+        this.budgetList=[];
+        
+        let date = new Date();
+        this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
         this.updateBudgetSub.next(this.budgetList);
     }
 
@@ -70,5 +75,19 @@ export class BudgetsService{
                 this.updateBudgetSub.next(this.budgetList);
             })
         );
+    }
+
+    updateDate(newDate:{month:string,year:string}){
+        this.currDate.month = newDate.month;
+        this.currDate.year = newDate.year;
+
+        console.log('date updated');
+        
+
+        this.updateBudgetSub.next(this.budgetList);
+    }
+
+    getDate(){
+        return this.currDate;
     }
 }

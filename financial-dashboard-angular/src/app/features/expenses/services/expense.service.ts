@@ -12,8 +12,11 @@ export class ExpenseService{
     expenseList:Expense[]=[];
     updateExpenseListSub:BehaviorSubject<any> = new BehaviorSubject(this.expenseList);
     updateExpenseList$ = this.updateExpenseListSub.asObservable();
+    currDate:{month:string,year:string,time?:'string'}
     constructor(private http:HttpClient){
-        
+        let date = new Date();
+        this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
+        this.updateExpenseListSub.next(this.expenseList);
     }
 
     getExpenseList(month:any,year:any){
@@ -60,5 +63,19 @@ export class ExpenseService{
                 this.updateExpenseListSub.next(this.expenseList);
             })
         );
+    }
+
+    updateDate(newDate:{month:string,year:string}){
+        this.currDate.month = newDate.month;
+        this.currDate.year = newDate.year;
+
+        console.log('date updated');
+        
+
+        this.updateExpenseListSub.next(this.expenseList);
+    }
+
+    getDate(){
+        return this.currDate;
     }
 }

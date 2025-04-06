@@ -13,8 +13,12 @@ export class InvestmentService{
     updateInvestmentListSub:BehaviorSubject<any> = new BehaviorSubject(this.investmentList);
     updateInvestementListObs$ = this.updateInvestmentListSub.asObservable();
     categories:any
+    currDate:{month:string,year:string,time?:'string'}
     constructor(private http:HttpClient){
+        let date = new Date();
+        this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
         this.investmentList=[];
+        this.updateInvestmentListSub.next(this.investmentList);
     }
 
     getInvestments(month:any,year:any){
@@ -58,5 +62,19 @@ export class InvestmentService{
                 this.updateInvestmentListSub.next(this.investmentList);
             })
         );
+    }
+
+    updateDate(newDate:{month:string,year:string}){
+        this.currDate.month = newDate.month;
+        this.currDate.year = newDate.year;
+
+        console.log('date updated');
+        
+
+        this.updateInvestmentListSub.next(this.investmentList);
+    }
+
+    getDate(){
+        return this.currDate;
     }
 }

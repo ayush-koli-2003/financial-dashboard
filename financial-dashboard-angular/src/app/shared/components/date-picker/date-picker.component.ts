@@ -1,18 +1,30 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnChanges, Output, SimpleChanges } from '@angular/core';
 @Component({
   selector: 'app-date-picker',
   standalone: false,
   templateUrl: './date-picker.component.html',
   styleUrl: './date-picker.component.css'
 })
-export class DatePickerComponent {
+export class DatePickerComponent implements OnChanges{
   date: any | undefined;
   @Output() dateEvent = new EventEmitter();
-
+  @Input() currDate : any;
   ngOnInit(){
-    this.date = new Date();
+    
     // IMP - Remove this and manage state for date in each module
-    this.dateSelected();
+    // this.dateSelected();
+  }
+
+  ngOnChanges(changes: SimpleChanges): void {
+    if(changes['currDate']){
+      console.log('changed date');
+      
+      this.date = new Date(parseInt(this.currDate.year),parseInt(this.currDate.month)-1);
+      console.log(this.date);
+    }
+
+    console.log('change date detected');
+    
   }
 
   dateSelected(){

@@ -8,8 +8,7 @@ import { ReportService } from '../../services/report.service';
   styleUrl: './trend-reports.component.css'
 })
 export class TrendReportsComponent implements OnInit{
-  month:any = '4'
-  year:any = '2025'
+  currDate!:{month:string,year:string};
   incomeVsExpenseTrend:any;
   savingsTrend:any
   pastMonths = '6'
@@ -18,7 +17,15 @@ export class TrendReportsComponent implements OnInit{
 
   }
   ngOnInit(): void {
-    this.getTrendReports(this.month,this.year,this.pastMonths);
+    let date = new Date();
+    this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
+    this.reportService.updateDate(this.currDate);
+    this.reportService.currDateObs$.subscribe({
+      next:(date:any)=>{
+        this.currDate = {month:date.month,year:date.year};
+        this.getTrendReports(this.currDate.month,this.currDate.year,this.pastMonths);
+      }
+    })
   }
 
   getTrendReports(month:any,year:any,pastMonths:any){
@@ -38,6 +45,6 @@ export class TrendReportsComponent implements OnInit{
   monthSelected(){
     // console.log(this.pastMonths);
     
-    this.getTrendReports(this.month,this.year,this.pastMonths);
+    this.getTrendReports(this.currDate.month,this.currDate.year,this.pastMonths);
   }
 }

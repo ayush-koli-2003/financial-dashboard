@@ -12,8 +12,10 @@ export class IncomeService{
     incomeList:Income[]=[];
     updateIncomeListSub:BehaviorSubject<any> = new BehaviorSubject(this.incomeList);
     updateIncomeListObs$ = this.updateIncomeListSub.asObservable();
+    currDate:{month:string,year:string,time?:'string'}
     constructor(private http:HttpClient){
-        this.incomeList=[];
+        let date = new Date();
+        this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
         this.updateIncomeListSub.next(this.incomeList);
     }
 
@@ -58,5 +60,19 @@ export class IncomeService{
                 this.updateIncomeListSub.next(this.incomeList);
             })
         );
+    }
+
+    updateDate(newDate:{month:string,year:string}){
+        this.currDate.month = newDate.month;
+        this.currDate.year = newDate.year;
+
+        // console.log('date updated');
+        
+
+        this.updateIncomeListSub.next(this.incomeList);
+    }
+
+    getDate(){
+        return this.currDate;
     }
 }

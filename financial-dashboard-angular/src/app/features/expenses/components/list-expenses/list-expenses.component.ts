@@ -19,8 +19,7 @@ import { GenericDisplayDetailsComponent } from '../../../../shared/components/ge
 export class ListExpensesComponent implements OnInit, AfterViewInit {
   expenseList:Expense[]=[];
   unfilteredList:any[]=[];
-  month:any;
-  year:any;
+  currDate!:{month:string,year:string};
   categories:any[]=[];
 
   isAddOpen = false;
@@ -46,10 +45,14 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     let date = new Date();
-    this.month = date.getMonth()+1;
-    this.year = date.getFullYear();
+    this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
+    this.expenseService.updateDate(this.currDate);
     this.expenseService.updateExpenseList$.subscribe(()=>{
-      this.getExpenses(this.month,this.year);
+      let date = this.expenseService.getDate();
+      // this.month = date.month;
+      // this.year = date.year;
+      this.currDate= {month:date.month,year:date.year};
+      this.getExpenses(this.currDate.month,this.currDate.year);
       this.getExpenseCategories();
     })
 
@@ -213,7 +216,7 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
   selectDate(data:any){
     // console.log(data); 
     
-    this.getExpenses(data.month,data.year);
+    this.expenseService.updateDate({month:data.month,year:data.year})
   }
 
   loadDisplayComponent(value:any){

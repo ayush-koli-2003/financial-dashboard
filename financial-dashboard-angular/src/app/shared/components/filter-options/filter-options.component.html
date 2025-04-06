@@ -3,7 +3,7 @@
         <p-button (onClick)="emitButton()" label="Add" icon="pi pi-plus-circle"/>
     </div>
     <div class="filter">
-        <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+        <app-date-picker [currDate]="currDate" (dateEvent)="selectDate($event)"></app-date-picker>
     </div>
     <!-- <div class="filter">
         <p-select (onChange)="emitFilter()" [(ngModel)]="groupByValue" [options]="groupOptions"  [style]="{ minWidth: '14rem' }" placeholder="Group By" />

@@ -14,6 +14,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
+import { CurrentDateService } from '../../core/services/current-date.service';
 
 
 @NgModule({
@@ -34,6 +35,6 @@ import { ButtonModule } from 'primeng/button';
     ToastModule,
     ConfirmDialog
   ],
-  providers:[provideHttpClient(),ConfirmationService, MessageService]
+  providers:[provideHttpClient(),ConfirmationService, MessageService,CurrentDateService]
 })
 export class BudgetsModule { }

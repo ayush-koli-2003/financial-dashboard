@@ -1,6 +1,6 @@
 <div class="filter-container">
     <div>
-        <app-date-picker (dateEvent)="selectDate($event)"></app-date-picker>
+        <app-date-picker (dateEvent)="selectDate($event)" [currDate]="currDate"></app-date-picker>
     </div>
 </div>
 <div class="reports-container" *ngIf="isLoaded">

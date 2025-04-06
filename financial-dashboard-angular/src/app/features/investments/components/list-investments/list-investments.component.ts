@@ -16,8 +16,6 @@ import { GenericDisplayDetailsComponent } from '../../../../shared/components/ge
 })
 export class ListInvestmentsComponent implements OnInit {
   investmentList:Investment[];
-  month:any;
-  year:any;
   isAddOpen: boolean=false;
 
   columns=[{field:'name',label:'Name'},{field:'date',label:'Date',tag:undefined,severity:undefined},{field:'category',label:'Category'},{field:'amount',label:'Amount',tag:true,severity:'warn'}];
@@ -31,6 +29,7 @@ export class ListInvestmentsComponent implements OnInit {
   isEditOpen: boolean=false;
   categories:any[]=[];
   unfilteredList:any[]=[];
+  currDate!:{month:string,year:string};
 
   constructor(private route:ActivatedRoute,private investmentService:InvestmentService,private confirmationService: ConfirmationService, private messageService: MessageService){
     this.investmentList=[]
@@ -38,11 +37,13 @@ export class ListInvestmentsComponent implements OnInit {
 
   ngOnInit(): void {
     let date = new Date();
-    this.month = date.getMonth()+1;
-    this.year = date.getFullYear();
+    this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
+    this.investmentService.updateDate(this.currDate);
     this.investmentService.updateInvestementListObs$.subscribe(
       ()=>{
-        this.getInvestments(this.month,this.year);
+        let date = this.investmentService.getDate();
+      this.currDate= {month:date.month,year:date.year};
+        this.getInvestments(this.currDate.month,this.currDate.year);
         this.getInvestmentCategories();
       }
     )
@@ -90,7 +91,7 @@ export class ListInvestmentsComponent implements OnInit {
   selectDate(data:any){
     // console.log(data); 
     
-    this.getInvestments(data.month,data.year);
+    this.investmentService.updateDate({month:data.month,year:data.year})
   }
 
   deleteInvestment(id:any){
