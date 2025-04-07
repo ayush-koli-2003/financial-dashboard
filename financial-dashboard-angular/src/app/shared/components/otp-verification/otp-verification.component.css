@@ -1,0 +1,17 @@
+.otp-container{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.otp-card{
+    text-align: center;
+    padding: 2%;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+}
+
+.control{
+    margin: 6%;
+}

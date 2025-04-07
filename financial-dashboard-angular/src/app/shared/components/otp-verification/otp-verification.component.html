@@ -1,6 +1,14 @@
-
-    <span class="p-text-secondary block mb-8">Enter otp</span>
-
-    <p-inputotp [(ngModel)]="otp" [mask]="true" [length]="6"/>
-    <p-button (onClick)="submitOtp()">Verify</p-button>
+<div class="otp-container">
+    <div class="otp-card">
+        <div class="control">
+            <h3>Enter 6 digit otp</h3>
+        </div>
+        <div class="control">
+            <p-inputotp [(ngModel)]="otp" [mask]="true" [length]="6"/>
+        </div>
+        <div class="control">
+            <p-button [disabled]="!otp || otp.length<6" (onClick)="submitOtp()">Verify</p-button>
+        </div>
+    </div>
+</div>
 
