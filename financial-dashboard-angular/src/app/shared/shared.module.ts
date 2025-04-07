@@ -32,6 +32,7 @@ import { NotificationsPanelComponent } from './components/notifications-panel/no
 import { FloatLabelModule } from 'primeng/floatlabel';
 import { OtpVerificationComponent } from './components/otp-verification/otp-verification.component';
 import { InputOtpModule } from 'primeng/inputotp';
+import { InputTextModule } from 'primeng/inputtext';
 
 
 @NgModule({
@@ -70,7 +71,8 @@ import { InputOtpModule } from 'primeng/inputotp';
     TextareaModule,
     DrawerModule,
     FloatLabelModule,
-    InputOtpModule
+    InputOtpModule,
+    InputTextModule
   ],
   exports:[
     GenericChartComponent,

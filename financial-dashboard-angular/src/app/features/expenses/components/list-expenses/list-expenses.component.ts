@@ -53,7 +53,7 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
       // this.year = date.year;
       this.currDate= {month:date.month,year:date.year};
       this.getExpenses(this.currDate.month,this.currDate.year);
-      this.getExpenseCategories();
+      this.getExpenseCategories();      
     })
 
   }
@@ -66,6 +66,8 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     this.expenseList = this.unfilteredList
     this.filter.filterBy = filters.filterBy;
     this.filter.sortBy = filters.sortBy;
+    // console.log(this.filter);
+    
     if(this.filter.filterBy || this.filter.sortBy){
       
       this.applyFilters(this.filter.sortBy,this.filter.filterBy)
@@ -83,7 +85,8 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
             this.takeFilters({sortBy:undefined,filterBy:map.category})
           }
         )
-        console.log(this.expenseList[0]);
+        // console.log(this.expenseList[0]);
+        // console.log(this.filter);
         
       }
     )

@@ -11,11 +11,13 @@ export class FilterOptionsComponent implements OnInit,OnChanges {
   @Output() addEvent= new EventEmitter();
   @Output() filterEvent = new EventEmitter();
   @Output() dateEvent = new EventEmitter();
+  @Output() searchEvent = new EventEmitter();
   @Input() currDate!:{month:string,year:string};
   groupOptions= ['Day','Category'];
   sortOptions = ['Low to High','High to Low','None']
   sortByValue:any;
   filterByValue:any;
+  searchQuery!:string;
 
   ngOnInit(){
 
@@ -53,5 +55,9 @@ export class FilterOptionsComponent implements OnInit,OnChanges {
     this.filterByValue=undefined
 
     this.emitFilter();
+  }
+
+  emitSearch(){
+    this.searchEvent.emit(this.searchQuery);
   }
 }

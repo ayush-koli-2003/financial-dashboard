@@ -1,23 +1,31 @@
 <div class="filter-container">
-    <div class="filter">
-        <p-button (onClick)="emitButton()" label="Add" icon="pi pi-plus-circle"/>
+    <div class="filter-options">
+        <div class="filter">
+            <p-button (onClick)="emitButton()" label="Add" icon="pi pi-plus-circle"/>
+        </div>
+        <div class="filter">
+            <app-date-picker [currDate]="currDate" (dateEvent)="selectDate($event)"></app-date-picker>
+        </div>
+        <!-- <div class="filter">
+            <p-select (onChange)="emitFilter()" [(ngModel)]="groupByValue" [options]="groupOptions"  [style]="{ minWidth: '14rem' }" placeholder="Group By" />
+        </div> -->
+    
+        <div class="filter">
+            <p-select (onChange)="emitFilter()" [(ngModel)]="sortByValue" [options]="sortOptions" [style]="{ minWidth: '14rem' }" placeholder="Sort By" />
+        </div>
+    
+        <div class="filter">
+            <p-select (onChange)="emitFilter()" [(ngModel)]="filterByValue" [options]="categories" [style]="{ minWidth: '14rem' }" placeholder="Filter By" />
+        </div>
+    
+        <div class="filter">
+            <p-button  (onClick)="resetFilter()" icon="pi pi-filter-slash" label="Clear" severity="danger" variant="text" />
+        </div>
     </div>
-    <div class="filter">
-        <app-date-picker [currDate]="currDate" (dateEvent)="selectDate($event)"></app-date-picker>
-    </div>
-    <!-- <div class="filter">
-        <p-select (onChange)="emitFilter()" [(ngModel)]="groupByValue" [options]="groupOptions"  [style]="{ minWidth: '14rem' }" placeholder="Group By" />
-    </div> -->
-
-    <div class="filter">
-        <p-select (onChange)="emitFilter()" [(ngModel)]="sortByValue" [options]="sortOptions" [style]="{ minWidth: '14rem' }" placeholder="Sort By" />
-    </div>
-
-    <div class="filter">
-        <p-select (onChange)="emitFilter()" [(ngModel)]="filterByValue" [options]="categories" [style]="{ minWidth: '14rem' }" placeholder="Filter By" />
-    </div>
-
-    <div class="filter">
-        <p-button  (onClick)="resetFilter()" icon="pi pi-filter-slash" label="Clear" severity="danger" variant="text" />
+    <div>
+        <p-floatlabel>
+            <input  pInputText variant="filled" id="over_label" [(ngModel)]="searchQuery" (change)="emitSearch()" autocomplete="off" />
+            <label for="over_label">Search</label>
+        </p-floatlabel>
     </div>
 </div>
