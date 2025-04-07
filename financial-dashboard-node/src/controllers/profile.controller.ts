@@ -55,6 +55,9 @@ export const getCurrencyCategories = async(req:Request,res:Response,next:NextFun
 export const updateProfile = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let {user,...profile} = req.body;
+
+        // console.log(user,profile);
+        
         
         let result = await profileService.updateProfile(user,profile);
 

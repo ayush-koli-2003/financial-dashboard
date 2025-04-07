@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
+import { OtpService } from '../../services/otp.service';
 
 @Component({
   selector: 'app-register',
@@ -11,9 +12,11 @@ import { Router } from '@angular/router';
 })
 export class RegisterComponent {
 
-  registerForm:FormGroup
+  registerForm:FormGroup;
 
-  constructor(private authService:AuthService,private router:Router){
+  isOtpVisible=false;
+
+  constructor(private otpService:OtpService,private authService:AuthService,private router:Router){
     this.registerForm = new FormGroup({
       username: new FormControl(null,[Validators.required,Validators.pattern(/^\S*$/)]),
       email: new FormControl(null,[Validators.required,Validators.email]),
@@ -23,19 +26,41 @@ export class RegisterComponent {
 
   onSubmit(){
     if(this.registerForm.valid){
-      this.authService.register(this.registerForm.value).subscribe(
-        (response:any)=>{
-          console.log(response);
+      // this.authService.register(this.registerForm.value).subscribe(
+      //   (response:any)=>{
+      //     console.log(response);
           
-          if(response.status==='failed'){
-            console.log('User already exists');
-          }
-          else{
-            this.router.navigate(['/login'])
-          }
+      //     if(response.status==='failed'){
+      //       console.log('User already exists');
+      //     }
+      //     else{
+      //       this.router.navigate(['/login'])
+      //     }
+      //   }
+      // );
+      this.otpService.generateOtp({email:this.registerForm.value['email'],type:'register'}).subscribe({
+        next:(res:any)=>{
+          console.log(res.data);
+          this.isOtpVisible=true;
         }
-      );
+      })
     }
+  }
+
+  onOtpSubmit(otp:string){
+    console.log(otp);
+    this.authService.register({user:this.registerForm.value,otp:otp,type:'register'}).subscribe(
+      (response:any)=>{
+        console.log(response);
+        
+        if(response.status==='failed'){
+          console.log('User already exists');
+        }
+        else{
+          this.router.navigate(['/login'])
+        }
+      }
+    );
   }
 
 }

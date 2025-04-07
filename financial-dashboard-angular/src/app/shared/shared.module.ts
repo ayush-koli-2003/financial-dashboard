@@ -30,6 +30,8 @@ import { TextareaModule } from 'primeng/textarea';
 import { DrawerModule } from 'primeng/drawer';
 import { NotificationsPanelComponent } from './components/notifications-panel/notifications-panel.component';
 import { FloatLabelModule } from 'primeng/floatlabel';
+import { OtpVerificationComponent } from './components/otp-verification/otp-verification.component';
+import { InputOtpModule } from 'primeng/inputotp';
 
 
 @NgModule({
@@ -46,7 +48,8 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     GenericTableComponent,
     HeaderComponent,
     GenericDisplayDetailsComponent,
-    NotificationsPanelComponent
+    NotificationsPanelComponent,
+    OtpVerificationComponent
   ],
   imports: [
     CommonModule,
@@ -66,7 +69,8 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     Skeleton,
     TextareaModule,
     DrawerModule,
-    FloatLabelModule
+    FloatLabelModule,
+    InputOtpModule
   ],
   exports:[
     GenericChartComponent,
@@ -78,7 +82,8 @@ import { FloatLabelModule } from 'primeng/floatlabel';
     GenericEditComponent,
     FilterOptionsComponent,
     HeaderComponent,
-    GenericTableComponent
+    GenericTableComponent,
+    OtpVerificationComponent
   ],
   providers:[provideCharts(withDefaultRegisterables())]
 })

@@ -15,7 +15,7 @@ export const getProfile = async(user:any)=>{
                 }
             })
         if(result===null){
-            throw new AppError('Failed get profile',500)
+            // throw new AppError('Failed get profile',500)
         }
         else{
             return result;

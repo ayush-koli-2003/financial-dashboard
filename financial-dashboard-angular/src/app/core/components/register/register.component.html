@@ -1,3 +1,7 @@
+<p-dialog [(visible)]="isOtpVisible" [modal]="true" [style]="{ width: '25rem' }">
+
+  <app-otp-verification (otpVerifyEvent)="onOtpSubmit($event)"></app-otp-verification>
+</p-dialog>
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <!-- <label for="username">Username: </label>
     <input type="text" formControlName="username">

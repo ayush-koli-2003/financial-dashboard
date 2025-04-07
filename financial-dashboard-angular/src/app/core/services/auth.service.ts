@@ -70,8 +70,8 @@ export class AuthService{
         this.router.navigate(['/login']);
     }
 
-    register(user:any){
-        return this.http.post(`${serverUrl}/auth/register`,user,{withCredentials:true});
+    register(body:any){
+        return this.http.post(`${serverUrl}/auth/register`,body,{withCredentials:true});
     }
 
     changePassword(user:any){

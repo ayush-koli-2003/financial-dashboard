@@ -27,6 +27,8 @@ export class UserProfileService{
     updateProfile(value:any){
         return this.http.post('http://localhost:3000/api/profile/update',value).pipe(
             tap(res=>{
+                // console.log("created profile");
+                
                 this.userProfileSub.next(this.userProfile)
                 
             })
