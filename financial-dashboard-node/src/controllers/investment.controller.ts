@@ -81,8 +81,9 @@ export const getInvestmentByDate = async(req:Request,res:Response,next:NextFunct
         let user = req.body.user;
         let startDate = req.body.startDate;
         let endDate = req.body.endDate;
+        let search = req.query.search as string;
 
-        let result = await investmentService.getInvestmentsByDate(user,startDate,endDate);
+        let result = await investmentService.getInvestmentsByDate(user,startDate,endDate,search);
         if(result){
             res.status(200).json({
                 status:"successfull",

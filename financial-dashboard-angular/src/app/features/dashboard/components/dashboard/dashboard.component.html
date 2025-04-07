@@ -89,7 +89,7 @@
                     <div>
                         <p-carousel *ngIf="isChartsLoaded; else loader" [value]="charts" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="3500">
                             <ng-template pTemplate="item" let-chart>
-                                <div style="width: 90%; margin-top: 10%;">
+                                <div style="width: 90%; margin-top: 5%; height: 20%;">
         
                                     <app-generic-chart 
                                         [data]="chart.data" 

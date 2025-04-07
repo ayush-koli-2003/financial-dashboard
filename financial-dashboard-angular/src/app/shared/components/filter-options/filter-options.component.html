@@ -10,7 +10,7 @@
             <p-select (onChange)="emitFilter()" [(ngModel)]="groupByValue" [options]="groupOptions"  [style]="{ minWidth: '14rem' }" placeholder="Group By" />
         </div> -->
     
-        <div class="filter">
+        <div *ngIf="!disableFields?.isSortDisabled" class="filter">
             <p-select (onChange)="emitFilter()" [(ngModel)]="sortByValue" [options]="sortOptions" [style]="{ minWidth: '14rem' }" placeholder="Sort By" />
         </div>
     
@@ -22,9 +22,9 @@
             <p-button  (onClick)="resetFilter()" icon="pi pi-filter-slash" label="Clear" severity="danger" variant="text" />
         </div>
     </div>
-    <div>
+    <div *ngIf="!disableFields?.isSearchDisabled" >
         <p-floatlabel>
-            <input  pInputText variant="filled" id="over_label" [(ngModel)]="searchQuery" (change)="emitSearch()" autocomplete="off" />
+            <input [formControl]="searchControl"  pInputText variant="filled" id="over_label" [(ngModel)]="searchQuery" autocomplete="off" />
             <label for="over_label">Search</label>
         </p-floatlabel>
     </div>

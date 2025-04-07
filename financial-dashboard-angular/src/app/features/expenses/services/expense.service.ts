@@ -12,15 +12,19 @@ export class ExpenseService{
     expenseList:Expense[]=[];
     updateExpenseListSub:BehaviorSubject<any> = new BehaviorSubject(this.expenseList);
     updateExpenseList$ = this.updateExpenseListSub.asObservable();
-    currDate:{month:string,year:string,time?:'string'}
+    currDate:{month:string,year:string,time?:'string'};
+    searchQuery:string;
     constructor(private http:HttpClient){
         let date = new Date();
         this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
         this.updateExpenseListSub.next(this.expenseList);
+        this.searchQuery ='';
     }
 
-    getExpenseList(month:any,year:any){
-        const params = `month=${month}&year=${year}`;
+    getExpenseList(month:any,year:any,search:string){
+        console.log(search);
+        
+        const params = `month=${month}&year=${year}&search=${search}`;
         // this.expenseList.sort((a,b)=> a.date.toDateString() > b.date.toDateString() ? -1:1);
         return this.http.get(`http://localhost:3000/api/expense/?${params}`,{withCredentials:true});
     }
@@ -77,5 +81,14 @@ export class ExpenseService{
 
     getDate(){
         return this.currDate;
+    }
+
+    updateSearchQuery(search:string){
+        this.searchQuery = search;
+        this.updateExpenseListSub.next(this.expenseList);
+    }
+
+    getSearchQuery(){
+        return this.searchQuery;
     }
 }

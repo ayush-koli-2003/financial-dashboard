@@ -63,9 +63,10 @@ export const getExpenseByDate = async(req:Request,res:Response,next:NextFunction
         let user = req.body.user;
         let startDate = req.body.startDate;
         let endDate = req.body.endDate;
+        let search:string = req.query.search as string;
+        console.log("search: "+search);
         
-
-        let result = await expenseService.getExpenseByDate(user,startDate,endDate);
+        let result = await expenseService.getExpenseByDate(user,startDate,endDate,search);
 
         if(result){
             res.status(200).json({

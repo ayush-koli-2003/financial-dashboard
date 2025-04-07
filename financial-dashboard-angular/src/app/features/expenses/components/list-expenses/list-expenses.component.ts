@@ -35,6 +35,8 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
 
   filter:{filterBy?:any,sortBy?:any}={};
 
+  searchQuery!:string;
+
   columns=[{field:'name',label:'Name'},{field:'date',label:'Date',tag:undefined,severity:undefined},{field:'category',label:'Category'},{field:'amount',label:'Amount',tag:true,severity:'danger'}];
 
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponent!:LoadDynamicComponentDirective;
@@ -47,12 +49,16 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     let date = new Date();
     this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
     this.expenseService.updateDate(this.currDate);
+    
+    
     this.expenseService.updateExpenseList$.subscribe(()=>{
       let date = this.expenseService.getDate();
       // this.month = date.month;
       // this.year = date.year;
+      this.searchQuery = this.expenseService.getSearchQuery();
+      console.log('Search init: '+this.searchQuery);
       this.currDate= {month:date.month,year:date.year};
-      this.getExpenses(this.currDate.month,this.currDate.year);
+      this.getExpenses(this.currDate.month,this.currDate.year,this.searchQuery);
       this.getExpenseCategories();      
     })
 
@@ -74,8 +80,8 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     }
   }
 
-  getExpenses(month:any,year:any){
-    this.expenseService.getExpenseList(month,year).subscribe(
+  getExpenses(month:any,year:any,search:string){
+    this.expenseService.getExpenseList(month,year,search).subscribe(
       (response:any)=>{
         this.expenseList = response.data;
         this.unfilteredList = this.expenseList;
@@ -237,5 +243,11 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     this.isDialogVisible = true;
     this.dialogLabel = value.category;
     this.loadDisplayComponent(value);
+  }
+
+  takeSearch(search:string){
+    console.log(search);
+    
+    this.expenseService.updateSearchQuery(search);
   }
 }

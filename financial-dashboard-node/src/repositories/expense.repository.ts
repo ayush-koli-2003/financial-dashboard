@@ -55,7 +55,7 @@ export const getExpenseByDate = async(user:any,startDate:any,endDate:any)=>{
         return await expenseRepository.find({
             where:{
                 date: Between(startDate,endDate),
-                user : user
+                user : user,
             },
             order: {
                 date:'DESC'
@@ -67,6 +67,24 @@ export const getExpenseByDate = async(user:any,startDate:any,endDate:any)=>{
         //     .andWhere('expense.date < :endDate',{endDate})
         //     .andWhere('expense.user = :user',{user})
         //     .getMany();
+    }
+    catch(err){
+        throw err;
+        
+    }
+}
+
+export const getExpenseByDateWithSearch = async(user:any,startDate:any,endDate:any,search:string)=>{
+    try{
+        console.log(startDate,endDate);
+        
+        return await expenseRepository.createQueryBuilder('expense')
+        .leftJoinAndSelect('expense.user','user')
+        .where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate})
+        .andWhere("(expense.name LIKE :search OR expense.note LIKE :search OR expense.category LIKE :search)",{search:`%${search}%`})
+        .orderBy('expense.date','DESC')
+        .getMany();
+        
     }
     catch(err){
         throw err;

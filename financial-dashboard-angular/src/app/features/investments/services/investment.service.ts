@@ -13,16 +13,18 @@ export class InvestmentService{
     updateInvestmentListSub:BehaviorSubject<any> = new BehaviorSubject(this.investmentList);
     updateInvestementListObs$ = this.updateInvestmentListSub.asObservable();
     categories:any
-    currDate:{month:string,year:string,time?:'string'}
+    currDate:{month:string,year:string,time?:'string'};
+    searchQuery:string;
     constructor(private http:HttpClient){
         let date = new Date();
         this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
         this.investmentList=[];
         this.updateInvestmentListSub.next(this.investmentList);
+        this.searchQuery ='';
     }
 
-    getInvestments(month:any,year:any){
-        const params = `month=${month}&year=${year}`
+    getInvestments(month:any,year:any,search:string){
+        const params = `month=${month}&year=${year}&search=${search}`;
         return this.http.get(`http://localhost:3000/api/investment?${params}`,{withCredentials:true});
     }
 
@@ -76,5 +78,13 @@ export class InvestmentService{
 
     getDate(){
         return this.currDate;
+    }
+    updateSearchQuery(search:string){
+        this.searchQuery = search;
+        this.updateInvestmentListSub.next(this.investmentList);
+    }
+
+    getSearchQuery(){
+        return this.searchQuery;
     }
 }

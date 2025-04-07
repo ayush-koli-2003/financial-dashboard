@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
+import { FormControl } from '@angular/forms';
+import { debounceTime, distinctUntilChanged, throttleTime } from 'rxjs';
 
 @Component({
   selector: 'app-filter-options',
@@ -13,14 +15,22 @@ export class FilterOptionsComponent implements OnInit,OnChanges {
   @Output() dateEvent = new EventEmitter();
   @Output() searchEvent = new EventEmitter();
   @Input() currDate!:{month:string,year:string};
+  @Input() disableFields!:{isSearchDisabled?:boolean,isSortDisabled?:boolean,isFilterDisabled?:boolean};
   groupOptions= ['Day','Category'];
   sortOptions = ['Low to High','High to Low','None']
   sortByValue:any;
   filterByValue:any;
-  searchQuery!:string;
-
+  searchQuery:string='';
+  searchControl = new FormControl();
   ngOnInit(){
-
+    this.searchControl.valueChanges.pipe(
+      debounceTime(2000),
+      distinctUntilChanged()
+    ).subscribe(
+      (res)=>{
+        this.searchEvent.emit(this.searchQuery);
+      }
+    )
   }
 
   ngOnChanges(changes: SimpleChanges): void {

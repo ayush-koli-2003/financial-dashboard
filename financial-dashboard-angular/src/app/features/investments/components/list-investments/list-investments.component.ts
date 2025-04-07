@@ -30,6 +30,7 @@ export class ListInvestmentsComponent implements OnInit {
   categories:any[]=[];
   unfilteredList:any[]=[];
   currDate!:{month:string,year:string};
+  searchQuery!:string;
 
   constructor(private route:ActivatedRoute,private investmentService:InvestmentService,private confirmationService: ConfirmationService, private messageService: MessageService){
     this.investmentList=[]
@@ -42,8 +43,9 @@ export class ListInvestmentsComponent implements OnInit {
     this.investmentService.updateInvestementListObs$.subscribe(
       ()=>{
         let date = this.investmentService.getDate();
-      this.currDate= {month:date.month,year:date.year};
-        this.getInvestments(this.currDate.month,this.currDate.year);
+        this.currDate= {month:date.month,year:date.year};
+        this.searchQuery = this.investmentService.getSearchQuery();
+        this.getInvestments(this.currDate.month,this.currDate.year,this.searchQuery);
         this.getInvestmentCategories();
       }
     )
@@ -53,8 +55,8 @@ export class ListInvestmentsComponent implements OnInit {
     this.vcr = this.loadDynamicComponentDirective.vcr;
   }
 
-  getInvestments(month:any,year:any){
-    this.investmentService.getInvestments(month,year).subscribe(
+  getInvestments(month:any,year:any,search:string){
+    this.investmentService.getInvestments(month,year,search).subscribe(
       (response:any)=>{
         this.investmentList = response.data;
         this.unfilteredList = this.investmentList;
@@ -228,5 +230,11 @@ export class ListInvestmentsComponent implements OnInit {
     this.isDialogVisible = true;
     this.dialogLabel = value.category;
     this.loadDisplayComponent(value);
+  }
+
+  takeSearch(search:string){
+    // console.log(search);
+    
+    this.investmentService.updateSearchQuery(search);
   }
 }

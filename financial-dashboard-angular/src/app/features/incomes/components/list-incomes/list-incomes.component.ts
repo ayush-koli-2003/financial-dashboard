@@ -29,6 +29,7 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
   categories:any[]=[];
   unfilteredList:any[]=[];
   columns=[{field:'category',label:'Category'},{field:'date',label:'Date'},{field:'amount',label:'Amount',tag:true,severity:'success'}];
+  searchQuery!:string;
   constructor(private incomeService:IncomeService,private confirmationService: ConfirmationService, private messageService: MessageService){
     this.incomeList=[]
   }
@@ -39,9 +40,10 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
     this.incomeService.updateDate(this.currDate);
     this.incomeService.updateIncomeListObs$.subscribe(
       ()=>{
+        this.searchQuery = this.incomeService.getSearchQuery();
         let date = this.incomeService.getDate();
         this.currDate= {month:date.month,year:date.year};
-        this.getIncomes(this.currDate.month,this.currDate.year);
+        this.getIncomes(this.currDate.month,this.currDate.year,this.searchQuery);
         this.getIncomeCategories();
       }
     )
@@ -51,8 +53,8 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
     this.vcr = this.loadDynamicComponentDirective.vcr;
   }
 
-  getIncomes(month:any,year:any){
-    this.incomeService.getIncomes(month,year).subscribe(
+  getIncomes(month:any,year:any,search:string){
+    this.incomeService.getIncomes(month,year,search).subscribe(
       (response:any)=>{
         this.incomeList = response.data
         this.unfilteredList = this.incomeList;
@@ -175,6 +177,10 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
     if (this.vcr) {
       this.vcr.clear();
     }
+  }
+
+  takeSearch(search:string){
+    this.incomeService.updateSearchQuery(search);
   }
 
   closeModal(){

@@ -55,6 +55,21 @@ export const getIncomesByDate = async(user:any,startDate:any,endDate:any)=>{
     }
 }
 
+export const getIncomesByDateWithSearch = async(user:any,startDate:any,endDate:any,search:string)=>{
+    try{
+        return await incomeRepository.createQueryBuilder('income')
+        .leftJoinAndSelect('income.user','user')
+        .where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate})
+        .andWhere("(income.note LIKE :search OR income.category LIKE :search)",{search:`%${search}%`})
+        .orderBy('income.date','DESC')
+        .getMany();
+    }
+    catch(err){
+        throw err;
+        
+    }
+}
+
 export const deleteIncome = async(user:any,id:any)=>{
     try{
         let result = await incomeRepository.delete({id:id});

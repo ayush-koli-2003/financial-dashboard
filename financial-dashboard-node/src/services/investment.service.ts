@@ -1,5 +1,5 @@
 import { Investment } from "../entities/investment.entity";
-import { addInvestment, deleteInvestment, getAllInvestments, getCategories, getInvestmentByDate, getInvestmentById, getTotalInvestmentByDate, updateInvestmentById } from "../repositories/investment.repository";
+import { addInvestment, deleteInvestment, getAllInvestments, getCategories, getInvestmentByDate, getInvestmentByDateWithSearch, getInvestmentById, getTotalInvestmentByDate, updateInvestmentById } from "../repositories/investment.repository";
 
 export class InvestmentService{
     async getInvestments(user:any){
@@ -27,8 +27,12 @@ export class InvestmentService{
         }
     }
 
-    async getInvestmentsByDate(user:any,startDate:any,endDate:any){
+    async getInvestmentsByDate(user:any,startDate:any,endDate:any,search?:string){
         try{
+            if(search && search.length>0){
+                return await getInvestmentByDateWithSearch(user,startDate,endDate,search);
+            }
+            
             return await getInvestmentByDate(user,startDate,endDate);
         }
         catch(err){

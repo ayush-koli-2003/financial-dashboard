@@ -84,8 +84,12 @@ export const getIncomesByDate = async(req:Request,res:Response,next:NextFunction
         let user = req.body.user;
         let startDate = req.body.startDate;
         let endDate = req.body.endDate;
+        let search = req.query.search as string;
 
-        let results = await incomeService.getIncomesByDate(user,startDate,endDate);
+        console.log('income: '+search);
+        
+
+        let results = await incomeService.getIncomesByDate(user,startDate,endDate,search);
 
         if(results){
             res.status(200).json({

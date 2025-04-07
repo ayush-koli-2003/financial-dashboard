@@ -1,6 +1,6 @@
 <div>
     <div>
-        <app-filter-options [currDate]="currDate" [categories]="categories" (addEvent)="openDialogue('add')" (filterEvent)="takeFilters($event)" (dateEvent)="selectDate($event)"></app-filter-options>
+        <app-filter-options [currDate]="currDate" [categories]="categories" (addEvent)="openDialogue('add')" (filterEvent)="takeFilters($event)" (dateEvent)="selectDate($event)" (searchEvent)="takeSearch($event)"></app-filter-options>
     </div>
     <div>
         <p-dialog [header]="dialogLabel" [modal]="true" [(visible)]="isDialogVisible" [style]="{ width: '25rem' }">

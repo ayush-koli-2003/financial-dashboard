@@ -19,7 +19,7 @@ export class ShowReportsComponent {
   reportOptions = [
     {label:'Monthly',value:'monthly'},
     {label:'Trends',value:'trends'},
-    {label:'Others',value:'others'}
+    // {label:'Others',value:'others'}
   ]
 
   reports:any;

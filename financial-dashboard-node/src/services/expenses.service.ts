@@ -1,6 +1,6 @@
 import { Expense } from "../entities/expense.entity";
 import { ExpenseCategory } from "../enums/expense.enum";
-import { addExpense, deleteExpense, getExpenseByDate, getExpenseById, getExpenses, getTotalExpenseByDate, groupExpenseByMonth, updateExpenseById } from "../repositories/expense.repository";
+import { addExpense, deleteExpense, getExpenseByDate, getExpenseByDateWithSearch, getExpenseById, getExpenses, getTotalExpenseByDate, groupExpenseByMonth, updateExpenseById } from "../repositories/expense.repository";
 
 export class ExpenseService{
     async addExpense(expense:any,user:any){
@@ -44,14 +44,19 @@ export class ExpenseService{
         }
     }
 
-    async getExpenseByDate(user:any,startDate:any,endDate:any){
+    async getExpenseByDate(user:any,startDate:any,endDate:any,search?:string){
         try{
             
 
             // console.log(startDate,endDate);
             
-
-            return await getExpenseByDate(user,startDate,endDate); 
+            if(search && search.length > 0){
+                return await getExpenseByDateWithSearch(user,startDate,endDate,search);
+            }
+            else{
+                return await getExpenseByDate(user,startDate,endDate);
+            }
+            
         }
         catch(err){
             throw err;
