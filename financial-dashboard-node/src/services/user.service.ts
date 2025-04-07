@@ -1,7 +1,8 @@
+import { User } from "../entities/user.entity";
 import { changePassword, getUser, loginUser, registerUser } from "../repositories/user.repository";
 
 export class UserService{
-    async login(user:any){
+    async login(user:Partial<User>){
         return await loginUser(user);
     }
 

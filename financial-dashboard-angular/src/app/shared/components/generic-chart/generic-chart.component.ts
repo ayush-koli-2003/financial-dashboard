@@ -32,7 +32,7 @@ export class GenericChartComponent implements OnChanges, OnInit {
   }
 
   isBarChart(): boolean {
-    return this.chartType === 'bar' || this.chartType === 'horizontalBar';
+    return this.chartType === 'bar';
   }
 
   isLineChart(): boolean {

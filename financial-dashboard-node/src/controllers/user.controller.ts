@@ -3,6 +3,8 @@ import { UserService } from "../services/user.service";
 import jwt from 'jsonwebtoken';
 import bcrypt from 'bcrypt';
 import { AppError } from "../types/app-error";
+import { RegisterDto } from "../dtos/user/register.dto";
+import { LoginDto } from "../dtos/user/login.dto";
 
 const userService = new UserService();
 
@@ -11,43 +13,51 @@ const SALT_ROUNDS = 10;
 export const login = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let body = req.body;
-        
-        let {username,email} = body;
-        let pass = body.password;
 
-        // console.log(body);
-        
-        
-        let result = await userService.login({username,email});
+        let {isValid} = await LoginDto.validate(body);
 
-        // console.log(result[0]);
-        let isCorrect = false;
-        let token='';
-
-        if(result){
-            let {password,...validatedUser} = result;
-
-            isCorrect = await bcrypt.compare(pass,password);
-            
-            if(isCorrect){
-                token = jwt.sign(validatedUser,process.env.SECRET_KEY as string,{expiresIn:'1d'});
-                // console.log(token);
-                
-                res.cookie('user',token,{httpOnly:true,maxAge:(1*24*60*60*1000),secure:true});
-
-                res.status(200).json({
-                    status: 'successfull',
-                    data:token
-                });
-            }
-            else{
-
-                throw new AppError('password incorrect',500)
-            }
+        if(!isValid){
+            throw new AppError('Login data not valid',500);
         }
         else{
-            throw new AppError('user does not exist',500)
+            let user = new LoginDto(body);
+    
+            // console.log(body);
+            
+            
+            let result = await userService.login({email:user.email});
+    
+            // console.log(result[0]);
+            let isCorrect = false;
+            let token='';
+    
+            if(result){
+                let {password,...validatedUser} = result;
+    
+                isCorrect = await bcrypt.compare(user.password,password);
+                
+                if(isCorrect){
+                    token = jwt.sign(validatedUser,process.env.SECRET_KEY as string,{expiresIn:'1d'});
+                    // console.log(token);
+                    
+                    res.cookie('user',token,{httpOnly:true,maxAge:(1*24*60*60*1000),secure:true});
+    
+                    res.status(200).json({
+                        status: 'successfull',
+                        data:token
+                    });
+                }
+                else{
+    
+                    throw new AppError('password incorrect',500)
+                }
+            }
+            else{
+                throw new AppError('user does not exist',500)
+            }
         }
+        
+        
     }
     catch(err){
         next(err); 
@@ -56,20 +66,26 @@ export const login = async(req:Request,res:Response,next:NextFunction)=>{
 
 export const register = async(req:Request,res:Response,next:NextFunction)=>{
     try{
-        let user = req.body;
-        user.password = await bcrypt.hash(user.password,SALT_ROUNDS);
-        let result = await userService.register(user);
+        let body = req.body;
+        let {isValid} = await RegisterDto.validate(body);
+        if(!isValid){
+            throw new AppError('User data not valid',500);
+        }else{
+            let user = new RegisterDto(body);
+            user.password = await bcrypt.hash(user.password,SALT_ROUNDS);
+            let result = await userService.register(user);
 
-        console.log(result);
+            console.log(result);
 
-        if(result){
-            res.status(200).json({
-                status:'successfull',
-                data:'user created'
-            })
-        }
-        else{
-            throw new AppError('user already exist',500);
+            if(result){
+                res.status(200).json({
+                    status:'successfull',
+                    data:'user created'
+                })
+            }
+            else{
+                throw new AppError('user already exist',500);
+            }
         }
     }
     catch(err){
