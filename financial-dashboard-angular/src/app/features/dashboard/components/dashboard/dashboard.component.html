@@ -59,7 +59,7 @@
                         </ng-template>
                         <ng-template #body let-transaction>
                             <tr *ngIf="isTransactionsLoaded">
-                                <td>{{ transaction.date }}</td>
+                                <td>{{ transaction.date | date}}</td>
                                 <td>{{ transaction.name }}</td>
                                 <td>{{ transaction.type }}</td>
                                 <td>{{ transaction.category }}</td>

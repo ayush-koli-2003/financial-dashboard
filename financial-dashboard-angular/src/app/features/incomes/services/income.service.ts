@@ -30,7 +30,7 @@ export class IncomeService{
     addIncome(income:any){
         if(income.date === undefined){
             let currDate = new Date();
-            income.date = currDate.toISOString().split("T")[0];
+            income.date = currDate.toISOString();
         }
         
 

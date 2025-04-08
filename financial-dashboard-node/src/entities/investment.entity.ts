@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { InvestmentCategory } from "../enums/investment.enum";
 import { User } from "./user.entity";
+import { Budget } from "./budget.entity";
 
 @Entity('db_fd_investment')
 export class Investment{
@@ -37,12 +38,15 @@ export class Investment{
     returns?:number;
 
     @Column({
-        type:'date'
+        type:'datetime'
     })
     date:Date;
 
     @ManyToOne(()=>User,(user)=>user.investments,{onDelete:'CASCADE'})
     user:User;
+
+    @ManyToOne(()=>Budget,(budget)=>budget.investments,{nullable:true})
+    budget?:Budget;
 
     constructor(
         name:string,        

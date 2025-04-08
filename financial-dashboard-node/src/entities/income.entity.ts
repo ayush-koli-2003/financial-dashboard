@@ -25,7 +25,7 @@ export class Income{
     note?:string;
 
     @Column({
-        type:'date'
+        type:'datetime'
     })
     date:Date;
 

@@ -31,7 +31,7 @@ export class BudgetsService{
 
     addBudget(budget:any){
         let currdate = new Date();
-        let date = currdate.toISOString().split('T')[0];
+        let date = currdate.toISOString();
         
 
         let newBudget:any = {date,...budget};

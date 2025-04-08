@@ -13,7 +13,12 @@
         <tr>
             <td *ngFor="let col of columns">
                 <ng-container *ngIf="!col.tag else withTag">
-                    {{ rowData[col.field] }}
+                    <ng-container *ngIf="col.field !== 'date' else dateValue">
+                        {{ rowData[col.field] }}
+                    </ng-container>
+                    <ng-template #dateValue>
+                        {{ rowData[col.field] | date}}
+                    </ng-template>
                 </ng-container>
                 
                 <ng-template #withTag>

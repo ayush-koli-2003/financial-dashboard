@@ -12,7 +12,6 @@ export class AddIncomeDto extends BaseDto{
     @IsNotEmpty()
     category:IncomeCategory;
 
-    @MaxLength(10)
     @IsDateString()
     date:Date;
 

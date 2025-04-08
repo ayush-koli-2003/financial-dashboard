@@ -20,6 +20,18 @@ export class User{
     @Column()
     password:string;
 
+    @Column({
+        type:'varchar',
+        default:'user'
+    })
+    role:'user'|'admin';
+
+    @Column({
+        type:'varchar',
+        default:'active'
+    })
+    status:'active'|'inactive';
+
     @OneToMany(()=>Expense,(expense)=>expense.user,{cascade:true})
     expenses:Expense[];
 

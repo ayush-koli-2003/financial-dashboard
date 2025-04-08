@@ -13,8 +13,8 @@ export const parseDate = async(req:Request,res:Response,next:NextFunction)=>{
             year = new Date().toISOString().split("T")[0].split('-')[0];
             
         }
-        let startDate = new Date(year,month-1,1).toISOString().split('T')[0];
-        let endDate = new Date(year,month,1).toISOString().split('T')[0];
+        let startDate = new Date(year,month-1,1).toISOString();
+        let endDate = new Date(year,month,1).toISOString();
 
         req.body.startDate = startDate;
         req.body.endDate = endDate;

@@ -15,7 +15,6 @@ export class AddExpenseDto extends BaseDto{
     @IsNotEmpty()
     amount:number;
 
-    @MaxLength(10)
     @IsDateString()
     date:Date;
 

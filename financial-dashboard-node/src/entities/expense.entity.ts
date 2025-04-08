@@ -1,6 +1,7 @@
 import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 import { ExpenseCategory } from "../enums/expense.enum";
 import { User } from "./user.entity";
+import { Budget } from "./budget.entity";
 
 @Entity('db_fd_expense')
 export class Expense{
@@ -31,12 +32,15 @@ export class Expense{
     amount:number;
 
     @Column({
-        type:'date'
+        type:'datetime'
     })
     date:Date;
 
     @ManyToOne(()=>User,(user)=>user.expenses,{onDelete:'CASCADE'})
     user:User;
+
+    @ManyToOne(()=>Budget,(budget)=>budget.expenses,{nullable:true})
+    budget?:Budget;
 
     constructor(name:string,category:ExpenseCategory,amount:number,date:Date,user:User,note:string){
         this.name = name;

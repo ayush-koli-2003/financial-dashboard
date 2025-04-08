@@ -31,7 +31,7 @@ export class ExpenseService{
 
     addExpense(expense:any){
         let currdate = new Date();
-        let date = currdate.toISOString().split('T')[0];
+        let date = currdate.toISOString();
         
 
         let newExpense:any = {date,...expense};
