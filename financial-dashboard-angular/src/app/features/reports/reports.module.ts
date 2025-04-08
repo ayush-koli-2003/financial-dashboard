@@ -13,6 +13,7 @@ import { OtherReportsComponent } from './components/other-reports/other-reports.
 import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { SelectButtonModule } from 'primeng/selectbutton';
+import { ButtonModule } from 'primeng/button';
 
 
 @NgModule({
@@ -28,7 +29,8 @@ import { SelectButtonModule } from 'primeng/selectbutton';
     SharedModule,
     SelectModule,
     FormsModule,
-    SelectButtonModule
+    SelectButtonModule,
+    ButtonModule
   ],
   providers:[
     ReportService,

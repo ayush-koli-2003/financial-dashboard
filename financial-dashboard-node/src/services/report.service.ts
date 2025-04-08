@@ -1,13 +1,17 @@
 import { Budget } from "../entities/budget.entity";
 import { Expense } from "../entities/expense.entity";
 import { Income } from "../entities/income.entity";
+import { User } from "../entities/user.entity";
 import { BudgetCategory } from "../enums/budget.enum";
 import { ExpenseCategory } from "../enums/expense.enum";
 import { IncomeCategory } from "../enums/income.entity";
+import { AppError } from "../types/app-error";
 import { BudgetService } from "./budget.service";
 import { ExpenseService } from "./expenses.service";
 import { IncomeService } from "./income.service";
 import { InvestmentService } from "./investment.service";
+import fs from 'fs';
+import {Parser} from 'json2csv';
 
 const budgetService = new BudgetService();
 const expenseService = new ExpenseService();
@@ -284,4 +288,61 @@ export class ReportService{
             
         }
     }
+
+    async generateBudgetVsExpenseCSV(user:Partial<User>,startDate:string,endDate:string){
+        let report = await this.getBudgetVsExpense(user,startDate,endDate);
+
+        if(!report?.labels){
+            throw new AppError('No data available',500);
+        }
+        else{
+            const data = report.labels.map((category:string,i:number)=>({
+                Category: String(category || '').replace(/[^\w\s-]/g,''),
+                Budget: (report.data[0].data[i] || 0),
+                Expense: (report.data[1].data[i] || 0)
+
+            }))
+
+            let columns = ['Category','Budget','Expense'];
+            let jsonParser = new Parser({fields:columns,delimiter:',',quote:'"'});
+            try {
+                return jsonParser.parse(data);
+            } catch (error) {
+                console.log(error);
+                
+            }
+        }
+    }
+
+    async generateExpenseReportCSV(user:Partial<User>,startDate:string,endDate:string){
+        let report = await this.getExpenseReport(user,startDate,endDate);
+
+        if(!report?.labels){
+            throw new AppError('No data available',500);
+        }
+        else{
+            const data = report.labels.map((category:string,i:number)=>({
+                Category: String(category || '').replace(/[^\w\s-]/g,''),
+                Expense: (report.data[0].data[i] || 0),
+
+            }))
+
+            let columns = ['Category','Expense'];
+            let jsonParser = new Parser({fields:columns,delimiter:',',quote:'"'});
+            try {
+                return jsonParser.parse(data);
+            } catch (error) {
+                console.log(error);
+                
+            }
+            // console.log(report);
+            
+        }
+    }
+
+    // async generateMonthlyReportZip(user:Partial<User>,startDate:string,endDate:string){
+    //     try{
+    //         let budgetVsExpenseCSV = await this.generateBudgetVsExpenseCSV(user,startDate,endDate);
+    //     }
+    // }
 }

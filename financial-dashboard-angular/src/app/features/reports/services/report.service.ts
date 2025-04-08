@@ -69,4 +69,9 @@ export class ReportService{
 
         this.currDateSub.next(this.currDate);
     }
+
+    downloadMonthlyReport(month:any,year:any){
+        const params = `month=${month}&year=${year}`;
+        return this.http.get(`http://localhost:3000/api/report/downloadMonthly?${params}`,{withCredentials:true,responseType:'blob'});
+    }
 }

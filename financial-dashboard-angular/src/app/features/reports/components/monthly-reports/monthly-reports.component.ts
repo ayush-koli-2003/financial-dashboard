@@ -2,7 +2,7 @@ import { Component } from '@angular/core';
 import { Router } from '@angular/router';
 import { ChartType } from 'chart.js';
 import { ReportService } from '../../services/report.service';
-
+import {saveAs} from 'file-saver';
 @Component({
   selector: 'app-monthly-reports',
   standalone: false,
@@ -76,4 +76,23 @@ export class MonthlyReportsComponent {
   selectDate(date:any){
     this.reportService.updateDate({month:date.month,year:date.year})
   }
+
+  downloadMonthlyReport(){
+    this.reportService.currDateObs$.subscribe({
+      next:(date:any)=>{
+        this.currDate = {month:date.month,year:date.year};
+        console.log(this.currDate);
+        
+        this.reportService.downloadMonthlyReport(this.currDate.month,this.currDate.year).subscribe(
+          (blob)=>{
+            const url = window.URL.createObjectURL(blob);
+            saveAs(blob, 'data.csv');
+            window.URL.revokeObjectURL(url)
+            
+          }
+        );
+      }
+    })
+  }
 }
+

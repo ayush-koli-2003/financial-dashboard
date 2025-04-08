@@ -1,6 +1,8 @@
 <div class="filter-container">
-    <div>
-        <app-date-picker (dateEvent)="selectDate($event)" [currDate]="currDate"></app-date-picker>
+    <div class="filter-options">
+        <div><p-button icon="pi pi-arrow-down" (onClick)="downloadMonthlyReport()" label="Download as CSV" severity="danger" variant="outlined"></p-button></div>
+        <div><app-date-picker (dateEvent)="selectDate($event)" [currDate]="currDate"></app-date-picker></div>
+       
     </div>
 </div>
 <div class="reports-container" *ngIf="isLoaded">

@@ -52,3 +52,24 @@ export const generateTrendsReports = async(req:Request,res:Response,next:NextFun
         
     }
 }
+
+export const downloadMonthlyReport = async(req:Request,res:Response,next:NextFunction)=>{
+    try{
+        let user = req.body.user;
+        let startDate = req.body.startDate;
+        let endDate = req.body.endDate;
+        console.log('got request');
+        
+        let result = await reportService.generateExpenseReportCSV(user,startDate,endDate);
+        console.log(result);
+        
+        res.setHeader('Content-Type', 'text/csv');
+        res.setHeader('Content-Disposition', 'attachment; filename="data.csv"');
+        res.send(result);
+        
+    }
+    catch(err){
+        next(err);
+        
+    }
+}
