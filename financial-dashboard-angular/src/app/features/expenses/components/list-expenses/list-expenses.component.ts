@@ -180,24 +180,10 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
   
     this.compRef.instance.closeEvent.subscribe(
       (res: any) => {
-        console.log(res);
+        // console.log(res);
         
         this.closeDialogue();
-        if(res==='add'||res==='exit'){
-          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Expense added' });
-        }
-        else{
-          Swal.fire({
-            title: `${res}`,
-            showCancelButton: true,
-            confirmButtonText: "Update Budget"
-          }).then((result) => {
-            if (result.isConfirmed) {
-              this.router.navigate(['../budgets'],{relativeTo:this.route});
-            } else if (result.isDenied) {
-            }
-          });
-        }
+        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Expense added' });
       }
     );
   }
