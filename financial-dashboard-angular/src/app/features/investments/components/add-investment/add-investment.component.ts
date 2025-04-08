@@ -2,6 +2,7 @@ import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { InvestmentService } from '../../services/investment.service';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-investment',
@@ -39,8 +40,24 @@ export class AddInvestmentComponent implements OnInit {
         this.closeEvent.emit();
       },
       error:(err:any)=>{
-        this.serverError?.push(err);
-        throw err;
+        if(err.status===404){
+          this.closeEvent.emit();
+          Swal.fire({
+            title: `${err.error.message}`,
+            showCancelButton: true,
+            confirmButtonText: "Go To Budgets"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['../budgets'],{relativeTo:this.route});
+            } else if (result.isDenied) {
+              
+            }
+          });
+        }
+        else{
+          this.serverError?.push(err);
+          throw err;
+        }
       }
     })
   }

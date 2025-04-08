@@ -56,6 +56,7 @@ export class Investment{
         user:User,
         note?:string,
         returns?:number,
+        budget?:Budget
     ){
         this.name=name
         this.category=category
@@ -63,6 +64,7 @@ export class Investment{
         this.date=date
         this.user=user
         this.note=note
-        this.returns=returns
+        this.returns=returns;
+        this.budget = budget;
     }
 }

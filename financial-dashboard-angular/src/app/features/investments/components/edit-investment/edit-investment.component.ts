@@ -1,6 +1,8 @@
 import { Component, EventEmitter, Input, OnChanges, OnInit, Output, SimpleChanges } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { InvestmentService } from '../../services/investment.service';
+import Swal from 'sweetalert2';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-edit-investment',
@@ -18,7 +20,7 @@ export class EditInvestmentComponent implements OnInit,OnChanges {
   @Input() id!:number;
   @Output() closeEvent = new EventEmitter();
 
-  constructor(private investmentService:InvestmentService){
+  constructor(private investmentService:InvestmentService, private router:Router,private route:ActivatedRoute){
     this.editInvestmentForm = new FormGroup({
       name: new FormControl(null,[Validators.required]),
       note: new FormControl(null),
@@ -56,8 +58,24 @@ export class EditInvestmentComponent implements OnInit,OnChanges {
           this.closeEvent.emit();
         },
         error:(err:any)=>{
-          this.serverError?.push(err);
-          throw err;
+          if(err.status===404){
+            this.closeEvent.emit();
+            Swal.fire({
+              title: `${err.error.message}`,
+              showCancelButton: true,
+              confirmButtonText: "Go To Budgets"
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.router.navigate(['../budgets'],{relativeTo:this.route});
+              } else if (result.isDenied) {
+                
+              }
+            });
+          }
+          else{
+            this.serverError?.push(err);
+            throw err;
+          }
         }
       })
     }

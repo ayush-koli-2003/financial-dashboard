@@ -2,12 +2,12 @@ import { Budget } from "../entities/budget.entity";
 import { BudgetCategory } from "../enums/budget.enum";
 import { ExpenseCategory } from "../enums/expense.enum";
 import { InvestmentCategory } from "../enums/investment.enum";
-import { createBudget, deleteBudget, getAllBudgets, getBudgetById, getBudgetCategories, getBudgetsByDate, getTotalBudgetByDate, updateBudgetById } from "../repositories/budget.repository";
+import { createBudget, deleteBudget, findBudgetByCategory, getAllBudgets, getBudgetById, getBudgetCategories, getBudgetsByDate, getTotalBudgetByDate, updateBudgetById } from "../repositories/budget.repository";
 import { AppError } from "../types/app-error";
 import { ExpenseService } from "./expenses.service";
 import { InvestmentService } from "./investment.service";
 
-const expenseService = new ExpenseService();
+
 const investmentService = new InvestmentService();
 export class BudgetService{
     async getAllBudgets(user:any){
@@ -86,6 +86,7 @@ export class BudgetService{
 
     async getTotalSpendingOfCategory(user:any,startDate:any,endDate:any){
         try{
+            const expenseService = new ExpenseService();
             let expenses = await expenseService.getExpenseByDate(user,startDate,endDate);
             let investments = await investmentService.getInvestmentsByDate(user,startDate,endDate);
 
@@ -177,6 +178,15 @@ export class BudgetService{
                 throw err;
             }
             throw new AppError("Failed to get total budget", 500);
+        }
+    }
+
+    async findBudgetByCategory(user:any,startDate:any,endDate:any,category:BudgetCategory){
+        try{
+            return await findBudgetByCategory(user,startDate,endDate,category);
+        }
+        catch(err){
+            throw err;
         }
     }
 }

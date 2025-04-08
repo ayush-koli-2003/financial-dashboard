@@ -14,21 +14,22 @@ export const addExpense = async(req:Request,res:Response,next:NextFunction)=>{
         let error = await AddExpenseDto.validate(body);
         if(error.isValid){
             let expense = new AddExpenseDto(body);
-            let result = await expenseService.addExpense(expense,user);
+            let result = await expenseService.addExpense(expense,user,startDate,endDate);
 
-            if(result){
-                res.status(200).json({
-                    status:'successfull',
-                    data:'expense added successfully'
-                });
-            }
-            else{
-                res.json({
-                    status:'failed',
-                    data:'expense add failed'
-                });
-            }
+            // if(result){
+                
+            // }
+            // else{
+            //     res.json({
+            //         status:'failed',
+            //         data:'expense add failed'
+            //     });
+            // }
             // console.log('valid');
+            res.status(200).json({
+                status:'successfull',
+                data:'expense added successfully'
+            });
             
         }
         else{
@@ -227,21 +228,22 @@ export const updateExpenseById = async(req:Request,res:Response,next:NextFunctio
             let error = await UpdateExpenseDto.validate(body);
             if(error.isValid){
                 let expense = new UpdateExpenseDto(body);
-                let result = await expenseService.updateExpenseById(expense,id);
+                let result = await expenseService.updateExpenseById(user,startDate,endDate,expense,id);
 
-                if(result?.affected as number>0){
-                    res.status(200).json({
-                        status:'successfull',
-                        data:'expense updated'
-                    })
-                }
-                else{
-                    res.status(400).json({
-                        status:'failed',
-                        data:'expense update failed'
-                    })
-                }
+                // if(result?.affected as number>0){
+                    
+                // }
+                // else{
+                //     res.status(400).json({
+                //         status:'failed',
+                //         data:'expense update failed'
+                //     })
+                // }
                 // console.log('valid');
+                res.status(200).json({
+                    status:'successfull',
+                    data:'expense updated'
+                })
                 
             }
             else{

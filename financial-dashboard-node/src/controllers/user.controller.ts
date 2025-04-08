@@ -27,7 +27,6 @@ export const login = async(req:Request,res:Response,next:NextFunction)=>{
             
             
             let result = await userService.login({email:user.email});
-    
             // console.log(result[0]);
             let isCorrect = false;
             let token='';
@@ -45,7 +44,7 @@ export const login = async(req:Request,res:Response,next:NextFunction)=>{
     
                     res.status(200).json({
                         status: 'successfull',
-                        data:token
+                        data:{token:token,role:result.role}
                     });
                 }
                 else{

@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Investment } from "../../../core/models/Investment.model";
 import { InvestmentCategory } from "../../../core/enums/investment-category.enum";
-import { BehaviorSubject, tap } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { BehaviorSubject, catchError, tap, throwError } from "rxjs";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
 @Injectable({
     providedIn:'root'
@@ -38,6 +38,13 @@ export class InvestmentService{
         return this.http.post('http://localhost:3000/api/investment/add',investment,{withCredentials:true}).pipe(
             tap(response=>{
                 this.updateInvestmentListSub.next(this.investmentList);
+            }),
+            catchError((err:HttpErrorResponse)=>{
+                if (err.status === 404) {
+                    this.updateInvestmentListSub.next(this.investmentList);
+                }
+    
+                return throwError(() => err);
             })
         );
     }
@@ -62,6 +69,13 @@ export class InvestmentService{
         return this.http.patch(`http://localhost:3000/api/investment/update/${id}`,investment).pipe(
             tap(response=>{
                 this.updateInvestmentListSub.next(this.investmentList);
+            }),
+            catchError((err:HttpErrorResponse)=>{
+                if (err.status === 404) {
+                    this.updateInvestmentListSub.next(this.investmentList);
+                }
+    
+                return throwError(() => err);
             })
         );
     }

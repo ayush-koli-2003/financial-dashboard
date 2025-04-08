@@ -9,6 +9,7 @@ import { DisplayTransactionComponent } from '../../../../shared/components/displ
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { filter } from 'rxjs';
 import { GenericDisplayDetailsComponent } from '../../../../shared/components/generic-display-details/generic-display-details.component';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-list-expenses',
@@ -182,7 +183,21 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
         console.log(res);
         
         this.closeDialogue();
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Expense added' });
+        if(res==='add'||res==='exit'){
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Expense added' });
+        }
+        else{
+          Swal.fire({
+            title: `${res}`,
+            showCancelButton: true,
+            confirmButtonText: "Update Budget"
+          }).then((result) => {
+            if (result.isConfirmed) {
+              this.router.navigate(['../budgets'],{relativeTo:this.route});
+            } else if (result.isDenied) {
+            }
+          });
+        }
       }
     );
   }

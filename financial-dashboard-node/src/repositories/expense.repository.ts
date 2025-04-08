@@ -28,7 +28,6 @@ export const addExpense = async(newExpense:any)=>{
     }
     catch(err){
         throw err;
-        
     }
 }
 

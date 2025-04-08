@@ -1,8 +1,8 @@
 import { Injectable } from "@angular/core";
 import { Expense } from "../../../core/models/Expense.model";
 import { ExpenseCategory } from "../../../core/enums/expense-category.enum";
-import { BehaviorSubject, tap } from "rxjs";
-import { HttpClient } from "@angular/common/http";
+import { BehaviorSubject, catchError, tap, throwError } from "rxjs";
+import { HttpClient, HttpErrorResponse } from "@angular/common/http";
 
 @Injectable({
     providedIn:'root'
@@ -39,8 +39,17 @@ export class ExpenseService{
         // // this.expenseListSub.next(this.expenseList);
 
         return this.http.post('http://localhost:3000/api/expense/add',newExpense,{withCredentials:true}).pipe(
-            tap(response=>{                
+            tap(response=>{
+                console.log(response);
+                                
                 this.updateExpenseListSub.next(this.expenseList);
+            }),
+            catchError((err:HttpErrorResponse)=>{
+                if (err.status === 404) {
+                    this.updateExpenseListSub.next(this.expenseList);
+                }
+    
+                return throwError(() => err);
             })
         );
     }
@@ -65,6 +74,13 @@ export class ExpenseService{
         return this.http.patch(`http://localhost:3000/api/expense/update/${id}`,expense).pipe(
             tap(response=>{
                 this.updateExpenseListSub.next(this.expenseList);
+            }),
+            catchError((err:HttpErrorResponse)=>{
+                if (err.status === 404) {
+                    this.updateExpenseListSub.next(this.expenseList);
+                }
+    
+                return throwError(() => err);
             })
         );
     }

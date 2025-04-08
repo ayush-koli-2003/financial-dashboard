@@ -1,14 +1,27 @@
 import { Investment } from "../entities/investment.entity";
 import { addInvestment, deleteInvestment, getAllInvestments, getCategories, getInvestmentByDate, getInvestmentByDateWithSearch, getInvestmentById, getTotalInvestmentByDate, updateInvestmentById } from "../repositories/investment.repository";
+import { AppError } from "../types/app-error";
+import { BudgetService } from "./budget.service";
 
 export class InvestmentService{
     async getInvestments(user:any){
         return await getAllInvestments(user);
     }
 
-    async addInvestment(investment:any,user:any){
+    async addInvestment(investment:any,user:any,startDate:string,endDate:string){
         try{
-            let newInvestment = new Investment(investment.name,investment.category,investment.amount,investment.date,user,investment.note,investment.return);
+            const budgetService = new BudgetService();
+            let budget= await budgetService.findBudgetByCategory(user,startDate,endDate,investment.category);
+            let newInvestment
+            
+            if(!budget){
+                newInvestment = new Investment(investment.name,investment.category,investment.amount,investment.date,user,investment.note);
+                await addInvestment(newInvestment);
+                throw new AppError('Budget does not exist!',404);
+            }
+
+            newInvestment = new Investment(investment.name,investment.category,investment.amount,investment.date,user,investment.note,investment.return,budget);
+            
             return await addInvestment(newInvestment);
         }
         catch(err){
@@ -61,8 +74,16 @@ export class InvestmentService{
         }
     }
 
-    async updateInvestmentById(investment:any,id:any){
+    async updateInvestmentById(investment:any,id:any,user:any,startDate:any,endDate:any){
         try{
+            const budgetService = new BudgetService();
+            let budget= await budgetService.findBudgetByCategory(user,startDate,endDate,investment.category);
+
+            if(!budget){
+                await updateInvestmentById(investment,id);
+                throw new AppError('Budget does not exist!',404);
+            }
+
             return await updateInvestmentById(investment,id);
         }
         catch(err){

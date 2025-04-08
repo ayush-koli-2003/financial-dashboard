@@ -42,12 +42,13 @@ export class Expense{
     @ManyToOne(()=>Budget,(budget)=>budget.expenses,{nullable:true})
     budget?:Budget;
 
-    constructor(name:string,category:ExpenseCategory,amount:number,date:Date,user:User,note:string){
+    constructor(name:string,category:ExpenseCategory,amount:number,date:Date,user:User,note:string,budget?:Budget){
         this.name = name;
         this.category = category;
         this.amount = amount;
         this.date = date;
         this.user = user;
         this.note = note;
+        this.budget = budget;
     }
 }

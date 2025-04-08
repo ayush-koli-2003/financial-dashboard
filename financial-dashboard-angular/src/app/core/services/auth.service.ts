@@ -10,7 +10,7 @@ const serverUrl = 'http://localhost:3000';
 
 export class AuthService{
 
-    currUser=sessionStorage.getItem('user');
+    currUser:{token:string,role:string}= JSON.parse(sessionStorage.getItem('user') as string);
     currUserSub:BehaviorSubject<any> = new BehaviorSubject(this.currUser);
     currUserObs$ = this.currUserSub.asObservable();
     userList:User[]=[];
@@ -27,15 +27,15 @@ export class AuthService{
         // this.userList=JSON.parse(localStorage.getItem('users') as string);
     }
 
-    setCurrentUser(token:string){
-        sessionStorage.setItem('user',token);
-        this.currUser = sessionStorage.getItem('user');
+    setCurrentUser(user:{token:string,role:string}){
+        sessionStorage.setItem('user',JSON.stringify(user));
+        this.currUser = JSON.parse(sessionStorage.getItem('user') as string);        
         this.currUserSub.next(this.currUser);
     }
 
     removeCurrentUser(){
         sessionStorage.removeItem('user');
-        this.currUser = null;
+        this.currUser = {token:'',role:''};
         this.currUserSub.next(this.currUser);
     }
 

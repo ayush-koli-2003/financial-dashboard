@@ -2,6 +2,7 @@ import { Between, LessThanOrEqual, MoreThan } from "typeorm";
 import { AppDataSource } from "../configs/database.config";
 import { Budget } from "../entities/budget.entity";
 import { AppError } from "../types/app-error";
+import { BudgetCategory } from "../enums/budget.enum";
 
 const budgetRepository = AppDataSource.getRepository(Budget);
 
@@ -132,5 +133,17 @@ export const getTotalBudgetByDate = async(user:any,startDate:any,endDate:any)=>{
     catch(err){
         throw err;
         
+    }
+}
+
+export const findBudgetByCategory= async(user:any,startDate:any,endDate:any,category:BudgetCategory)=>{
+    try{
+        return await budgetRepository.createQueryBuilder('budget')
+            .leftJoinAndSelect('budget.user','user')
+            .where('user.id = :id AND date BETWEEN :startDate AND :endDate AND category = :category',{id:user.id,startDate:startDate,endDate:endDate,category:category})
+            .getOne();
+    }
+    catch(err){
+        throw err;
     }
 }

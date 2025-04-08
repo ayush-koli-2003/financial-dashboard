@@ -1,12 +1,29 @@
 import { Expense } from "../entities/expense.entity";
 import { ExpenseCategory } from "../enums/expense.enum";
 import { addExpense, deleteExpense, getExpenseByDate, getExpenseByDateWithSearch, getExpenseById, getExpenses, getTotalExpenseByDate, groupExpenseByMonth, updateExpenseById } from "../repositories/expense.repository";
+import { AppError } from "../types/app-error";
+import { BudgetService } from "./budget.service";
+
 
 export class ExpenseService{
-    async addExpense(expense:any,user:any){
+    constructor(){
+
+    }
+    async addExpense(expense:any,user:any,startDate:string,endDate:string){
         try{
-            let newExpense = new Expense(expense.name,expense.category,expense.amount,expense.date,user,expense.note);
+            const budgetService = new BudgetService();
+            let budget= await budgetService.findBudgetByCategory(user,startDate,endDate,expense.category);
+            // console.log(budget);
+            let newExpense;
+            if(!budget){
+                newExpense = new Expense(expense.name,expense.category,expense.amount,expense.date,user,expense.note);
+                await addExpense(newExpense);
+                throw new AppError('Budget does not exist!',404);
+            }
+
+            newExpense = new Expense(expense.name,expense.category,expense.amount,expense.date,user,expense.note,budget);
             return await addExpense(newExpense);
+            
         }
         catch(err){
             throw err;
@@ -95,8 +112,20 @@ export class ExpenseService{
         }
     }
 
-    async updateExpenseById(expense:any,id:any){
+    async updateExpenseById(user:any,startDate:any,endDate:any,expense:any,id:any){
         try{
+            const budgetService = new BudgetService();
+            let budget= await budgetService.findBudgetByCategory(user,startDate,endDate,expense.category);
+            // console.log(budget);
+            // let newExpense;
+            if(!budget){
+                await updateExpenseById(expense,id);
+                throw new AppError('Budget does not exist!',404);
+            }
+
+            // newExpense = new Expense(expense.name,expense.category,expense.amount,expense.date,user,expense.note,budget);
+
+
             return await updateExpenseById(expense,id);
         }
         catch(err){

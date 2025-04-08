@@ -2,6 +2,7 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
 import { ExpenseService } from '../../services/expense.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-edit-expense',
@@ -64,8 +65,24 @@ export class EditExpenseComponent {
           this.closeEvent.emit();
         },
         error:(err:any)=>{
-          this.serverError?.push(err);
-          throw err;
+          if(err.status===404){
+            this.closeEvent.emit();
+            Swal.fire({
+              title: `${err.error.message}`,
+              showCancelButton: true,
+              confirmButtonText: "Go To Budgets"
+            }).then((result) => {
+              if (result.isConfirmed) {
+                this.router.navigate(['../budgets'],{relativeTo:this.route});
+              } else if (result.isDenied) {
+                
+              }
+            });
+          }
+          else{
+            this.serverError?.push(err);
+            throw err;
+          }
         }
       });
     } 

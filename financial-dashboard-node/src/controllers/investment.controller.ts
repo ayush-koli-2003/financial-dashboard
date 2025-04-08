@@ -41,21 +41,12 @@ export const addInvestment = async(req:Request,res:Response,next:NextFunction)=>
 
         if(error.isValid){
             let investment = new AddInvestmentDto(body);
-            let result = await investmentService.addInvestment(investment,user);
+            let result = await investmentService.addInvestment(investment,user,startDate,endDate);
 
-            if(result){
-                res.status(200).json({
-                    status:'successfull',
-                    data: result
-                })
-            }
-            else{
-                res.status(400).json({
-                    status:'failed',
-                    data: 'add investment failed'
-                })
-            }
-            console.log('valid');
+            res.status(200).json({
+                status:'successfull',
+                data: result
+            })
             
         }
         else{
@@ -186,7 +177,7 @@ export const updateInvestmentById = async(req:Request,res:Response,next:NextFunc
             }
             else{
                 let investment = new UpdateInvestmentDto(body);
-                let result = await investmentService.updateInvestmentById(investment,id);
+                let result = await investmentService.updateInvestmentById(investment,id,user,startDate,endDate);
 
                 if(result?.affected as number>0){
                     res.status(200).json({

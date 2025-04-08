@@ -4,6 +4,7 @@ import { ExpenseService } from '../../services/expense.service';
 import { Expense } from '../../../../core/models/Expense.model';
 import { ExpenseCategory } from '../../../../core/enums/expense-category.enum';
 import { ActivatedRoute, Router } from '@angular/router';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-add-expense',
@@ -57,8 +58,24 @@ export class AddExpenseComponent {
             this.closeEvent.emit();
           },
           error:(err:any)=>{
-            this.serverError?.push(err);
-            throw err;
+            if(err.status===404){
+              this.closeEvent.emit();
+              Swal.fire({
+                title: `${err.error.message} for ${expense.catefory}`,
+                showCancelButton: true,
+                confirmButtonText: "Go To Budgets"
+              }).then((result) => {
+                if (result.isConfirmed) {
+                  this.router.navigate(['../budgets'],{relativeTo:this.route});
+                } else if (result.isDenied) {
+                  
+                }
+              });
+            }
+            else{
+              this.serverError?.push(err);
+              throw err;
+            }
           }
         });
 

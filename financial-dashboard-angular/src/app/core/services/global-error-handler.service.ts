@@ -12,7 +12,7 @@ export class GlobalErrorHandlerService implements ErrorHandler {
   
     handleError(error:any) {
         console.log(error);
-        if(error.status===500){
+        if(error.status!==0){
             error.message = error.error.message;
         }
         else{
