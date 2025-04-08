@@ -18,12 +18,6 @@ export class ProfileService{
 
     async updateProfile(user:any,profile:any){
         try{
-            if(profile.notificationPreference==='No'){
-                profile.notificationPreference = false;
-            }
-            else{
-                profile.notificationPreference = true;
-            }
             let existingProfile = await this.getProfile(user);
 
             if(existingProfile){

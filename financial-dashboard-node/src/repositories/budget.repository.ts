@@ -108,7 +108,7 @@ export const updateBudgetById = async(budget:any,id:any)=>{
         // console.log(expense);
         
         let result = await budgetRepository.createQueryBuilder('budget').update()
-            .set({amount:budget.amount,category:budget.category})
+            .set({amount:budget.amount})
             .where('id = :id',{id}).execute();
         
         if(result.affected===0){

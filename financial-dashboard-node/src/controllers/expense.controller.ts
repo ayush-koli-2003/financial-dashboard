@@ -1,27 +1,38 @@
 import { NextFunction, Request, Response } from "express";
 import { ExpenseService } from "../services/expenses.service";
+import { UpdateExpenseDto } from "../dtos/expense/update-expense.dto";
+import { AppError } from "../types/app-error";
+import { AddExpenseDto } from "../dtos/expense/add-expense.dto";
 
 const expenseService = new ExpenseService();
 
 export const addExpense = async(req:Request,res:Response,next:NextFunction)=>{
     try{
-        let expense = req.body;
-        expense.amount = parseFloat(expense.amount);
         let user = req.body.user;
+        let {startDate,endDate,...body} = req.body;
+        // body.amount = Number(body.amount);
+        let error = await AddExpenseDto.validate(body);
+        if(error.isValid){
+            let expense = new AddExpenseDto(body);
+            let result = await expenseService.addExpense(expense,user);
 
-        let result = await expenseService.addExpense(expense,user);
-
-        if(result){
-            res.status(200).json({
-                status:'successfull',
-                data:'expense added successfully'
-            });
+            if(result){
+                res.status(200).json({
+                    status:'successfull',
+                    data:'expense added successfully'
+                });
+            }
+            else{
+                res.json({
+                    status:'failed',
+                    data:'expense add failed'
+                });
+            }
+            // console.log('valid');
+            
         }
         else{
-            res.json({
-                status:'failed',
-                data:'expense add failed'
-            });
+            throw new AppError('Expense data invalid',500);
         }
     }
     catch(err){
@@ -64,7 +75,6 @@ export const getExpenseByDate = async(req:Request,res:Response,next:NextFunction
         let startDate = req.body.startDate;
         let endDate = req.body.endDate;
         let search:string = req.query.search as string;
-        console.log("search: "+search);
         
         let result = await expenseService.getExpenseByDate(user,startDate,endDate,search);
 
@@ -168,21 +178,31 @@ export const getTotalExpenseByCategory = async(req:Request,res:Response,next:Nex
 export const deleteExpense = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
-        let id = req.params.id;
 
-        let result = await expenseService.deleteExpense(user,id);
+        let id = parseInt(req.params.id);
 
-        if(result?.affected as number>0){
-            res.status(200).json({
-                status:'successfull',
-                data:'Expense deleted'
-            })
+        // console.log(body);
+        
+
+        if(!isNaN(id)){
+
+            let result = await expenseService.deleteExpense(user,id);
+
+            if(result?.affected as number>0){
+                res.status(200).json({
+                    status:'successfull',
+                    data:'Expense deleted'
+                })
+            }
+            else{
+                res.status(400).json({
+                    status:'failed',
+                    data:'Expense not deleted'
+                })
+            }
         }
         else{
-            res.status(400).json({
-                status:'failed',
-                data:'Expense not deleted'
-            })
+            throw new AppError('ID should be valid',500);
         }
     }
     catch(err){
@@ -193,23 +213,43 @@ export const deleteExpense = async(req:Request,res:Response,next:NextFunction)=>
 
 export const updateExpenseById = async(req:Request,res:Response,next:NextFunction)=>{
     try{
-        let expense = req.body;
         let user = req.body.user;
-        let id = req.params.id;
+        let {startDate,endDate,...body} = req.body;
+        // body.amount = Number(body.amount);
+        let id = parseInt(req.params.id);
 
-        let result = await expenseService.updateExpenseById(expense,id);
+        console.log(body);
+        
 
-        if(result?.affected as number>0){
-            res.status(200).json({
-                status:'successfull',
-                data:'expense updated'
-            })
+        if(!isNaN(id))
+        {   
+            body.id = id;
+            let error = await UpdateExpenseDto.validate(body);
+            if(error.isValid){
+                let expense = new UpdateExpenseDto(body);
+                let result = await expenseService.updateExpenseById(expense,id);
+
+                if(result?.affected as number>0){
+                    res.status(200).json({
+                        status:'successfull',
+                        data:'expense updated'
+                    })
+                }
+                else{
+                    res.status(400).json({
+                        status:'failed',
+                        data:'expense update failed'
+                    })
+                }
+                // console.log('valid');
+                
+            }
+            else{
+                throw new AppError('Expense data invalid',500);
+            }
         }
         else{
-            res.status(400).json({
-                status:'failed',
-                data:'expense update failed'
-            })
+            throw new AppError('ID should be number',500);
         }
     }
     catch(err){

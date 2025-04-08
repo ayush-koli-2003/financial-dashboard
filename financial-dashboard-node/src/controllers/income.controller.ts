@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { IncomeService } from "../services/income.service";
+import { AddIncomeDto } from "../dtos/income/add-income.dto";
+import { AppError } from "../types/app-error";
+import { UpdateIncomeDto } from "../dtos/income/update-income.dto";
 
 const incomeService = new IncomeService();
 
@@ -30,22 +33,33 @@ export const getAllIncomes = async(req:Request,res:Response,next:NextFunction)=>
 
 export const addIncome = async(req:Request,res:Response,next:NextFunction)=>{
     try{
-        let income = req.body;
         let user = req.body.user;
+        let {startDate,endDate,...body} = req.body;
+        console.log(body);
 
-        let results = await incomeService.addIncome(income,user);
+        let error = await AddIncomeDto.validate(body);
 
-        if(results){
-            res.status(200).json({
-                status:'successfull',
-                data:'Income added successfully'
-            })
+        if(error.isValid){
+            let income = new AddIncomeDto(body);
+            let results = await incomeService.addIncome(income,user);
+
+            if(results){
+                res.status(200).json({
+                    status:'successfull',
+                    data:'Income added successfully'
+                })
+            }
+            else{
+                res.status(400).json({
+                    status:'failed',
+                    data:'Income add failed'
+                })
+            }
+            // console.log("valid");
+            
         }
         else{
-            res.status(400).json({
-                status:'failed',
-                data:'Income add failed'
-            })
+            throw new AppError('Add income data invalid',500);
         }
     }
     catch(err){
@@ -164,23 +178,40 @@ export const getIncomeById = async(req:Request,res:Response,next:NextFunction)=>
 
 export const updateIncomeById = async(req:Request,res:Response,next:NextFunction)=>{
     try{
-        let income = req.body;
         let user = req.body.user;
-        let id = req.params.id;
+        let {startDate,endDate,...body} = req.body;
+        // body.amount = Number(body.amount);
+        let id = parseInt(req.params.id);
 
-        let result = await incomeService.updateIncomeById(income,id);
+        if(!isNaN(id)){
+            body.id = id;
+            let error = await UpdateIncomeDto.validate(body);
 
-        if(result?.affected as number>0){
-            res.status(200).json({
-                status:'successfull',
-                data:'income updated'
-            })
+            if(!error.isValid){
+                throw new AppError('Update income data not valid',500);
+            }
+            else{
+                let income = new UpdateIncomeDto(body);
+                let result = await incomeService.updateIncomeById(income,id);
+
+                if(result?.affected as number>0){
+                    res.status(200).json({
+                        status:'successfull',
+                        data:'income updated'
+                    })
+                }
+                else{
+                    res.status(400).json({
+                        status:'failed',
+                        data:'income update failed'
+                    })
+                }
+                console.log('valid');
+                
+            }
         }
         else{
-            res.status(400).json({
-                status:'failed',
-                data:'income update failed'
-            })
+            throw new AppError('ID should be number',500);
         }
     }
     catch(err){

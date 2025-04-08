@@ -5,7 +5,7 @@ export class BaseDto{
         const error = await validate(dto);
 
         if(error.length>0){
-            return {isValid:true};
+            return {isValid:false};
         }
 
         return {isValid:true};

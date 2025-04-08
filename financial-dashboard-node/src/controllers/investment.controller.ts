@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from "express";
 import { InvestmentService } from "../services/investment.service";
+import { AddInvestmentDto } from "../dtos/investment/add-investment.dto";
+import { AppError } from "../types/app-error";
+import { UpdateInvestmentDto } from "../dtos/investment/update-investment.dto";
 
 const investmentService = new InvestmentService();
 
@@ -30,21 +33,33 @@ export const getAllInvestments = async(req:Request,res:Response,next:NextFunctio
 
 export const addInvestment = async(req:Request,res:Response,next:NextFunction)=>{
     try{
-        let investment = req.body;
         let user = req.body.user;
-        let result = await investmentService.addInvestment(investment,user);
+        let {startDate,endDate,...body} = req.body;
+        console.log(body);
 
-        if(result){
-            res.status(200).json({
-                status:'successfull',
-                data: result
-            })
+        let error = await AddInvestmentDto.validate(body);
+
+        if(error.isValid){
+            let investment = new AddInvestmentDto(body);
+            let result = await investmentService.addInvestment(investment,user);
+
+            if(result){
+                res.status(200).json({
+                    status:'successfull',
+                    data: result
+                })
+            }
+            else{
+                res.status(400).json({
+                    status:'failed',
+                    data: 'add investment failed'
+                })
+            }
+            console.log('valid');
+            
         }
         else{
-            res.status(400).json({
-                status:'failed',
-                data: 'add investment failed'
-            })
+            throw new AppError('Add investment data invalid',500);
         }
     }
     catch(err){
@@ -157,23 +172,40 @@ export const getInvestmentById = async(req:Request,res:Response,next:NextFunctio
 
 export const updateInvestmentById = async(req:Request,res:Response,next:NextFunction)=>{
     try{
-        let investment = req.body;
         let user = req.body.user;
-        let id = req.params.id;
+        let {startDate,endDate,...body} = req.body;
+        // body.amount = Number(body.amount);
+        let id = parseInt(req.params.id);
 
-        let result = await investmentService.updateInvestmentById(investment,id);
+        if(!isNaN(id)){
 
-        if(result?.affected as number>0){
-            res.status(200).json({
-                status:'successfull',
-                data:'investment updated'
-            })
+            let error = await UpdateInvestmentDto.validate(body);
+
+            if(!error.isValid){
+                throw new AppError('Update investment data invalid',500)
+            }
+            else{
+                let investment = new UpdateInvestmentDto(body);
+                let result = await investmentService.updateInvestmentById(investment,id);
+
+                if(result?.affected as number>0){
+                    res.status(200).json({
+                        status:'successfull',
+                        data:'investment updated'
+                    })
+                }
+                else{
+                    res.status(400).json({
+                        status:'failed',
+                        data:'investment update failed'
+                    })
+                }
+                console.log('valid');
+                
+            }
         }
         else{
-            res.status(400).json({
-                status:'failed',
-                data:'investment update failed'
-            })
+            throw new AppError('ID should be valid',500);
         }
     }
     catch(err){

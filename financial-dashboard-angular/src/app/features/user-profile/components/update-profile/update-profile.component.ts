@@ -48,6 +48,7 @@ export class UpdateProfileComponent implements OnInit, OnChanges {
       console.log('valid');
       
       this.isSubmitted = true;
+      this.updateProfileForm.value.notificationPreference = this.updateProfileForm.value === 'Yes'? true:false;
       this.userProfileService.updateProfile(this.updateProfileForm.value).subscribe({
         next:(res:any)=>{
           this.closeEvent.emit('updated')

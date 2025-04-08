@@ -56,7 +56,11 @@ export class GenericFormComponent {
   onSubmit(){
     if(this.form.valid){
       // console.log(this.addForm.value);
+      console.log(this.form.value);
+      this.form.value.amount = parseFloat(this.form.value.amount);
       this.isSubmitted = true
+      console.log(this.form.value);
+      
       this.emitEvent(this.form.value);
     }
   }

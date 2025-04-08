@@ -1,11 +1,13 @@
-import { NextFunction, Request, Response } from "express";
+import e, { NextFunction, Request, Response } from "express";
 import { ProfileService } from "../services/profile.service";
+import { ProfileDto } from "../dtos/profile/profile.dto";
+import { AppError } from "../types/app-error";
 
 const profileService = new ProfileService();
 
 export const getProfile = async(req:Request,res:Response,next:NextFunction)=>{
     try{
-        let user = req.body.user;
+        let user = req.body.user;        
 
         let result = await  profileService.getProfile(user);
         
@@ -54,24 +56,32 @@ export const getCurrencyCategories = async(req:Request,res:Response,next:NextFun
 
 export const updateProfile = async(req:Request,res:Response,next:NextFunction)=>{
     try{
-        let {user,...profile} = req.body;
+        let {user,...body} = req.body;
 
-        // console.log(user,profile);
-        
-        
-        let result = await profileService.updateProfile(user,profile);
+        // console.log(body.notificationPreference);
+        let error = await ProfileDto.validate(body);
 
-        if(result){
-            res.status(200).json({
-                status:"successfull",
-                data:result
-            })
+        if(!error.isValid){
+            throw new AppError('Profile data not valid',500);
         }
         else{
-            res.status(400).json({
-                status:"failed",
-                data:'update failed'
-            })
+            let profile = new ProfileDto(body);
+            let result = await profileService.updateProfile(user,profile);
+
+            if(result){
+                res.status(200).json({
+                    status:"successfull",
+                    data:result
+                })
+            }
+            else{
+                res.status(400).json({
+                    status:"failed",
+                    data:'update failed'
+                })
+            }
+            // console.log('valid');
+            
         }
     }
     catch(err){
