@@ -10,7 +10,7 @@ const serverUrl = 'http://localhost:3000';
 
 export class AuthService{
 
-    currUser:{token:string,role:string}= JSON.parse(sessionStorage.getItem('user') as string);
+    currUser:{token:string,role:string}|null= JSON.parse(sessionStorage.getItem('user') as string);
     currUserSub:BehaviorSubject<any> = new BehaviorSubject(this.currUser);
     currUserObs$ = this.currUserSub.asObservable();
     userList:User[]=[];
@@ -35,7 +35,7 @@ export class AuthService{
 
     removeCurrentUser(){
         sessionStorage.removeItem('user');
-        this.currUser = {token:'',role:''};
+        this.currUser = null;
         this.currUserSub.next(this.currUser);
     }
 
@@ -45,7 +45,18 @@ export class AuthService{
 
     login(user:any){
 
-        return this.http.post(`${serverUrl}/auth/login`,user,{withCredentials:true});
+        return this.http.post(`${serverUrl}/auth/login`,user,{withCredentials:true}).pipe(
+            tap((res:any)=>{
+                console.log(res.data);
+                
+                if(res.data.role==='admin'){
+                    this.router.navigate(['/admin'])
+                }
+                else{
+                    this.router.navigate(['/dashboard'])
+                }
+            })
+        );
 
         // let users:User[] =JSON.parse(localStorage.getItem('users') as string);
         // let filtered = users.filter(x=> x.email===user.email && x.password===user.password);
@@ -62,12 +73,12 @@ export class AuthService{
         this.http.get(`${serverUrl}/auth/logout`).subscribe(
             (response:any)=>{
               if(response.status==='successfull'){
-                
+                this.removeCurrentUser();
+                this.router.navigate(['/login']);
               }
             }
         );
-        this.removeCurrentUser();
-        this.router.navigate(['/login']);
+        
     }
 
     register(body:any){

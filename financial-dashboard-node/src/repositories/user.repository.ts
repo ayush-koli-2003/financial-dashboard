@@ -58,3 +58,40 @@ export const changePassword = async(user:any,password:string)=>{
         
     }
 }
+
+export const getAllUsers = async()=>{
+    try{
+        return await userRepository.find({where:{role:'user'}});
+    }
+    catch(err){
+        throw err;
+    }
+}
+
+export const getCountOfAllUsers = async()=>{
+    try{
+        return await userRepository.count({where:{role:'user'}});
+    }
+    catch(err){
+        throw err;
+    }
+}
+
+export const getCountOfActiveUsers = async()=>{
+    try{
+        return await userRepository.count({where:{status:'active',role:'user'}})
+    }
+    catch(err){
+        throw err;
+    }
+}
+
+export const changeStatus = async(user:any,status:'active'|'inactive')=>{
+    try{
+        return await userRepository.update(user,{status:status});
+    }
+    catch(err){
+        throw err;
+    }
+}
+

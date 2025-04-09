@@ -33,6 +33,7 @@ import { FloatLabelModule } from 'primeng/floatlabel';
 import { OtpVerificationComponent } from './components/otp-verification/otp-verification.component';
 import { InputOtpModule } from 'primeng/inputotp';
 import { InputTextModule } from 'primeng/inputtext';
+import { LandingPageComponent } from './components/landing-page/landing-page.component';
 
 
 @NgModule({
@@ -50,7 +51,8 @@ import { InputTextModule } from 'primeng/inputtext';
     HeaderComponent,
     GenericDisplayDetailsComponent,
     NotificationsPanelComponent,
-    OtpVerificationComponent
+    OtpVerificationComponent,
+    LandingPageComponent
   ],
   imports: [
     CommonModule,
@@ -85,7 +87,8 @@ import { InputTextModule } from 'primeng/inputtext';
     FilterOptionsComponent,
     HeaderComponent,
     GenericTableComponent,
-    OtpVerificationComponent
+    OtpVerificationComponent,
+    LandingPageComponent
   ],
   providers:[provideCharts(withDefaultRegisterables())]
 })

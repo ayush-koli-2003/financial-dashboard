@@ -1,0 +1,51 @@
+.main{
+    display: flex;
+    flex-direction: column;
+}
+
+.dashboard-container{
+    display: flex;
+    flex-direction: column;
+}
+
+.card-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-evenly;
+}
+
+.display-container{
+    display: flex;
+    flex-direction: row;
+    margin: 5%;
+}
+
+.charts-with-option{
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.options{
+    display: flex;
+    flex-direction: row;
+    justify-content: end;
+}
+
+.date-container{
+    display: flex;
+    flex-direction: row;
+    justify-content: center;
+}
+
+.transaction-table{
+    width: 90%;
+}
+
+.metrics{
+    text-align: center;
+}
+
+.table-content{
+    text-align: center;
+}

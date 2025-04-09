@@ -1,5 +1,5 @@
 import { User } from "../entities/user.entity";
-import { changePassword, getUser, loginUser, registerUser } from "../repositories/user.repository";
+import { changePassword, changeStatus, getUser, loginUser, registerUser } from "../repositories/user.repository";
 
 export class UserService{
     async login(user:Partial<User>){
@@ -8,7 +8,7 @@ export class UserService{
 
     async register(user:any){
         let {password,...checkUser} = user;
-        let existingUser:any = await this.login(checkUser);
+        let existingUser:any = await loginUser(checkUser);
 
         // console.log(existingUser);
         
@@ -22,5 +22,9 @@ export class UserService{
 
     async changePassword(user:any,password:string){
         return await changePassword(user,password);
+    }
+
+    async changeStatus(user:any,status:'active'|'inactive'){
+        return await changeStatus(user,status);
     }
 }

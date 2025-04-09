@@ -5,7 +5,6 @@
 <p-dialog [header]="'Change password'" [modal]="true" [(visible)]="isChangePasswordVisible" [style]="{ width: '25rem' }">
     <app-change-password (closeEvent)="closeChangePassword()"></app-change-password>
 </p-dialog>
-
 <div *ngIf="isProfileLoaded" class="mb-4 p-8 flex items-center justify-center">
     <div style="display: flex; flex-direction: column; width: 60%; margin-left: 20%; margin-right: 20%;">
         <div style="display: flex; justify-content: center; flex-direction: row; width: 100%; height: 100%;">
@@ -87,7 +86,7 @@
             </p-tabs>
         </div>
         <div class="">
-            <p-button icon="pi pi-cross" label="Delete Account" variant="outlined" severity="danger"></p-button>
+            <p-button icon="pi pi-cross" (onClick)="deactivateAccount()" label="Delete Account" variant="outlined" severity="danger"></p-button>
         </div>
     </div>
 </div>

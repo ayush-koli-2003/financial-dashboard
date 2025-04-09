@@ -23,6 +23,15 @@ export const getAllInvestments = async (user:any)=>{
     }
 }
 
+export const getCountOfInvestmentTransactionsThisMonth = async(startDate:any,endDate:any)=>{
+    try{
+        return await investmentRepository.count({where:{date:Between(startDate,endDate)}})
+    }
+    catch(err){
+        throw err;
+    }
+}
+
 export const addInvestment =  async(newInvestment:any)=>{
     try{
         return await investmentRepository.save(newInvestment);

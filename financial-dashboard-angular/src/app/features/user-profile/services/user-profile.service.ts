@@ -38,4 +38,14 @@ export class UserProfileService{
     changePassword(user:any){
         return this.authService.changePassword(user);
     }
+
+    deactivateUser(){
+        return this.http.get('http://localhost:3000/api/profile/deactivate').pipe(
+            tap(res=>{
+                // console.log("created profile");
+                this.authService.logOut();
+                
+            })
+        );
+    }
 }

@@ -47,12 +47,21 @@ export class RegisterComponent {
     }
   }
 
+  onOtpResend(){
+    this.otpService.generateOtp({email:this.registerForm.value['email'],type:'register'}).subscribe(
+      ()=>{
+        
+      }
+    )
+  }
+
   onOtpSubmit(otp:string){
+    
+    this.isOtpVisible = false;
     console.log(otp);
     this.authService.register({user:this.registerForm.value,otp:otp,type:'register'}).subscribe(
       (response:any)=>{
         console.log(response);
-        
         if(response.status==='failed'){
           console.log('User already exists');
         }

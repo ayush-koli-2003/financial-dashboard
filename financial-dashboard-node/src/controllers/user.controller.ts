@@ -37,15 +37,20 @@ export const login = async(req:Request,res:Response,next:NextFunction)=>{
                 isCorrect = await bcrypt.compare(user.password,password);
                 
                 if(isCorrect){
-                    token = jwt.sign(validatedUser,process.env.SECRET_KEY as string,{expiresIn:'1d'});
+                    if(result.status==='active'){
+                        token = jwt.sign(validatedUser,process.env.SECRET_KEY as string,{expiresIn:'1d'});
                     // console.log(token);
                     
-                    res.cookie('user',token,{httpOnly:true,maxAge:(1*24*60*60*1000),secure:true});
-    
-                    res.status(200).json({
-                        status: 'successfull',
-                        data:{token:token,role:result.role}
-                    });
+                        res.cookie('user',token,{httpOnly:true,maxAge:(1*24*60*60*1000),secure:true});
+        
+                        res.status(200).json({
+                            status: 'successfull',
+                            data:{token:token,role:result.role}
+                        });
+                    }
+                    else{
+                        throw new AppError('User is Inactive',500);
+                    }
                 }
                 else{
     

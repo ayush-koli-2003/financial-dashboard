@@ -36,7 +36,6 @@ export class LoginComponent {
                   path = url;
                 }
               )
-              this.router.navigate([path]);
           }
           else{
             console.log('Login failed');

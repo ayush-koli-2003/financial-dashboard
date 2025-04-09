@@ -13,7 +13,7 @@ export class GlobalErrorHandlerService implements ErrorHandler {
     handleError(error:any) {
         console.log(error);
         if(error.status!==0){
-            error.message = error.error.message;
+            error.message = error?.error?.message;
         }
         else{
             error.message = 'Try again later!'

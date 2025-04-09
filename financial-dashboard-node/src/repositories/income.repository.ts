@@ -37,6 +37,15 @@ export const addIncome = async(income:any,user:any)=>{
     }
 }
 
+export const getCountOfIncomeTransactionsThisMonth = async(startDate:any,endDate:any)=>{
+    try{
+        return await incomeRepository.count({where:{date:Between(startDate,endDate)}})
+    }
+    catch(err){
+        throw err;
+    }
+}
+
 export const getIncomesByDate = async(user:any,startDate:any,endDate:any)=>{
     try{
         return await incomeRepository.find({

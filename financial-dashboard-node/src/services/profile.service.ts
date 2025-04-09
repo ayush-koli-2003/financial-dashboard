@@ -1,10 +1,17 @@
 import { CurrencyCategory } from "../enums/currency.enum";
 import { createProfile, getProfile, updateProfile } from "../repositories/profile.repository";
+import { AppError } from "../types/app-error";
 
 export class ProfileService{
     async getProfile(user:any){
         try{
-            return await getProfile(user);
+            let result = await getProfile(user);
+            if(result===null){
+                throw new AppError('Failed get profile',500)
+            }
+            else{
+                return result;
+            }
         }
         catch(err){
             throw err;
@@ -18,7 +25,7 @@ export class ProfileService{
 
     async updateProfile(user:any,profile:any){
         try{
-            let existingProfile = await this.getProfile(user);
+            let existingProfile = await getProfile(user);
 
             if(existingProfile){
                 console.log('exist user');

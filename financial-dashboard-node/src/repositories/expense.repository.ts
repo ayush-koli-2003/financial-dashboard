@@ -152,3 +152,12 @@ export const groupExpenseByMonth = async(user:any,startDate:any,endDate:any)=>{
         
     }
 }
+
+export const getCountOfExpenseTransactionsThisMonth = async(startDate:any,endDate:any)=>{
+    try{
+        return await expenseRepository.count({where:{date:Between(startDate,endDate)}})
+    }
+    catch(err){
+        throw err;
+    }
+}

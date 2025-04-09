@@ -13,6 +13,8 @@ import { profileRouter } from './routes/profile.route';
 import { dashboardRouter } from './routes/dashboard.route';
 import { globalErrorHandler } from './middlewares/global-error-handler.middleware';
 import { otpRouter } from './routes/otpRouter.route';
+import { verifyAdminRole } from './middlewares/admin.middleware';
+import { adminRouter } from './routes/admin.route';
 
 const app = express();
 app.use(express.json());
@@ -28,5 +30,6 @@ app.use('/api/investment',verifyToken,parseDate,investmentRouter);
 app.use('/api/report',verifyToken,parseDate,reportRouter);
 app.use('/api/profile',verifyToken,profileRouter);
 app.use('/api/dashboard',verifyToken,parseDate,dashboardRouter);
+app.use('/api/admin',verifyToken,verifyAdminRole,parseDate,adminRouter);
 app.use(globalErrorHandler);
 export default app; 

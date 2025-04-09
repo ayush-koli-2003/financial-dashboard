@@ -7,7 +7,13 @@
             <p-inputotp [(ngModel)]="otp" [mask]="true" [length]="6"/>
         </div>
         <div class="control">
-            <p-button [disabled]="!otp || otp.length<6" (onClick)="submitOtp()">Verify</p-button>
+            {{time}}s
+        </div>
+        <div class="control">
+            <p-button label="Verify" [disabled]="!otp || otp.length<6 || time === 0" (onClick)="submitOtp()"></p-button>
+        </div>
+        <div *ngIf="time===0" class="control">
+            <p-button label="Resend Otp" variant="outlined" severity="warn" (onClick)="resendOtp()"></p-button>
         </div>
     </div>
 </div>

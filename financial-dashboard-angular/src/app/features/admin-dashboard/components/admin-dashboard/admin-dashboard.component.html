@@ -1,0 +1,78 @@
+<div class="main">
+    <!-- <div class="date-container">
+        <div>
+            <app-date-picker [currDate]="currDate" (dateEvent)="selectDate($event)"></app-date-picker>
+        </div>
+    </div> -->
+
+    <div class="dashboard-container">
+        <div class="card-container">
+            <div>
+                <p-card *ngIf="isDataLoaded">
+                    <ng-template #title>Total Users</ng-template>
+                    <p class="metrics">{{totalUsers}}</p>
+
+                </p-card>
+                <p-skeleton *ngIf="!isDataLoaded" size="7rem" />
+            </div>
+            <div>
+                <p-card *ngIf="isDataLoaded">
+                    <ng-template #title>Total Active Users</ng-template>
+                    <p class="metrics">{{totalActiveUsers}}</p>
+                </p-card>
+                <p-skeleton *ngIf="!isDataLoaded" size="7rem" />
+            </div>
+            <div>
+                <p-card *ngIf="isDataLoaded">
+                    <ng-template #title>Monthly Transactions</ng-template>
+                    <p class="metrics">{{totalTransactions}}</p>
+                </p-card>
+                <p-skeleton *ngIf="!isDataLoaded" size="7rem" />
+            </div>
+            
+        </div>
+        
+        <div class="display-container">
+            <div class="transaction-table">
+                <!-- Create generic table component -->
+                <div class="card">
+                    <p-table [paginator]="true" [rows]="5" stripedRows [value]="userList" [tableStyle]="{ 'min-width': '30rem' }">
+                        <ng-template #caption>
+                            <div class="flex items-center justify-between">
+                                <h3>User List</h3>
+                            </div>
+                        </ng-template>
+                        <ng-template #header>
+                            <tr >
+                                <th class="table-content">Username</th>
+                                <th class="table-content">Email</th>
+                                <th class="table-content">Status</th>
+                                <th class="table-content">Actions</th>
+                                
+                            </tr>
+                        </ng-template>
+                        <ng-template #body let-user>
+                            <tr *ngIf="isTransactionsLoaded">
+                                <td class="table-content">{{ user.username}}</td>
+                                <td class="table-content">{{ user.email }}</td>
+                                <td class="table-content">
+                                    <p-badge [value]="user.status" [severity]="user.status ==='active'?'success':'danger'" />
+                                </td>
+                                <td class="table-content">
+                                    <p-button (onClick)="changeStatus(user.id)" variant="outlined" [label]="user.status==='active'?'Deactivate':'Activate'" [severity]="user.status==='active'?'danger':'success'"></p-button>
+                                </td>
+                            </tr>
+                            <tr *ngIf="!isTransactionsLoaded">
+                                <td><p-skeleton /></td>
+                                <td><p-skeleton /></td>
+                                <td><p-skeleton /></td>
+                                <td><p-skeleton /></td>
+                            </tr>
+                        </ng-template>
+                        <!-- <ng-template *ngIf="isTransactionsLoaded" #footer> In total there are {{ transactions ? transactions.length : 0 }} transactions. </ng-template> -->
+                    </p-table>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

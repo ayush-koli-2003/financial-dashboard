@@ -14,12 +14,13 @@ export const getProfile = async(user:any)=>{
                     user:user
                 }
             })
-        if(result===null){
-            // throw new AppError('Failed get profile',500)
-        }
-        else{
-            return result;
-        }
+        // if(result===null){
+        //     throw new AppError('Failed get profile',500)
+        // }
+        // else{
+        //     return result;
+        // }
+        return result;
     }
     catch(err){
         throw err;
@@ -29,6 +30,8 @@ export const getProfile = async(user:any)=>{
 
 export const createProfile = async(profile:Partial<Profile>)=>{
     try{
+        console.log(profile);
+        
         return await profileRepository.save(profile);
     }
     catch(err){
