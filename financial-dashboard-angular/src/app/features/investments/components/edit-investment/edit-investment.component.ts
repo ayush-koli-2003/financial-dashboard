@@ -22,7 +22,7 @@ export class EditInvestmentComponent implements OnInit,OnChanges {
 
   constructor(private investmentService:InvestmentService, private router:Router,private route:ActivatedRoute){
     this.editInvestmentForm = new FormGroup({
-      name: new FormControl(null,[Validators.required]),
+      name: new FormControl(null,[Validators.required, Validators.minLength(2)]),
       note: new FormControl(null),
       amount: new FormControl(null,[Validators.required,Validators.pattern("^[0-9]*$")]),
       category: new FormControl(null,[Validators.required])

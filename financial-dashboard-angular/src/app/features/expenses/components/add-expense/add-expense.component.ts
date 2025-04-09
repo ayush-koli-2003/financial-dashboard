@@ -28,7 +28,7 @@ export class AddExpenseComponent {
 
   constructor(private expenseService:ExpenseService,private router:Router,private route:ActivatedRoute){
     this.addExpenseForm = new FormGroup({
-      name: new FormControl(null,[Validators.required]),
+      name: new FormControl(null,[Validators.required,Validators.minLength(2)]),
       note: new FormControl(''),
       category: new FormControl(null,[Validators.required]),
       amount: new FormControl(null,[Validators.required,Validators.pattern("^[0-9]*$")]),

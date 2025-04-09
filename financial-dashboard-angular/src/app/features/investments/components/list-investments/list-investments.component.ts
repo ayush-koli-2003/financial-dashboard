@@ -219,7 +219,7 @@ export class ListInvestmentsComponent implements OnInit {
     this.vcr.clear();
     this.investmentService.getInvestmentById(value).subscribe(
       (res:any)=>{
-        let inputData = res.data;
+        let {id,...inputData} = res.data;
         this.compRef = this.loadDynamicComponentDirective.vcr.createComponent(GenericDisplayDetailsComponent);
         this.compRef.setInput('inputData',inputData);
       }

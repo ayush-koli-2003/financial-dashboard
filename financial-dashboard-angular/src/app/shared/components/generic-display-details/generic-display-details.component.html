@@ -1,8 +1,37 @@
-<div class="display-container">
+<!-- <div class="display-container">
     <ng-container *ngFor="let k of keys ">
         <div class="key-container">
             <div>{{k}}</div>
             <div>{{inputData[k]}}</div>
         </div>
     </ng-container>
-</div>
+</div> -->
+
+<table *ngIf="isDataLoaded" stripedRows>
+    <tr>
+        <th>
+            Field
+        </th>
+        <th>
+            Values
+        </th>
+    </tr>
+
+    <ng-container *ngFor="let k of keys">
+        <tr>
+
+            <td>{{ k | uppercase}}</td>
+            <ng-container *ngIf="k!=='date' && k!=='note'">
+                <td>{{ inputData?.[k]}}</td>
+            </ng-container>
+            <ng-container *ngIf="k==='date'">
+                <td>{{ inputData?.[k] | date}}</td>
+            </ng-container>
+            <ng-container *ngIf="k==='note'">
+                <td>
+                    <textarea rows="5" cols="30" pTextarea [disabled]="true" [value]="inputData?.[k]"></textarea>
+                </td>
+            </ng-container>
+        </tr>
+    </ng-container>
+</table>

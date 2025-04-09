@@ -22,6 +22,13 @@ export class GenericFormComponent {
 
   ngOnInit(): void {
     this.isSubmitted = false;
+
+    this.form.valueChanges.subscribe(
+      (value:any)=>{
+        console.log(value);
+        
+      }
+    )
   }
 
   ngOnChanges(changes:SimpleChanges){

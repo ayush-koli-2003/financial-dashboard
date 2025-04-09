@@ -233,7 +233,7 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
     this.vcr.clear();
     this.expenseService.getExpenseById(value).subscribe(
       (res:any)=>{
-        let inputData = res.data;
+        let {id,...inputData} = res.data;
         this.compRef = this.loadDynamicComponent.vcr.createComponent(GenericDisplayDetailsComponent);
         this.compRef.setInput('inputData',inputData);
       }

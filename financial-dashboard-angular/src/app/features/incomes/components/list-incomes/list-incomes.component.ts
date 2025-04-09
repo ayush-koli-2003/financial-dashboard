@@ -206,7 +206,7 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
     this.vcr.clear();
     this.incomeService.getIncomeById(value).subscribe(
       (res:any)=>{
-        let inputData = res.data;
+        let {id,...inputData} = res.data;
         this.compRef = this.loadDynamicComponentDirective.vcr.createComponent(GenericDisplayDetailsComponent);
         this.compRef.setInput('inputData',inputData);
       }

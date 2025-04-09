@@ -9,7 +9,13 @@
                                 <div>
                                     <label >Category </label>
                                 </div>
+                                
+                               
+
                                 <div>
+                                    <div class="error-message" *ngIf="!form.valid">
+                                        <small *ngIf="form.get(control.name)?.dirty && form.get(control.name)?.invalid">Invalid {{control.label}}</small>
+                                    </div>
                                     <select [name]="control.label" [formControlName]="control.name">
                                         <!-- <option value="" disabled selected>Select category</option> -->
                                         <ng-container *ngFor="let cat of categories">
@@ -22,7 +28,11 @@
                                 <div>
                                     <label>{{control.label}} </label>
                                 </div>
+                               
                                 <div>
+                                    <div class="error-message" *ngIf="!form.valid">
+                                        <small *ngIf="form.get(control.name)?.dirty && form.get(control.name)?.invalid">Invalid {{control.label}}</small>
+                                    </div>
                                     <input [type]="control.type" [formControlName]="control.name"><br>
                                 </div>
                             </ng-container>

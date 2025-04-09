@@ -21,7 +21,7 @@ export class AddIncomeComponent{
     this.addIncomeForm=new FormGroup({
       category: new FormControl(null,[Validators.required]),
       amount: new FormControl(null,[Validators.required,Validators.pattern("^[0-9]*$")]),
-      note: new FormControl('')
+      note: new FormControl(null)
     })
   }
 

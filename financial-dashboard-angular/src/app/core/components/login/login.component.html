@@ -5,16 +5,16 @@
         </div>
         <label for="email"><b>Email</b></label>
         <div class="error-message" *ngIf="!loginForm.valid">
-          <small *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['required']">Email is required</small>
-          <small *ngIf="loginForm.get('email')?.touched && loginForm.get('email')?.errors?.['email']">Please enter valid Email address</small>
+          <small *ngIf="loginForm.get('email')?.dirty && loginForm.get('email')?.errors?.['required']">Email is required</small>
+          <small *ngIf="loginForm.get('email')?.dirty && loginForm.get('email')?.errors?.['email']">Please enter valid Email address</small>
         </div>
         <input type="text" placeholder="Enter Email" formControlName="email">
     
         <label for="psw"><b>Password</b></label>
         <div class="error-message" *ngIf="!loginForm.valid">
-          <small *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['required']">Password is required</small>
-          <small *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['minlength']">Password should be atleast 6 length</small> <br>
-          <small *ngIf="loginForm.get('password')?.touched && loginForm.get('password')?.errors?.['pattern']">Password should not have whitespaces</small>
+          <small *ngIf="loginForm.get('password')?.dirty && loginForm.get('password')?.errors?.['required']">Password is required</small>
+          <small *ngIf="loginForm.get('password')?.dirty && loginForm.get('password')?.errors?.['minlength']">Password should be atleast 6 length</small> <br>
+          <small *ngIf="loginForm.get('password')?.dirty && loginForm.get('password')?.errors?.['pattern']">Password should not have whitespaces</small>
         </div>
         <input type="password" placeholder="Enter Password" formControlName="password">
     

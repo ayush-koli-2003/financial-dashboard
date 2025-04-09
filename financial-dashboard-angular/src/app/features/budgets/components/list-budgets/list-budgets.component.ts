@@ -235,7 +235,7 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
     this.vcr.clear();
     this.budgetService.getBudgetById(value).subscribe(
       (res:any)=>{
-        let inputData = res.data;
+        let {id,...inputData} = res.data;
         this.compRef = this.loadDynamicComponentDirective.vcr.createComponent(GenericDisplayDetailsComponent);
         this.compRef.setInput('inputData',inputData);
       }

@@ -29,7 +29,7 @@ export class EditExpenseComponent {
   constructor(private expenseService:ExpenseService,private router:Router,private route:ActivatedRoute){
     this.editExpenseForm = new FormGroup({
       name: new FormControl(null,[Validators.required]),
-      note: new FormControl(''),
+      note: new FormControl(null),
       category: new FormControl(null,[Validators.required]),
       amount: new FormControl(null,[Validators.required,Validators.pattern("^[0-9]*$")]),
     })
