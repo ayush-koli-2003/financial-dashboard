@@ -1,0 +1,31 @@
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin: 1rem 0;
+}
+
+th {
+  padding: 0.75rem 1rem;
+  text-align: left;
+  font-weight: 600;
+  border-bottom: 2px solid black;
+}
+
+td {
+  padding: 0.75rem 1rem;
+  border-bottom: 1px solid black;
+  vertical-align: top;
+}
+
+td:first-child {
+  width: 30%;
+  font-weight: 500;
+}
+
+td:last-child {
+  width: 70%;
+}
+
+tr:nth-child(even) {
+  background-color: #f9f9f9;
+}
