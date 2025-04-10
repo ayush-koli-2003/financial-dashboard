@@ -6,7 +6,7 @@ export class UserService{
         return await loginUser(user);
     }
 
-    async register(user:any){
+    async register(user:Partial<User>){
         let {password,...checkUser} = user;
         let existingUser:any = await loginUser(checkUser);
 
@@ -16,15 +16,15 @@ export class UserService{
         return existingUser ? null : await registerUser(user);
     }
 
-    async getUser(user:any){
+    async getUser(user:Partial<User>){
         return await getUser(user);
     }
 
-    async changePassword(user:any,password:string){
+    async changePassword(user:Partial<User>,password:string){
         return await changePassword(user,password);
     }
 
-    async changeStatus(user:any,status:'active'|'inactive'){
+    async changeStatus(user:Partial<User>,status:'active'|'inactive'){
         return await changeStatus(user,status);
     }
 }

@@ -6,6 +6,7 @@ import { AppError } from "../types/app-error";
 import { RegisterDto } from "../dtos/user/register.dto";
 import { LoginDto } from "../dtos/user/login.dto";
 import { ChangePasswordDto } from "../dtos/user/change-password.dto";
+import { User } from "../entities/user.entity";
 
 const userService = new UserService();
 
@@ -117,18 +118,19 @@ export const logout = async(req:Request,res:Response,next:NextFunction)=>{
 
 export const changePassword = async(req:Request,res:Response,next:NextFunction)=>{
     try{
-        console.log('got change password request');
+        let body:User = req.body.user as User;
+        // console.log('got change password request');
         
-        let {email,currPassword,newPassword} = req.body;
+        let {currPassword,newPassword} = req.body;
 
-        let error = await ChangePasswordDto.validate({email,currPassword,newPassword});
+        let error = await ChangePasswordDto.validate({currPassword,newPassword});
         if(!error.isValid){
             throw new AppError('Change password data not valid',500);
 
         }
         else{
-            let changePassword = new ChangePasswordDto({email:email,currPassword:currPassword,newPassword:newPassword});
-            let user = await userService.login({email:changePassword.email});
+            let changePassword = new ChangePasswordDto({currPassword:currPassword,newPassword:newPassword});
+            let user = await userService.login({email:body.email});
 
             let isCorrect = false;
             let token='';

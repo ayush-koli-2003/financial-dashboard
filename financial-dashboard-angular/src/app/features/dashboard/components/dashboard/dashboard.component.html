@@ -64,7 +64,7 @@
                                 <td>{{ transaction.type }}</td>
                                 <td>{{ transaction.category }}</td>
                                 <td>
-                                    <p-badge [value]="transaction.type === 'Expense'? ('-'+transaction.amount):transaction.type==='Income'?('+'+transaction.amount):(transaction.amount)" [severity]="transaction.type ==='Expense'?'danger':transaction.type==='Income'?'success':'warn'" />
+                                    <p-tag [value]="transaction.type === 'Expense'? ('-'+transaction.amount):transaction.type==='Income'?('+'+transaction.amount):(transaction.amount)" [severity]="transaction.type ==='Expense'?'danger':transaction.type==='Income'?'success':'warn'" />
                                 </td>
                             </tr>
                             <tr *ngIf="!isTransactionsLoaded">

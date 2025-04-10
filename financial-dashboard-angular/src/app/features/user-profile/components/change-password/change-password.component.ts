@@ -12,14 +12,13 @@ import Swal from 'sweetalert2'
 export class ChangePasswordComponent {
   changePasswordForm:FormGroup
   @Output() closeEvent = new EventEmitter();
-  inputControls = [{name:'email',label:'Email',type:'email'},{name:'currPassword',label:'Current Password',type:'password'},{name:'newPassword',label:'New Password',type:'password'}]
+  inputControls = [{name:'currPassword',label:'Current Password',type:'password'},{name:'newPassword',label:'New Password',type:'password'}]
   serverError!:string[];
 
   constructor(private userProfileService:UserProfileService){
     this.changePasswordForm = new FormGroup({
-      email: new FormControl(null,[Validators.required,Validators.email]),
-      currPassword: new FormControl(null,[Validators.required,Validators.pattern(/^\S*$/)]),
-      newPassword: new FormControl(null,[Validators.required,Validators.pattern(/^\S*$/)])
+      currPassword: new FormControl(null,[Validators.minLength(6),Validators.required,Validators.pattern(/^\S*$/)]),
+      newPassword: new FormControl(null,[Validators.minLength(6),Validators.required,Validators.pattern(/^\S*$/)])
     })
   }
 

@@ -34,6 +34,7 @@ import { OtpVerificationComponent } from './components/otp-verification/otp-veri
 import { InputOtpModule } from 'primeng/inputotp';
 import { InputTextModule } from 'primeng/inputtext';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
+import { RouterModule } from '@angular/router';
 
 
 @NgModule({
@@ -74,7 +75,8 @@ import { LandingPageComponent } from './components/landing-page/landing-page.com
     DrawerModule,
     FloatLabelModule,
     InputOtpModule,
-    InputTextModule
+    InputTextModule,
+    RouterModule
   ],
   exports:[
     GenericChartComponent,

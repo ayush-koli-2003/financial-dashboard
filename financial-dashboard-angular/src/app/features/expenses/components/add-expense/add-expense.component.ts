@@ -61,7 +61,7 @@ export class AddExpenseComponent {
             if(err.status===404){
               this.closeEvent.emit();
               Swal.fire({
-                title: `${err.error.message} for ${expense.catefory}`,
+                title: `${err.error.message}`,
                 showCancelButton: true,
                 confirmButtonText: "Go To Budgets"
               }).then((result) => {

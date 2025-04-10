@@ -11,6 +11,7 @@ import { ButtonModule } from 'primeng/button';
 import { CarouselModule } from 'primeng/carousel';
 import { ProgressSpinner } from 'primeng/progressspinner';
 import { Skeleton } from 'primeng/skeleton';
+import { TagModule } from 'primeng/tag';
 
 
 
@@ -29,7 +30,8 @@ import { Skeleton } from 'primeng/skeleton';
     CardModule,
     CarouselModule,
     ProgressSpinner,
-    Skeleton
+    Skeleton,
+    TagModule
   ],
   providers:[provideHttpClient()]
 })

@@ -20,8 +20,8 @@ export class UpdateProfileComponent implements OnInit, OnChanges {
 
   constructor(private userProfileService:UserProfileService){
     this.updateProfileForm = new FormGroup({
-      firstname: new FormControl(null,[Validators.required,Validators.minLength(2),Validators.pattern(/^\S*$/)]),
-      lastname: new FormControl(null,[Validators.required,Validators.minLength(2),Validators.pattern(/^\S*$/)]),
+      firstname: new FormControl(null,[Validators.required,Validators.minLength(2),Validators.pattern("^[A-Za-z]+$")]),
+      lastname: new FormControl(null,[Validators.required,Validators.minLength(2),Validators.pattern("^[A-Za-z]+$")]),
       currencyPreference: new FormControl(null,[Validators.required]),
       notificationPreference: new FormControl(null,[Validators.required])
     })

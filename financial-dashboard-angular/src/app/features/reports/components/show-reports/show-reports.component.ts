@@ -81,7 +81,12 @@ export class ShowReportsComponent {
   navigate(){
     // console.log(this.selectedReport);
     
-    this.router.navigate([this.selectedReport],{relativeTo:this.route})
+    if(this.selectedReport){
+      this.router.navigate([this.selectedReport],{relativeTo:this.route})
+    }
+    else{
+      this.router.navigate(['monthly'],{relativeTo:this.route}) 
+    }
   }
 
   selectDate(date:any){

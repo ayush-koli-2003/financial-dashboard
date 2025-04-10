@@ -1,6 +1,6 @@
-<p-dialog [(visible)]="isOtpVisible" [modal]="true" [style]="{ width: '25rem' }">
+<p-dialog (onHide)="onDialogCLose()" [(visible)]="isOtpVisible" [modal]="true" [style]="{ width: '25rem' }">
 
-  <app-otp-verification (otpResendEvent)="onOtpResend()" (otpVerifyEvent)="onOtpSubmit($event)"></app-otp-verification>
+  <app-otp-verification *ngIf="isOtpVisible" (otpResendEvent)="onOtpResend()" (otpVerifyEvent)="onOtpSubmit($event)"></app-otp-verification>
 </p-dialog>
 <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
     <!-- <label for="username">Username: </label>

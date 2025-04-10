@@ -86,7 +86,7 @@ export class DashboardComponent implements OnInit{
       }
     )
 
-    this.dashboardService.getTrendReports(month,year,6).subscribe(
+    this.dashboardService.getTrendReports(month,year,3).subscribe(
       (res:any)=>{
         this.charts.push(res.data.savingsTrend);
         this.charts.push(res.data.incomeVsExpenseTrend);

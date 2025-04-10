@@ -4,7 +4,7 @@ import { AppError } from "../types/app-error";
 
 const userRepository = AppDataSource.getRepository(User);
 
-export const registerUser = async(user:any)=>{
+export const registerUser = async(user:Partial<User>)=>{
     try{
         return await userRepository.save(user);
     }
@@ -14,7 +14,7 @@ export const registerUser = async(user:any)=>{
     }
 }
 
-export const loginUser = async(user:any)=>{
+export const loginUser = async(user:Partial<User>)=>{
     try{
         // console.log(user);
          
@@ -26,7 +26,7 @@ export const loginUser = async(user:any)=>{
     }
 }
 
-export const getUser = async(user:any)=>{
+export const getUser = async(user:Partial<User>)=>{
     try{
         let result = await userRepository.findOneBy(user);
 
@@ -43,7 +43,7 @@ export const getUser = async(user:any)=>{
     }
 }
 
-export const changePassword = async(user:any,password:string)=>{
+export const changePassword = async(user:Partial<User>,password:string)=>{
     try{
         let result = await userRepository.update(user,{password:password});
         if(result.affected===0){
@@ -86,7 +86,7 @@ export const getCountOfActiveUsers = async()=>{
     }
 }
 
-export const changeStatus = async(user:any,status:'active'|'inactive')=>{
+export const changeStatus = async(user:Partial<User>,status:'active'|'inactive')=>{
     try{
         return await userRepository.update(user,{status:status});
     }

@@ -247,6 +247,7 @@ export class ReportService{
                     expenses.unshift({month:m,expense:0})
                 }
             })
+            
 
             // monthsList = monthsList.map(m=>{                
             //     let date = new Date();
@@ -270,6 +271,8 @@ export class ReportService{
                     monthsList.push(month);
                 }
             }
+
+            
 
             
             // console.log(savingsList);

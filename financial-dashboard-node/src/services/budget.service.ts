@@ -1,4 +1,5 @@
 import { Budget } from "../entities/budget.entity";
+import { User } from "../entities/user.entity";
 import { BudgetCategory } from "../enums/budget.enum";
 import { ExpenseCategory } from "../enums/expense.enum";
 import { InvestmentCategory } from "../enums/investment.enum";
@@ -10,7 +11,7 @@ import { InvestmentService } from "./investment.service";
 
 const investmentService = new InvestmentService();
 export class BudgetService{
-    async getAllBudgets(user:any){
+    async getAllBudgets(user:Partial<User>){
         try{
             return await getAllBudgets(user);
         }
@@ -21,7 +22,7 @@ export class BudgetService{
             throw new AppError("Failed to get budgets", 500);
         }
     }
-    async createBudget(budget:any,user:any){
+    async createBudget(budget:any,user:User){
         try{
             let newBudget = new Budget(budget.category,budget.amount,budget.date,user);
             return await createBudget(newBudget);
@@ -34,7 +35,7 @@ export class BudgetService{
         }
     }
 
-    async getFilteredCategories(user:any){
+    async getFilteredCategories(user:Partial<User>){
         try{
             let budgetList = await this.getAllBudgets(user) as Budget[];
             let enumCategories = Object.values(BudgetCategory);
@@ -61,7 +62,7 @@ export class BudgetService{
         }
     }
 
-    async getBudgetByDate(user:any,startDate:any,endDate:any){
+    async getBudgetByDate(user:Partial<User>,startDate:any,endDate:any){
         try{
             // IMP - parsing logic
             // if(year === undefined){
@@ -84,7 +85,7 @@ export class BudgetService{
         }
     }
 
-    async getTotalSpendingOfCategory(user:any,startDate:any,endDate:any){
+    async getTotalSpendingOfCategory(user:Partial<User>,startDate:any,endDate:any){
         try{
             const expenseService = new ExpenseService();
             let expenses = await expenseService.getExpenseByDate(user,startDate,endDate);
@@ -121,7 +122,7 @@ export class BudgetService{
         }
     }
 
-    async deleteBudget(user:any,id:any){
+    async deleteBudget(user:Partial<User>,id:any){
         try{
             return await deleteBudget(user,id);
         }
@@ -133,7 +134,7 @@ export class BudgetService{
         }
     }
 
-    async getBudgetCategories(user:any){
+    async getBudgetCategories(user:Partial<User>){
         try{
             return await getBudgetCategories(user);
         }
@@ -157,7 +158,7 @@ export class BudgetService{
         }
     }
 
-    async updateBudgetById(budget:any,id:any){
+    async updateBudgetById(budget:Partial<Budget>,id:any){
         try{
             return await updateBudgetById(budget,id);
         }
@@ -169,7 +170,7 @@ export class BudgetService{
         }
     }
 
-    async getTotalBudgetByDate(user:any,startDate:any,endDate:any){
+    async getTotalBudgetByDate(user:Partial<User>,startDate:any,endDate:any){
         try{
             return await getTotalBudgetByDate(user,startDate,endDate);
         }

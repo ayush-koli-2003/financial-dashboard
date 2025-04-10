@@ -3,10 +3,11 @@ import { AppDataSource } from "../configs/database.config";
 import { Budget } from "../entities/budget.entity";
 import { AppError } from "../types/app-error";
 import { BudgetCategory } from "../enums/budget.enum";
+import { User } from "../entities/user.entity";
 
 const budgetRepository = AppDataSource.getRepository(Budget);
 
-export const getAllBudgets = async(user:any)=>{
+export const getAllBudgets = async(user:Partial<User>)=>{
     try{
         return await budgetRepository.find({
             relations:{
@@ -35,7 +36,7 @@ export const createBudget = async (newBudget:any)=> {
     }
 }
 
-export const getBudgetsByDate = async(user:any,startDate:any,endDate:any)=>{
+export const getBudgetsByDate = async(user:Partial<User>,startDate:any,endDate:any)=>{
     try{
 
         return await budgetRepository.find({
@@ -57,7 +58,7 @@ export const getBudgetsByDate = async(user:any,startDate:any,endDate:any)=>{
     }
 }
 
-export const deleteBudget = async(user:any,id:any)=>{
+export const deleteBudget = async(user:Partial<User>,id:any)=>{
     try{
         let result = await budgetRepository.delete({id:id});
 
@@ -74,7 +75,7 @@ export const deleteBudget = async(user:any,id:any)=>{
     }
 }
 
-export const getBudgetCategories=  async(user:any)=>{
+export const getBudgetCategories=  async(user:Partial<User>)=>{
     try{
         return await budgetRepository.createQueryBuilder('budget')
             .leftJoinAndSelect('budget.user','user')
@@ -104,7 +105,7 @@ export const getBudgetById = async(id:any)=>{
     }
 }
 
-export const updateBudgetById = async(budget:any,id:any)=>{
+export const updateBudgetById = async(budget:Partial<Budget>,id:any)=>{
     try{
         // console.log(expense);
         
@@ -122,7 +123,7 @@ export const updateBudgetById = async(budget:any,id:any)=>{
     }
 }
 
-export const getTotalBudgetByDate = async(user:any,startDate:any,endDate:any)=>{
+export const getTotalBudgetByDate = async(user:Partial<User>,startDate:any,endDate:any)=>{
     try{
         return (await budgetRepository.createQueryBuilder('budget')
             .leftJoinAndSelect('budget.user','user')

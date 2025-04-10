@@ -72,4 +72,8 @@ export class RegisterComponent {
     );
   }
 
+  onDialogCLose(){
+    this.isOtpVisible=false;
+  }
+
 }

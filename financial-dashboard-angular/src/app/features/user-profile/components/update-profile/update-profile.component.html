@@ -10,6 +10,9 @@
                                     <label > {{control.label}} </label>
                                 </div>
                                 <div>
+                                    <div class="error-message" *ngIf="!updateProfileForm.valid">
+                                        <small *ngIf="updateProfileForm.get(control.name)?.dirty && updateProfileForm.get(control.name)?.invalid">Invalid {{control.label}}</small>
+                                    </div>
                                     <select [name]="control.label" [formControlName]="control.name">
                                         <!-- <option value="" disabled selected>Select category</option> -->
                                         <ng-container *ngFor="let cat of currencyCategories">
@@ -23,6 +26,9 @@
                                     <label>{{control.label}} </label>
                                 </div>
                                 <div>
+                                    <div class="error-message" *ngIf="!updateProfileForm.valid">
+                                        <small *ngIf="updateProfileForm.get(control.name)?.dirty && updateProfileForm.get(control.name)?.invalid">Invalid {{control.label}}</small>
+                                    </div>
                                     <input [type]="control.type" [formControlName]="control.name"><br>
                                 </div>
                             </ng-container>
