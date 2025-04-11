@@ -87,7 +87,7 @@
                         </div>
                     </div>
                     <div>
-                        <p-carousel *ngIf="isChartsLoaded; else loader" [value]="charts" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="3500">
+                        <!-- <p-carousel *ngIf="isChartsLoaded; else loader" [value]="charts" [numVisible]="1" [numScroll]="1" [circular]="true" [autoplayInterval]="3500">
                             <ng-template pTemplate="item" let-chart>
                                 <div style="width: 90%; margin-top: 5%; height: 20%;">
         
@@ -101,7 +101,8 @@
         
         
                             </ng-template>
-                        </p-carousel>
+                        </p-carousel> -->
+                        <app-carousel *ngIf="isChartsLoaded" [charts]="charts"></app-carousel>
                         <ng-template #loader>
                             <p-skeleton size="100%" />
                         </ng-template>

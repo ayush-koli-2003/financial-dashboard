@@ -1,0 +1,9 @@
+<div style="width: 90%; margin-top: 5%; height: 20%;">
+        
+    <app-generic-chart *ngIf="isChartsLoaded"
+        [data]="chart.data" 
+        [chartType]="chart.chartType" 
+        [legend]="true" 
+        [labels]="chart.labels">
+    </app-generic-chart>
+</div>

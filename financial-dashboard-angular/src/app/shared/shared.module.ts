@@ -35,6 +35,7 @@ import { InputOtpModule } from 'primeng/inputotp';
 import { InputTextModule } from 'primeng/inputtext';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { RouterModule } from '@angular/router';
+import { CarouselComponent } from './components/carousel/carousel.component';
 
 
 @NgModule({
@@ -53,7 +54,8 @@ import { RouterModule } from '@angular/router';
     GenericDisplayDetailsComponent,
     NotificationsPanelComponent,
     OtpVerificationComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    CarouselComponent
   ],
   imports: [
     CommonModule,
@@ -90,7 +92,8 @@ import { RouterModule } from '@angular/router';
     HeaderComponent,
     GenericTableComponent,
     OtpVerificationComponent,
-    LandingPageComponent
+    LandingPageComponent,
+    CarouselComponent
   ],
   providers:[provideCharts(withDefaultRegisterables())]
 })
