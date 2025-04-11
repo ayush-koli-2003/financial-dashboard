@@ -22,11 +22,13 @@ export class CarouselComponent implements OnChanges {
   }
 
   runInterval(index:number){
-    setInterval(()=>{
-      this.isChartsLoaded = true;
+    this.isChartsLoaded = true;
       
-      this.chart = this.charts[index];
+    this.chart = this.charts[index];
+    setInterval(()=>{
       index= (index+1)%(this.charts.length);
+      this.chart = this.charts[index];
+      
     },3000)
   }
 }

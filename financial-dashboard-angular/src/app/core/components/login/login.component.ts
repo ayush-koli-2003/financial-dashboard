@@ -3,7 +3,6 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../services/auth.service';
 import { Router } from '@angular/router';
 
-// IMP- How to remove and set cookies best practices bon backend or frontend
 
 @Component({
   selector: 'app-login',

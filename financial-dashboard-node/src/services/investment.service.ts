@@ -1,5 +1,7 @@
 import { Investment } from "../entities/investment.entity";
-import { addInvestment, deleteInvestment, getAllInvestments, getCategories, getInvestmentByDate, getInvestmentByDateWithSearch, getInvestmentById, getTotalInvestmentByDate, updateInvestmentById } from "../repositories/investment.repository";
+import { User } from "../entities/user.entity";
+import { BudgetCategory } from "../enums/budget.enum";
+import { addInvestment, deleteInvestment, getAllInvestments, getCategories, getInvestmentByDate, getInvestmentByDateWithSearch, getInvestmentById, getTotalInvestmentByDate, getTotalInvestmentOfCategory, updateInvestmentById } from "../repositories/investment.repository";
 import { AppError } from "../types/app-error";
 import { BudgetService } from "./budget.service";
 
@@ -20,9 +22,16 @@ export class InvestmentService{
                 throw new AppError('Budget does not exist!',404);
             }
 
-            newInvestment = new Investment(investment.name,investment.category,investment.amount,investment.date,user,investment.note,investment.return,budget);
+            else{
+                newInvestment = new Investment(investment.name,investment.category,investment.amount,investment.date,user,investment.note,investment.return,budget);
             
-            return await addInvestment(newInvestment);
+                await addInvestment(newInvestment);
+
+                let totalInvestment =  await this.getTotalInvestmentOfCategory(user,startDate,endDate,budget.category);
+                if(totalInvestment.total>budget.amount){
+                    throw new AppError('Investment has exceeded the budget!',404)
+                }
+            }
         }
         catch(err){
             throw err;
@@ -84,7 +93,12 @@ export class InvestmentService{
                 throw new AppError('Budget does not exist!',404);
             }
 
-            return await updateInvestmentById(investment,id);
+            await updateInvestmentById(investment,id);
+
+            let totalInvestment =  await this.getTotalInvestmentOfCategory(user,startDate,endDate,budget.category);
+            if(totalInvestment.total>budget.amount){
+                throw new AppError('Investment has exceeded the budget!',404)
+            }
         }
         catch(err){
             throw err;
@@ -99,6 +113,15 @@ export class InvestmentService{
         catch(err){
             throw err;
             
+        }
+    }
+
+    async getTotalInvestmentOfCategory(user:Partial<User>,startDate:any,endDate:any,category:BudgetCategory){
+        try{
+            return await getTotalInvestmentOfCategory(user,startDate,endDate,category);
+        }
+        catch(err){
+            throw err;
         }
     }
 }

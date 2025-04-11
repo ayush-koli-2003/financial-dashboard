@@ -1,6 +1,8 @@
 import { Expense } from "../entities/expense.entity";
+import { User } from "../entities/user.entity";
+import { BudgetCategory } from "../enums/budget.enum";
 import { ExpenseCategory } from "../enums/expense.enum";
-import { addExpense, deleteExpense, getExpenseByDate, getExpenseByDateWithSearch, getExpenseById, getExpenses, getTotalExpenseByDate, groupExpenseByMonth, updateExpenseById } from "../repositories/expense.repository";
+import { addExpense, deleteExpense, getExpenseByDate, getExpenseByDateWithSearch, getExpenseById, getExpenses, getTotalExpenseByDate, getTotalExpenseOfCategory, groupExpenseByMonth, updateExpenseById } from "../repositories/expense.repository";
 import { AppError } from "../types/app-error";
 import { BudgetService } from "./budget.service";
 
@@ -21,8 +23,21 @@ export class ExpenseService{
                 throw new AppError('Budget does not exist!',404);
             }
 
-            newExpense = new Expense(expense.name,expense.category,expense.amount,expense.date,user,expense.note,budget);
-            return await addExpense(newExpense);
+            else{
+                
+
+                // console.log(budget.amount);
+
+                newExpense = new Expense(expense.name,expense.category,expense.amount,expense.date,user,expense.note,budget);
+                await addExpense(newExpense); 
+
+                let totalExpense = await this.getTotalExpenseOfCategory(user,startDate,endDate,budget.category);   
+                if(totalExpense.total+expense.amount > budget.amount){
+                    
+                    throw new AppError('Expense has exceeded the budget',404);
+                }
+                
+            }
             
         }
         catch(err){
@@ -81,6 +96,15 @@ export class ExpenseService{
         }
     }
 
+    async getTotalExpenseOfCategory(user:Partial<User>,startDate:string,endDate:string,category:BudgetCategory){
+        try{
+            return await getTotalExpenseOfCategory(user,startDate,endDate,category);
+        }
+        catch(err){
+            throw err;
+        }
+    }
+
     async getTotalExpenseByCategory(user:any,startDate:any,endDate:any){
         try{
             let expenses = await getExpenseByDate(user,startDate,endDate);
@@ -124,9 +148,20 @@ export class ExpenseService{
             }
 
             // newExpense = new Expense(expense.name,expense.category,expense.amount,expense.date,user,expense.note,budget);
+            else{
+                
 
+                // console.log(budget.amount);
 
-            return await updateExpenseById(expense,id);
+                await updateExpenseById(expense,id);
+                            
+                let totalExpense = await this.getTotalExpenseOfCategory(user,startDate,endDate,budget.category);   
+                if(totalExpense.total+expense.amount > budget.amount){
+                    
+                    throw new AppError('Expense has exceeded the budget!',404);
+                }
+                
+            }
         }
         catch(err){
             throw err;

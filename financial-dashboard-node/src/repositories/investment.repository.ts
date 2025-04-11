@@ -3,6 +3,8 @@ import { AppDataSource } from "../configs/database.config";
 import { Investment } from "../entities/investment.entity";
 import { InvestmentCategory } from "../enums/investment.enum";
 import { AppError } from "../types/app-error";
+import { User } from "../entities/user.entity";
+import { BudgetCategory } from "../enums/budget.enum";
 
 const investmentRepository = AppDataSource.getRepository(Investment);
 
@@ -150,5 +152,18 @@ export const getTotalInvestmentByDate = async(user:any,startDate:any,endDate:any
     catch(err){
         throw err;
         
+    }
+}
+
+export const getTotalInvestmentOfCategory = async(user:Partial<User>,startDate:any,endDate:any,category:BudgetCategory)=>{
+    try{
+        return await investmentRepository.createQueryBuilder('investment')
+            .leftJoinAndSelect('investment.user','user')
+            .select('SUM(amount)','total')
+            .where('user.id= :id AND investment.category = :category AND date BETWEEN :startDate AND :endDate',{id:user.id,category:category,startDate:startDate,endDate:endDate})
+            .getRawOne();
+    }
+    catch(err){
+        throw err;
     }
 }

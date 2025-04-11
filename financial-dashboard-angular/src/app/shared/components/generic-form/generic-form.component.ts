@@ -16,6 +16,7 @@ export class GenericFormComponent {
   @Input() editData:any;
   @Output() submitEvent = new EventEmitter();
   @Input() serverError!:string[];
+  previousForm!:FormGroup;
 
   formLabel!:string;
   isSubmitted!:boolean;
@@ -23,9 +24,17 @@ export class GenericFormComponent {
   ngOnInit(): void {
     this.isSubmitted = false;
 
+    
+
     this.form.valueChanges.subscribe(
       (value:any)=>{
+        
+        if(this.form.value!==this.editData){
+          
         console.log(value);
+          
+          this.isSubmitted = false;
+        }
         
       }
     )
@@ -43,6 +52,10 @@ export class GenericFormComponent {
     
     if(changes['editData'] && this.editData !== undefined){
       this.form.patchValue(this.editData);
+      this.previousForm = this.form;
+      // console.log('sybmit false');
+      
+      this.isSubmitted = true;
     }
 
     if(changes['serverError']){

@@ -11,8 +11,8 @@ export class TrendReportsComponent implements OnInit{
   currDate!:{month:string,year:string};
   incomeVsExpenseTrend:any;
   savingsTrend:any
-  pastMonths = '3'
-  months = ['3']; // ,'6','12'
+  pastMonths = '6'
+  months = ['3','6','12']; // ,'6','12'
   constructor(private reportService:ReportService){
 
   }

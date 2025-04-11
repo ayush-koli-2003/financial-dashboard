@@ -141,8 +141,14 @@ export class ReportService{
             let year = startDate.split('-')[0];
             let month = startDate.split('-')[1];
 
-            startDate = new Date(year,month-pastMonths+1,1).toISOString().split('T')[0];
+            // console.log(year,month);
+
+            startDate = new Date(year,month-pastMonths+1,1).toISOString().split('T')[0]; 
+            endDate = endDate.split('T')[0];
             // console.log(startDate);
+
+            
+            // console.log(startDate,endDate);
             
             let monthsList:any[] =[]
             // let monthlyExpenseData : Map<'string',{expense:number}> = new Map();
@@ -158,54 +164,86 @@ export class ReportService{
             }
             
 
-            for(let m=startMonth+1; m!== endMonth+1;m=((m+1)%12)){              
-                monthsList.push(m);   
+            for(let m=startMonth+1; m!== endMonth+1;m=((m+1)%13)){              
+                if(m!==0){
+                    monthsList.push(m);
+                }   
             }
 
-            // console.log(monthsList);
+            if(startMonth===endMonth+1){
+                monthsList.push(endMonth+1);
+            }
+
+            
             
 
             let incomes = await incomeService.groupIncomeByMonth(user,startDate,endDate);
             let expenses = await expenseService.groupExpenseByMonth(user,startDate,endDate);
 
-            // console.log(incomes);
-            monthsList.reverse().map(m=>{
-                if(incomes?.findIndex((i)=>i.month==m)===-1){
-                    incomes.unshift({month:m,income:0})
-                }
-                if(expenses?.findIndex((i)=>i.month==m)===-1){
-                    expenses.unshift({month:m,expense:0})
-                }
-            })
+            // console.log(incomes,expenses);
+            // monthsList.reverse().map(m=>{
+            //     if(incomes?.findIndex((i)=>i.month==m)===-1){
+            //         incomes.unshift({month:m,income:0});
+            //         console.log('not found ',m);
+                    
+            //     }
+            //     if(expenses?.findIndex((i)=>i.month==m)===-1){
+            //         expenses.unshift({month:m,expense:0})
+            //     }
+            // })
 
-            // console.log(expenses);
+            let parsedIncomes = [];
+            let parsedExpenses = [];
+
+            let place =0;
+
+            for(let m of monthsList){
+                let index = incomes?.findIndex((i)=>i.month==m);
+                if(index===-1){
+                    parsedIncomes.splice(place,0,{month:m,income:0});
+                    console.log('not found ',m);
+                    place++;
+                    
+                }
+                else{
+                    parsedIncomes.push({month:m,income:(incomes as any[])[index].income});
+                }
+            }
+
+            place = 0;
+
+            for(let m of monthsList){
+                let index = expenses?.findIndex((i)=>i.month==m);
+                if(index===-1){
+                    parsedExpenses.splice(place,0,{month:m,expense:0});
+                    console.log('not found ',m);
+                    place++;
+                }
+                else{
+                    parsedExpenses.push({month:m,expense:(expenses as any[])[index].expense});
+                }
+            }
+
+            
+
+            // // console.log(expenses);
             
             monthsList = [];
-            for(let i=0; i<Math.min(incomes?.length as number,expenses?.length as number);i++){
-                if(incomes?.[i].month === expenses?.[i].month){
+            for(let i=0; i<Math.min(parsedIncomes?.length as number,parsedExpenses?.length as number);i++){
+                if(parsedIncomes?.[i].month === parsedExpenses?.[i].month){
                     let date = new Date();
-                    date.setMonth(parseInt(incomes?.[i].month)-1);
+                    date.setMonth(parseInt(parsedIncomes?.[i].month)-1);
                     let month = date.toLocaleString('default', { month: 'short' });
                     monthsList.push(month)
                 }
             }
 
-            // monthsList = monthsList.map(m=>{                
-            //     let date = new Date();
-            //     date.setMonth(m-1);
-            //     let month = date.toLocaleString('default', { month: 'short' });
-            //     m = month;
-            //     return m;
-            // })
-            
-            // console.log(monthsList);
-
             return {
                 chartType:'line',
                 labels: monthsList,
                 data: [
-                    {data:incomes?.map(i=> i.income),label:'Income'},
-                    {data:expenses?.map(e=> e.expense),label:'Expense'}
+                    {data:parsedIncomes?.map(i=> i.income),label:'Income'},
+                    {data:parsedExpenses?.map(e=> e.expense),label:'Expense'}
                 ]
             }
         }
@@ -221,7 +259,8 @@ export class ReportService{
             let month = startDate.split('-')[1];
 
             startDate = new Date(year,month-pastMonths+1,1).toISOString().split('T')[0];
-            
+            endDate = endDate.split('T')[0];
+
             let monthsList:any[] =[];
 
             let startMonth = parseInt(startDate.split('-')[1]);
@@ -232,21 +271,51 @@ export class ReportService{
             }
             
 
-            for(let m=startMonth+1; m!== endMonth+1;m=((m+1)%12)){              
-                monthsList.push(m);   
+            for(let m=startMonth+1; m!== endMonth+1;m=((m+1)%13)){              
+                if(m!==0){
+                    monthsList.push(m);
+                }   
+            }
+
+            if(startMonth===endMonth+1){
+                monthsList.push(endMonth+1);
             }
 
             let incomes = await incomeService.groupIncomeByMonth(user,startDate,endDate);
             let expenses = await expenseService.groupExpenseByMonth(user,startDate,endDate);
 
-            monthsList.reverse().map(m=>{
-                if(incomes?.findIndex((i)=>i.month==m)===-1){
-                    incomes.unshift({month:m,income:0})
+            let parsedIncomes = [];
+            let parsedExpenses = [];
+
+            let place =0;
+
+            for(let m of monthsList){
+                let index = incomes?.findIndex((i)=>i.month==m);
+                if(index===-1){
+                    parsedIncomes.splice(place,0,{month:m,income:0});
+                    console.log('not found ',m);
+                    place++;
+                    
                 }
-                if(expenses?.findIndex((i)=>i.month==m)===-1){
-                    expenses.unshift({month:m,expense:0})
+                else{
+                    parsedIncomes.push({month:m,income:(incomes as any[])[index].income});
                 }
-            })
+            }
+
+            place = 0;
+
+            for(let m of monthsList){
+                let index = expenses?.findIndex((i)=>i.month==m);
+                if(index===-1){
+                    parsedExpenses.splice(place,0,{month:m,expense:0});
+                    console.log('not found ',m);
+                    place++;
+                }
+                else{
+                    parsedExpenses.push({month:m,expense:(expenses as any[])[index].expense});
+                }
+            }
+
             
 
             // monthsList = monthsList.map(m=>{                
@@ -262,11 +331,11 @@ export class ReportService{
 
             let savingsList:any[]=[];
             monthsList=[];
-            for(let i=0; i<Math.min(incomes?.length as number,expenses?.length as number);i++){
-                if(incomes?.[i].month === expenses?.[i].month){
-                    savingsList.push(incomes?.[i].income-expenses?.[i].expense);
+            for(let i=0; i<Math.min(parsedIncomes?.length as number,parsedExpenses?.length as number);i++){
+                if(parsedIncomes?.[i].month === parsedExpenses?.[i].month){
+                    savingsList.push(parsedIncomes?.[i].income-parsedExpenses?.[i].expense);
                     let date = new Date();
-                    date.setMonth(parseInt(incomes?.[i].month)-1);
+                    date.setMonth(parseInt(parsedIncomes?.[i].month)-1);
                     let month = date.toLocaleString('default', { month: 'short' });
                     monthsList.push(month);
                 }

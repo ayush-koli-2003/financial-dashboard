@@ -179,19 +179,21 @@ export const updateInvestmentById = async(req:Request,res:Response,next:NextFunc
                 let investment = new UpdateInvestmentDto(body);
                 let result = await investmentService.updateInvestmentById(investment,id,user,startDate,endDate);
 
-                if(result?.affected as number>0){
-                    res.status(200).json({
-                        status:'successfull',
-                        data:'investment updated'
-                    })
-                }
-                else{
-                    res.status(400).json({
-                        status:'failed',
-                        data:'investment update failed'
-                    })
-                }
-                console.log('valid');
+                // if(result?.affected as number>0){
+                    
+                // }
+                // else{
+                //     res.status(400).json({
+                //         status:'failed',
+                //         data:'investment update failed'
+                //     })
+                // }
+                // console.log('valid');
+
+                res.status(200).json({
+                    status:'successfull',
+                    data:'investment updated'
+                })
                 
             }
         }

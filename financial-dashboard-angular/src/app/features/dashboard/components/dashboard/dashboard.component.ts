@@ -68,7 +68,6 @@ export class DashboardComponent implements OnInit{
       }
     })
 
-    // IMP - transactions- Date, Type, Name, Category, Amount, Note. (Pagination to only show last 10)
 
   }
 
@@ -86,7 +85,7 @@ export class DashboardComponent implements OnInit{
       }
     )
 
-    this.dashboardService.getTrendReports(month,year,3).subscribe(
+    this.dashboardService.getTrendReports(month,year,6).subscribe(
       (res:any)=>{
         this.charts.push(res.data.savingsTrend);
         this.charts.push(res.data.incomeVsExpenseTrend);

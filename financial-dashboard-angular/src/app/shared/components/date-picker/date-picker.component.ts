@@ -9,10 +9,9 @@ export class DatePickerComponent implements OnChanges{
   date: any | undefined;
   @Output() dateEvent = new EventEmitter();
   @Input() currDate : any;
+  maxDate!:Date;
   ngOnInit(){
-    
-    // IMP - Remove this and manage state for date in each module
-    // this.dateSelected();
+    this.maxDate = new Date();
   }
 
   ngOnChanges(changes: SimpleChanges): void {
