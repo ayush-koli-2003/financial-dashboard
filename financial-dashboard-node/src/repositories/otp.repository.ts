@@ -10,7 +10,9 @@ export const generateOtp = async(data:Partial<OTP>)=>{
         console.log(otp);
         
         let date = new Date();
-        let existing = await otpRepository.findOne({where:{email:data.email}})
+        let existing = await otpRepository.findOne({where:{email:data.email,type:data.type}});
+        // console.log(existing);
+        
 
         if(existing){
             await otpRepository.update({email:data.email},{otp:otp,createdAt:data.createdAt});
@@ -33,7 +35,10 @@ export const generateOtp = async(data:Partial<OTP>)=>{
 
 export const verifyOtp = async(data:Partial<OTP>)=>{
     try{
-        let result = await otpRepository.findOneBy({email:data.email,otp:data.otp,type:data.type});
+        console.log(data);
+        
+        let result = await otpRepository.findOne({where:{email:data.email,otp:data.otp,type:data.type},order:{createdAt:'DESC'}});
+        console.log(result);
         
         if(result===null){
             throw new AppError('Wrong OTP',500);
@@ -45,7 +50,10 @@ export const verifyOtp = async(data:Partial<OTP>)=>{
             if(timeLapsed/1000 >180){
                 throw new AppError('OTP invalid',500);
             }
-            await otpRepository.delete({email:data.email})
+
+            if(data.type!=='forgot-password'){
+                await otpRepository.delete({email:data.email})
+            }
             return result;
         }
     }

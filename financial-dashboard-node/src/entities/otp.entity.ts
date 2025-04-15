@@ -24,5 +24,5 @@ export class OTP{
     @Column({
         type:'varchar'
     })
-    type:'register'|'change-email'|'delete-user'
+    type:'register'|'change-email'|'delete-user'|'forgot-password'
 }

@@ -12,7 +12,7 @@ export class GenericFormComponent {
   @Input() categories:any[]=[];
   @Input() errorMessages:{[key:string]:string}={};
   @Input() inputControls!:{name:string,label:string,type:string}[];
-  @Input() formType!:'add'|'edit';
+  @Input() formType!:'add'|'edit'|'submit';
   @Input() editData:any;
   @Output() submitEvent = new EventEmitter();
   @Input() serverError!:string[];
@@ -41,12 +41,18 @@ export class GenericFormComponent {
   }
 
   ngOnChanges(changes:SimpleChanges){
+    if(changes['form']){
+      this.isSubmitted = false;
+    }
     if(changes['formType']){
       if(this.formType==='add'){
         this.formLabel = 'Add'
       }
-      else{
+      else if(this.formType=='edit'){
         this.formLabel = 'Update';        
+      }
+      else{
+        this.formLabel = 'Submit'
       }
     }
     
@@ -77,7 +83,9 @@ export class GenericFormComponent {
     if(this.form.valid){
       // console.log(this.addForm.value);
       console.log(this.form.value);
-      this.form.value.amount = parseFloat(this.form.value.amount);
+      if(this.form.value.amount){
+        this.form.value.amount = parseFloat(this.form.value.amount);
+      }
       this.isSubmitted = true
       console.log(this.form.value);
       

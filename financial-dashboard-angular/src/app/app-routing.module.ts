@@ -1,9 +1,10 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './core/components/login/login.component';
+import { LoginComponent } from './shared/components/login/login.component';
 import { AuthGuard } from './core/guards/auth.guard';
-import { RegisterComponent } from './core/components/register/register.component';
+import { RegisterComponent } from './shared/components/register/register.component';
 import { LandingPageComponent } from './shared/components/landing-page/landing-page.component';
+import { ForgotPasswordComponent } from './shared/components/forgot-password/forgot-password.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'landing',pathMatch:'full'},

@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { FormControl, FormGroup, Validators } from '@angular/forms';
-import { AuthService } from '../../services/auth.service';
+import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
+import { OtpService } from '../../../core/services/otp.service';
 
 
 @Component({
@@ -15,8 +16,9 @@ export class LoginComponent {
   isClicked = false;
 
   loginError!: string;
+  isForgotWindowVisible = false;
 
-  constructor(private authService:AuthService,private router:Router){
+  constructor(private authService:AuthService,private router:Router,private otpService:OtpService){
     this.loginForm = new FormGroup({
       email: new FormControl(null,[Validators.required,Validators.email]),
       password: new FormControl(null,[Validators.required,Validators.minLength(6),Validators.pattern(/^\S*$/)])
@@ -42,5 +44,9 @@ export class LoginComponent {
         }
       );
     }
+  }
+
+  forgotPasswordWindow(){
+    this.isForgotWindowVisible = !this.isForgotWindowVisible;
   }
 }

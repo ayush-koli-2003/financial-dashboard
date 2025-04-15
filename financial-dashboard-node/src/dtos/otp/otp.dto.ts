@@ -7,13 +7,13 @@ export class OtpDto extends BaseDto{
     email:string;
 
     @IsNotEmpty()
-    @IsIn(['register','change-email','delete-user'])
-    type:'register'|'change-email'|'delete-user';
+    @IsIn(['register','change-email','delete-user','forgot-password'])
+    type:'register'|'change-email'|'delete-user'|'forgot-password';
 
     constructor(data:{email:string,type:string}){
         super();
         this.email = data.email;
-        if(data.type==='register'|| data.type ==='change-email'||data.type ==='delete-user'){
+        if(data.type==='register'|| data.type ==='change-email'||data.type ==='delete-user'||data.type=='forgot-password'){
             this.type = data.type;
         }
     }
@@ -21,5 +21,5 @@ export class OtpDto extends BaseDto{
     static async validate(data:any){
         let dto = new OtpDto(data);
         return BaseDto.validate(dto);
-    }
+    } 
 }

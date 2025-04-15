@@ -7,6 +7,8 @@ const otpService = new OtpService();
 export const generateOtp = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         const {email,type} = req.body;
+        console.log(email,type);
+        
         let error = await OtpDto.validate({email:email,type:type})
 
         if(!error.isValid){
@@ -20,17 +22,21 @@ export const generateOtp = async(req:Request,res:Response,next:NextFunction)=>{
                     throw new AppError('User already exists',500);
                 }
             }
+            else if(type==='forgot-password'){
+                let result = await otpService.checkExistingUser({email:body.email});
+                if(result===null){
+                    throw new AppError('No User Found!',500);
+                }
+            }
+
+            let createdAt = new Date();
     
-            let result = await otpService.generateOtp({email:body.email,type:body.type});
+            let result = await otpService.generateOtp({email:body.email,type:body.type,createdAt:createdAt});
     
             res.status(200).json({
                 status:'successfull',
                 data:'otp is generated'
             })
-
-            console.log('valid');
-            
-
         }
     }
     catch(err){

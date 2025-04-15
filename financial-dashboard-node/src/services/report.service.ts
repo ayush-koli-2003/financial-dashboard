@@ -216,7 +216,7 @@ export class ReportService{
                 let index = expenses?.findIndex((i)=>i.month==m);
                 if(index===-1){
                     parsedExpenses.splice(place,0,{month:m,expense:0});
-                    console.log('not found ',m);
+                    // console.log('not found ',m);
                     place++;
                 }
                 else{
@@ -293,7 +293,7 @@ export class ReportService{
                 let index = incomes?.findIndex((i)=>i.month==m);
                 if(index===-1){
                     parsedIncomes.splice(place,0,{month:m,income:0});
-                    console.log('not found ',m);
+                    // console.log('not found ',m);
                     place++;
                     
                 }
@@ -308,7 +308,7 @@ export class ReportService{
                 let index = expenses?.findIndex((i)=>i.month==m);
                 if(index===-1){
                     parsedExpenses.splice(place,0,{month:m,expense:0});
-                    console.log('not found ',m);
+                    // console.log('not found ',m);
                     place++;
                 }
                 else{

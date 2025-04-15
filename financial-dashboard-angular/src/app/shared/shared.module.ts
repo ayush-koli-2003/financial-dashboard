@@ -36,6 +36,10 @@ import { InputTextModule } from 'primeng/inputtext';
 import { LandingPageComponent } from './components/landing-page/landing-page.component';
 import { RouterModule } from '@angular/router';
 import { CarouselComponent } from './components/carousel/carousel.component';
+import { NotificationDisplayComponent } from './components/notification-display/notification-display.component';
+import { LoginComponent } from './components/login/login.component';
+import { RegisterComponent } from './components/register/register.component';
+import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 
 
 @NgModule({
@@ -55,7 +59,11 @@ import { CarouselComponent } from './components/carousel/carousel.component';
     NotificationsPanelComponent,
     OtpVerificationComponent,
     LandingPageComponent,
-    CarouselComponent
+    CarouselComponent,
+    NotificationDisplayComponent,
+    LoginComponent,
+    RegisterComponent,
+    ForgotPasswordComponent
   ],
   imports: [
     CommonModule,

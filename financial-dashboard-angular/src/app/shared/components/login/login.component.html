@@ -1,3 +1,6 @@
+<p-dialog [modal]="true" [(visible)]="isForgotWindowVisible" [style]="{ width: '25rem' }">
+  <app-forgot-password (closeEvent)="forgotPasswordWindow()"></app-forgot-password>
+</p-dialog>
 <form [formGroup]="loginForm" (ngSubmit)="onSubmit()">
     <div class="container">
         <div *ngIf="loginError" class="error-message">
@@ -35,6 +38,7 @@
     
     <div class="container" style="background-color:#f1f1f1">
         <!-- <span class="psw">Forgot <a href="#">password?</a></span> -->
+        <a (click)="forgotPasswordWindow()">Forgot Password?</a>
         New User? <a routerLink="/signup">Create account</a> 
     </div>
 </form>

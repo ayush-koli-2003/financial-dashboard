@@ -14,11 +14,11 @@ export class OtpVerificationComponent {
   @Output() otpResendEvent = new EventEmitter();
 
   time = 180;
-  private resendSubject = new Subject<void>();
+  private sendSubject = new Subject<void>();
 
   constructor(){
-    this.resendSubject.pipe(
-      throttleTime(180000)
+    this.sendSubject.pipe(
+      throttleTime(30000)
     ).subscribe(() => {
       this.time = 180
       this.otpVerifyEvent.emit(this.otp);
@@ -26,6 +26,10 @@ export class OtpVerificationComponent {
   }
 
   ngOnInit(){
+    this.timer();
+  }
+
+  timer(){
     this.time = 180;
     setInterval(()=>{
       if(this.time>0){
@@ -37,12 +41,12 @@ export class OtpVerificationComponent {
 
   submitOtp(){
     
-    this.resendSubject.next();
+    this.sendSubject.next();
   }
 
   resendOtp(){
     this.otp='';
-    
+    this.timer();
     this.otpResendEvent.emit();
   }
 }

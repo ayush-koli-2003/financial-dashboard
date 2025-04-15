@@ -1,4 +1,4 @@
-<!-- <app-notifications-panel [isVisible]="isNotificationVisible" (closeEvent)="closeNotificationPanel()"></app-notifications-panel> -->
+<app-notifications-panel [isVisible]="isNotificationVisible" (closeEvent)="closeNotificationPanel()"></app-notifications-panel>
 <div style="margin-bottom: 7%;" class="card">
     <p-menubar [model]="items">
         <ng-template #start>
@@ -18,7 +18,7 @@
         </ng-template>
         <ng-template #end>
             <div class="flex items-center gap-2">
-                <!-- <p-button *ngIf="currUser?.role==='user'" (onClick)="showNotificationPanel()" icon="pi pi-bell" severity="warn"></p-button> -->
+                <p-button [rounded]="true" variant="outlined" *ngIf="currUser!==null && currUser?.role==='user'" (onClick)="showNotificationPanel()" icon="pi pi-bell" severity="warn"></p-button>
                 <ng-container *ngIf="isAvatarVisible else logoutOptions">
                     <p-avatar  (click)="menu.toggle($event)" image="https://th.bing.com/th/id/OIP.4Q7-yMnrlnqwR4ORH7c06AHaHa?rs=1&pid=ImgDetMain" shape="circle" />
                     <p-menu #menu [model]="profileItems" [popup]="true" />

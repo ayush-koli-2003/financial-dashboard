@@ -73,11 +73,14 @@ export const login = async(req:Request,res:Response,next:NextFunction)=>{
 export const register = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let body = req.body;
-        let {isValid} = await RegisterDto.validate(body);
+        
+        let {isValid} = await RegisterDto.validate(body.user);
         if(!isValid){
             throw new AppError('User data not valid',500);
         }else{
-            let user = new RegisterDto(body);
+            let user = new RegisterDto(body.user);
+            console.log(user);
+            
             user.password = await bcrypt.hash(user.password,SALT_ROUNDS);
             let result = await userService.register(user);
 
@@ -165,6 +168,46 @@ export const changePassword = async(req:Request,res:Response,next:NextFunction)=
             else{
                 throw new AppError('Failed user does not exist',500);
             }
+        }
+
+        
+    }
+    catch(err){
+        next(err);
+        
+    }
+}
+
+export const forgotPassword = async(req:Request,res:Response,next:NextFunction)=>{
+    try{
+        let user = req.body.user as User;
+        console.log(user);
+        
+        // let {email,password} = user;
+        // console.log(email,password);
+        
+        let existingUser = await userService.login({email:user.email});
+
+        if(user){
+            console.log(SALT_ROUNDS,user.password);
+            
+            let hasedPassword = await bcrypt.hash(user.password,SALT_ROUNDS);
+            let passwordChange = await userService.changePassword({email:user.email},hasedPassword);
+
+            // console.log(passwordChange);
+            
+            if(passwordChange?.affected as number>0){
+                res.status(200).json({
+                    status: 'successfull',
+                    data:'Password changed successfully'
+                });
+            }
+            else{
+                throw new AppError('Failed password change',500);
+            }
+        }
+        else{
+            throw new AppError('Failed user does not exist',500);
         }
 
         
