@@ -1,24 +1,39 @@
-<div class="main">
-    <!-- <p>list-expenses works!</p> -->
-    <div>
-        <!-- <button (click)="openDialogue('add')">Add expense</button> -->
-        <!-- <app-date-picker  ></app-date-picker> -->
-        <app-filter-options [currDate]="currDate" [categories]="categories" (addEvent)="openDialogue('add')" (searchEvent)="takeSearch($event)"  (filterEvent)="takeFilters($event)" (dateEvent)="selectDate($event)"></app-filter-options>
+<ng-container *ngIf="isDataLoaded else loader">
+    <div class="main">
+        <!-- <p>list-expenses works!</p> -->
+        <div>
+            <!-- <button (click)="openDialogue('add')">Add expense</button> -->
+            <!-- <app-date-picker  ></app-date-picker> -->
+            <app-filter-options [currDate]="currDate" [categories]="categories" (addEvent)="openDialogue('add')" (searchEvent)="takeSearch($event)"  (filterEvent)="takeFilters($event)" (dateEvent)="selectDate($event)"></app-filter-options>
+        </div>
+    
+    
+            <!-- <div style="z-index: 1000; width: auto; left: 40%; right: 40%; position: absolute;">
+                
+            </div> -->
+    
+        <div>
+            <p-dialog [header]="dialogLabel" [modal]="true" [(visible)]="isDialogVisible" [style]="{ width: '40rem' }">
+                <ng-container loadDynamicComponent></ng-container>
+            </p-dialog>
+        
+                <!-- <app-generic-edit [id]="editId" [header]="'Edit component'" [visible]="isEditOpen"></app-generic-edit> -->
+        
+            <p-toast />
+            <p-confirmdialog />
+            <ng-container *ngIf="expenseList.length>0 else noRecord">
+                <app-generic-table [columns]="columns" (selectActionEvent)="selectEvent($event)" [inputData]="expenseList"></app-generic-table>
+            </ng-container>
+            <ng-template #noRecord>
+                <app-no-record [record]="'Expense'" (addEvent)="openDialogue('add')"></app-no-record>
+            </ng-template>
+        </div>
+
     </div>
-
-
-        <!-- <div style="z-index: 1000; width: auto; left: 40%; right: 40%; position: absolute;">
-            
-        </div> -->
-
-    <div>
-        <p-dialog [header]="dialogLabel" [modal]="true" [(visible)]="isDialogVisible" [style]="{ width: '40rem' }">
-            <ng-container loadDynamicComponent></ng-container>
-        </p-dialog>
     
-            <!-- <app-generic-edit [id]="editId" [header]="'Edit component'" [visible]="isEditOpen"></app-generic-edit> -->
-    
-        <p-toast />
-        <p-confirmdialog />
-        <app-generic-table [columns]="columns" (selectActionEvent)="selectEvent($event)" [inputData]="expenseList"></app-generic-table>
-</div>
+</ng-container>
+<ng-template #loader>
+    <div style="display: flex; flex-direction: row; justify-content: center; width: 100%; height: 100%;">
+        <p-progress-spinner ariaLabel="loading" />
+    </div>
+</ng-template>

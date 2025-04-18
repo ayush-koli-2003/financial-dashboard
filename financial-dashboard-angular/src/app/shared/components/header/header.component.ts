@@ -39,14 +39,14 @@ export class HeaderComponent {
               command:()=>{
                 this.router.navigate(['/admin'])
               },
-              visible:this.currUser?.role==='admin'
+              visible:this.currUser?.role==='admin',
             },
             {
               label: 'Dashboard',
               command:()=>{
                 this.router.navigate(['/dashboard'])
               },
-              visible:this.currUser?.role==='user'
+              visible:this.currUser?.role==='user',
             },
             {
               label: 'Expense',

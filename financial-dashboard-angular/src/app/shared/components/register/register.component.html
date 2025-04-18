@@ -2,50 +2,49 @@
 
   <app-otp-verification *ngIf="isOtpVisible" (otpResendEvent)="onOtpResend()" (otpVerifyEvent)="onOtpSubmit($event)"></app-otp-verification>
 </p-dialog>
-<form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
-    <!-- <label for="username">Username: </label>
-    <input type="text" formControlName="username">
-    <br>
-    <label for="email">Email: </label>
-    <input type="email" formControlName="email">
-    <br>
-    <label for="password">Password: </label>
-    <input type="password" formControlName="password">
 
-    <br>
-    <button type="submit">Register</button> -->
+<div style="display: flex; flex-direction: row; justify-content: center;">
+  <div class="surface-card p-4 shadow-2 border-round w-full lg:w-6">
+    <div class="text-center mb-5">
+        <div class="text-900 text-3xl font-medium mb-3">Welcome!</div>
+        <span class="text-600 font-medium line-height-3">Already have an account?</span>
+        <a class="font-medium no-underline ml-2 text-blue-500 cursor-pointer" routerLink="/login">Login!</a>
+    </div>
+  
+    <div>
+  
+      <form [formGroup]="registerForm" (ngSubmit)="onSubmit()">
 
-    <div class="container">
-        <label for="uname"><b>Username</b></label>
+        <label for="uname" class="block text-900 font-medium mb-2">Username</label>
         <div class="error-message" *ngIf="registerForm.invalid">
-            <span *ngIf="registerForm.get('username')?.dirty && registerForm.get('username')?.errors?.['required']">Username is required</span>
-            <span *ngIf="registerForm.get('username')?.dirty  && registerForm.get('username')?.errors?.['pattern']">Username should not have Whitespaces</span>
+          <span *ngIf="registerForm.get('username')?.dirty && registerForm.get('username')?.errors?.['required']">Username is required</span>
+          <span *ngIf="registerForm.get('username')?.dirty  && registerForm.get('username')?.errors?.['pattern']">Username should not have Whitespaces</span>
         </div>
-        <input type="text" placeholder="Enter Username" formControlName="username">
+        <input id="username" type="text" formControlName="username" placeholder="Username" pInputText class="w-full mb-3">
 
-        <label for="email"><b>Email</b></label>
-        <div class="error-message" *ngIf="registerForm.invalid">
-            <small *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.touched && registerForm.get('email')?.errors?.['required']">Email is required</small>
-            <small *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.errors?.['email']">Please enter valid Email address</small>
-          </div>
-        <input type="text" placeholder="Enter Email" formControlName="email">
-    
-        <label for="psw"><b>Password</b></label>
-        <div class="error-message" *ngIf="registerForm.invalid">
-            <small *ngIf="registerForm.get('password')?.dirty && registerForm.get('password')?.errors?.['required']">Password is required</small>
-            <small *ngIf="registerForm.get('password')?.dirty && registerForm.get('password')?.errors?.['minlength']">Password should be atleast 6 length</small> <br>
-            <small *ngIf="registerForm.get('password')?.dirty && registerForm.get('password')?.errors?.['pattern']">Password should not have whitespaces</small>
-          </div>
-        <input type="password" placeholder="Enter Password" formControlName="password">
-    
-        <button type="submit">Register</button>
-        <!-- <label>
-          <input type="checkbox" checked="checked" name="remember"> Remember me
-        </label> -->
-    </div>
+        <label for="email1" class="block text-900 font-medium mb-2">Email</label>
+        <div class="error-message" *ngIf="!registerForm.valid">
+          <small *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.errors?.['required']">Email is required</small>
+          <small *ngIf="registerForm.get('email')?.dirty && registerForm.get('email')?.errors?.['email']">Please enter valid Email address</small>
+        </div>
+        <input id="email1" type="text" formControlName="email" placeholder="Email address" pInputText class="w-full mb-3">
+  
+        <label for="password1" class="block text-900 font-medium mb-2">Password</label>
+        <div class="error-message" *ngIf="!registerForm.valid">
+          <small *ngIf="registerForm.get('password')?.dirty && registerForm.get('password')?.errors?.['required']">Password is required</small>
+          <small *ngIf="registerForm.get('password')?.dirty && registerForm.get('password')?.errors?.['minlength']">Password should be atleast 6 length</small> <br>
+          <small *ngIf="registerForm.get('password')?.dirty && registerForm.get('password')?.errors?.['pattern']">Password should not have whitespaces</small>
+        </div>
+        <input id="password1" type="password" formControlName="password" placeholder="Password" pInputText class="w-full mb-3">
 
-    <div class="container" style="background-color:#f1f1f1">
-        <!-- <span class="psw">Forgot <a href="#">password?</a></span> -->
-        Already a user? <a routerLink="/login">Login</a>
+        <!-- <div class="flex align-items-center justify-content-between mb-6">
+          <div class="flex align-items-center">
+          </div>
+          <a class="font-medium no-underline ml-2 text-blue-500 text-right cursor-pointer" (click)="forgotPasswordWindow()">Forgot password?</a>
+        </div> -->
+  
+        <button pButton pRipple label="Sign up" type="submit" icon="pi pi-user" class="w-full"></button>
+      </form>
     </div>
-</form>
+  </div>
+</div>

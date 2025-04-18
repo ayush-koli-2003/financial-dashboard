@@ -78,21 +78,14 @@ export class MonthlyReportsComponent {
   }
 
   downloadMonthlyReport(){
-    this.reportService.currDateObs$.subscribe({
-      next:(date:any)=>{
-        this.currDate = {month:date.month,year:date.year};
-        console.log(this.currDate);
+    this.reportService.downloadMonthlyReport(this.currDate.month,this.currDate.year).subscribe(
+      (blob)=>{
+        const url = window.URL.createObjectURL(blob);
+        saveAs(blob, 'data.csv');
+        window.URL.revokeObjectURL(url)
         
-        this.reportService.downloadMonthlyReport(this.currDate.month,this.currDate.year).subscribe(
-          (blob)=>{
-            const url = window.URL.createObjectURL(blob);
-            saveAs(blob, 'data.csv');
-            window.URL.revokeObjectURL(url)
-            
-          }
-        );
       }
-    })
+    );
   }
 }
 

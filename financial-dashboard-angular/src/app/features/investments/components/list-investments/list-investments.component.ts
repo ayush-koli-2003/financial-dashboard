@@ -1,4 +1,4 @@
-import { Component, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewChecked, Component, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { Investment } from '../../../../core/models/Investment.model';
 import { InvestmentService } from '../../services/investment.service';
 import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
@@ -14,7 +14,7 @@ import { GenericDisplayDetailsComponent } from '../../../../shared/components/ge
   templateUrl: './list-investments.component.html',
   styleUrl: './list-investments.component.css'
 })
-export class ListInvestmentsComponent implements OnInit {
+export class ListInvestmentsComponent implements OnInit, AfterViewChecked {
   investmentList:Investment[];
   isAddOpen: boolean=false;
 
@@ -31,6 +31,7 @@ export class ListInvestmentsComponent implements OnInit {
   unfilteredList:any[]=[];
   currDate!:{month:string,year:string};
   searchQuery!:string;
+  isDataLoaded = false;
 
   constructor(private route:ActivatedRoute,private investmentService:InvestmentService,private confirmationService: ConfirmationService, private messageService: MessageService){
     this.investmentList=[]
@@ -51,8 +52,10 @@ export class ListInvestmentsComponent implements OnInit {
     )
   }
 
-  ngAfterViewInit(){
-    this.vcr = this.loadDynamicComponentDirective.vcr;
+  ngAfterViewChecked(){
+    if(this.loadDynamicComponentDirective){
+      this.vcr = this.loadDynamicComponentDirective.vcr;
+    }
   }
 
   getInvestments(month:any,year:any,search:string){
@@ -60,6 +63,7 @@ export class ListInvestmentsComponent implements OnInit {
       (response:any)=>{
         this.investmentList = response.data;
         this.unfilteredList = this.investmentList;
+        this.isDataLoaded = true;
         this.route.queryParams.subscribe(
           (map:any)=>{
             this.takeFilters({sortBy:undefined,filterBy:map.category})

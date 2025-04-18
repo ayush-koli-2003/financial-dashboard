@@ -13,7 +13,7 @@ import { EditIncomeComponent } from './components/edit-income/edit-income.compon
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
-
+import { ProgressSpinner } from 'primeng/progressspinner';
 @NgModule({
     declarations:[ListIncomesComponent, AddIncomeComponent, EditIncomeComponent],
     imports:[
@@ -25,7 +25,8 @@ import { ToastModule } from 'primeng/toast';
         CardModule,
         Dialog,
         ConfirmDialog,
-        ToastModule
+        ToastModule,
+        ProgressSpinner
     ],
     providers:[provideHttpClient(),MessageService,ConfirmationService]
 })

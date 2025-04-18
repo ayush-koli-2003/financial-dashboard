@@ -1,7 +1,7 @@
 <div class="filter-container">
     <div class="filter-options">
         <div class="filter">
-            <p-button (onClick)="emitButton()" label="Add" icon="pi pi-plus-circle"/>
+            <p-button [disabled]="selectedDate===undefined? false : selectedDate.month!==initialDate.month || selectedDate.year!== initialDate.year" (onClick)="emitButton()" label="Add" icon="pi pi-plus-circle"/>
         </div>
         <div class="filter">
             <app-date-picker [currDate]="currDate" (dateEvent)="selectDate($event)"></app-date-picker>

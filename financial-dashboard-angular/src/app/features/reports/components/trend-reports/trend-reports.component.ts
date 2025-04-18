@@ -12,7 +12,8 @@ export class TrendReportsComponent implements OnInit{
   incomeVsExpenseTrend:any;
   savingsTrend:any
   pastMonths = '6'
-  months = ['3','6','12']; // ,'6','12'
+  months = ['3','6','12']; // ,'6','12';
+  isDataLoaded = false;
   constructor(private reportService:ReportService){
 
   }
@@ -34,6 +35,7 @@ export class TrendReportsComponent implements OnInit{
         
         this.savingsTrend=res.data.savingsTrend;
         this.incomeVsExpenseTrend = res.data.incomeVsExpenseTrend;
+        this.isDataLoaded = true
       },
       error:(err)=>{
         console.log(err);

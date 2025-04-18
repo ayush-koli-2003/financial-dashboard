@@ -45,7 +45,6 @@ export const changeStatus = async(req:Request,res:Response,next:NextFunction)=>{
             throw new AppError('ID should be a number',500);
         }
         else{
-            console.log(userId);
             
             let user = await userService.getUser({id:userId});
 

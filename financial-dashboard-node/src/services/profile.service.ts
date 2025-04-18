@@ -1,3 +1,4 @@
+import { User } from "../entities/user.entity";
 import { CurrencyCategory } from "../enums/currency.enum";
 import { createProfile, getProfile, updateProfile } from "../repositories/profile.repository";
 import { AppError } from "../types/app-error";
@@ -44,6 +45,25 @@ export class ProfileService{
         catch(err){
             throw err;
             
+        }
+    }
+
+    async getCurrencyPreference(user:Partial<User>){
+        try{
+            let result = await getProfile(user);
+            let currency;
+            if(result){
+                currency = result.currencyPreference;
+
+            }
+            else{
+                currency = 'INR'
+            }
+
+            return currency;
+        }
+        catch(err){
+            throw err;
         }
     }
 }

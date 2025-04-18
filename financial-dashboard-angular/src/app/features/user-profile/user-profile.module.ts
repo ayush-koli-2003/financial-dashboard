@@ -13,6 +13,7 @@ import { Dialog } from 'primeng/dialog';
 import { TabsModule } from 'primeng/tabs';
 import { ButtonModule } from 'primeng/button';
 import { ChangePasswordComponent } from './components/change-password/change-password.component';
+import { ProgressSpinner } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -29,7 +30,8 @@ import { ChangePasswordComponent } from './components/change-password/change-pas
     ReactiveFormsModule,
     Dialog,
     TabsModule,
-    ButtonModule
+    ButtonModule,
+    ProgressSpinner
   ],
   providers:[provideHttpClient()]
 })

@@ -1,4 +1,4 @@
-<div class="main">
+<div *ngIf="isLoaded else loader" class="main">
     <div>
         <app-filter-options [disableFields]="{isSearchDisabled:true,isSortDisabled:true}" [categories]="categories" (addEvent)="openDialogue('add')" (filterEvent)="takeFilters($event)" [currDate]="currDate" (dateEvent)="selectDate($event)"></app-filter-options>
     </div>
@@ -27,43 +27,53 @@
         
         <p-toast />
         <p-confirmdialog />
-        <div *ngIf="isLoaded" class="list-container">
-            <ng-container *ngFor="let budget of budgetList">
-                <ng-container *ngFor="let spending of totalSpendingOfCategory">
-                    <ng-container *ngIf="budget.category === spending.category">
-                        <div>
-                            <p-card [header]="budget.category">
-                                <div class="list-card">
-                                    <div style="width: 75%;">
-                                        <p class="m-0" style="width: 100%;">
-                                            <p-progressbar [ngClass]="'customProgress'" [value]="(spending.totalSpending/budget.amount)*100">
-                                                <ng-template #content let-value>
-                                                    <span>{{spending.totalSpending}}</span>
-                                                </ng-template>
-                                            </p-progressbar>
-                                            
-                                            Budget: {{budget.amount}} <br>
-                                            Spent Amount: {{spending.totalSpending}}
-                                        </p>
-                                        <!-- <div class="bg-orange-500 h-full" style="width: 50%; background-color: orange; height: 100%;"></div> -->
-                                    </div>
-                                    <div class="actions">
-                                        <div>
-                                            <p-button icon="pi pi-arrow-up-right" (onClick)="navigateToTransaction(budget.category)" variant="outlined"></p-button>
+        <div class="list-container">
+            <ng-container *ngIf="budgetList.length>0 else noRecord">
+                <ng-container *ngFor="let budget of budgetList">
+                    <ng-container *ngFor="let spending of totalSpendingOfCategory">
+                        <ng-container *ngIf="budget.category === spending.category">
+                            <div>
+                                <p-card [header]="budget.category">
+                                    <div class="list-card">
+                                        <div style="width: 75%;">
+                                            <p class="m-0" style="width: 100%;">
+                                                <p-progressbar [ngClass]="'customProgress'" [value]="(spending.totalSpending/budget.amount)*100">
+                                                    <ng-template #content let-value>
+                                                        <span>{{spending.totalSpending}}</span>
+                                                    </ng-template>
+                                                </p-progressbar>
+                                                
+                                                Budget: {{budget.amount}} <br>
+                                                Spent Amount: {{spending.totalSpending}}
+                                            </p>
+                                            <!-- <div class="bg-orange-500 h-full" style="width: 50%; background-color: orange; height: 100%;"></div> -->
                                         </div>
-                                        <div>
-                                            <app-item-options [id]="budget.id" (selectOption)="selectEvent($event)"></app-item-options>
+                                        <div class="actions">
+                                            <div>
+                                                <p-button icon="pi pi-arrow-up-right" (onClick)="navigateToTransaction(budget.category)" variant="outlined"></p-button>
+                                            </div>
+                                            <div>
+                                                <app-item-options [id]="budget.id" (selectOption)="selectEvent($event)"></app-item-options>
+                                            </div>
                                         </div>
                                     </div>
-                                </div>
-                            </p-card>
-                        </div>
-                        <!-- <div class="card" style="margin-left: 25%; margin-right: 25%;">
-                            
-                        </div> -->
+                                </p-card>
+                            </div>
+                            <!-- <div class="card" style="margin-left: 25%; margin-right: 25%;">
+                                
+                            </div> -->
+                        </ng-container>
                     </ng-container>
                 </ng-container>
             </ng-container>
+            <ng-template #noRecord>
+                <app-no-record [record]="'Budget'" (addEvent)="openDialogue('add')"></app-no-record>
+            </ng-template>
         </div>
     </div>
 </div>
+<ng-template #loader>
+    <div style="display: flex; flex-direction: row; justify-content: center; width: 100%; height: 100%;">
+        <p-progress-spinner ariaLabel="loading" />
+    </div>
+</ng-template>

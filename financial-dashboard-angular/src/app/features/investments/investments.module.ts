@@ -14,6 +14,7 @@ import { EditInvestmentComponent } from './components/edit-investment/edit-inves
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { ProgressSpinner } from 'primeng/progressspinner';
 
 
 @NgModule({
@@ -30,8 +31,8 @@ import { ToastModule } from 'primeng/toast';
     CardModule,
     Dialog,
     ConfirmDialog,
-    ToastModule
-
+    ToastModule,
+    ProgressSpinner
   ],
   providers:[provideHttpClient(),MessageService,ConfirmationService]
 })

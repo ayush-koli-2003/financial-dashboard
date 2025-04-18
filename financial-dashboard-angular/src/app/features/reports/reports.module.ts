@@ -14,6 +14,7 @@ import { SelectModule } from 'primeng/select';
 import { FormsModule } from '@angular/forms';
 import { SelectButtonModule } from 'primeng/selectbutton';
 import { ButtonModule } from 'primeng/button';
+import { ProgressSpinner } from 'primeng/progressspinner';
 
 
 @NgModule({
@@ -30,7 +31,8 @@ import { ButtonModule } from 'primeng/button';
     SelectModule,
     FormsModule,
     SelectButtonModule,
-    ButtonModule
+    ButtonModule,
+    ProgressSpinner
   ],
   providers:[
     ReportService,

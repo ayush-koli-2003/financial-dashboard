@@ -5,6 +5,7 @@ import { AuthGuard } from './core/guards/auth.guard';
 import { RegisterComponent } from './shared/components/register/register.component';
 import { LandingPageComponent } from './shared/components/landing-page/landing-page.component';
 import { ForgotPasswordComponent } from './shared/components/forgot-password/forgot-password.component';
+import { PageNotFoundComponent } from './shared/components/page-not-found/page-not-found.component';
 
 const routes: Routes = [
   {path:'',redirectTo:'landing',pathMatch:'full'},
@@ -18,7 +19,8 @@ const routes: Routes = [
   {path:'signup',component:RegisterComponent},
   {path:'profile',canActivate:[AuthGuard],loadChildren:()=> import('./features/user-profile/user-profile.module').then(m=> m.UserProfileModule)},
   {path:'admin',canActivate:[AuthGuard],loadChildren:()=> import('./features/admin-dashboard/admin-dashboard.module').then(m=> m.AdminDashboardModule)},
-  {path:'landing',component:LandingPageComponent}
+  {path:'landing',component:LandingPageComponent},
+  {path:"**",component:PageNotFoundComponent}
 ];
 
 @NgModule({

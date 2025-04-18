@@ -18,6 +18,8 @@ export class DashboardComponent implements OnInit{
 
   isChartsLoaded=false;
 
+  currency:string='INR'
+
   charts:any[]=[]
 
   transactions:any[]=[1,2,3,4,5,6,7,8,9,10];
@@ -36,6 +38,7 @@ export class DashboardComponent implements OnInit{
         this.currDate = {month:date.month,year:date.year};
         this.getDashboardData(this.currDate.month,this.currDate.year);
         this.getDashboardCharts(this.currDate.month,this.currDate.year);
+        this.getCurrencyPreference();
       }
     })
   }
@@ -69,6 +72,14 @@ export class DashboardComponent implements OnInit{
     })
 
 
+  }
+
+  getCurrencyPreference(){
+    this.dashboardService.getCurrencyPreference().subscribe({
+      next:(res:any)=>{
+        this.currency = res.data;
+      }
+    })
   }
 
   getDashboardCharts(month:any,year:any){

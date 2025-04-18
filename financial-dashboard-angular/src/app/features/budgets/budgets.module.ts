@@ -15,6 +15,7 @@ import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
 import { ButtonModule } from 'primeng/button';
 import { CurrentDateService } from '../../core/services/current-date.service';
+import { ProgressSpinner } from 'primeng/progressspinner';
 
 
 @NgModule({
@@ -33,7 +34,8 @@ import { CurrentDateService } from '../../core/services/current-date.service';
     Dialog,
     ButtonModule,
     ToastModule,
-    ConfirmDialog
+    ConfirmDialog,
+    ProgressSpinner
   ],
   providers:[provideHttpClient(),ConfirmationService, MessageService,CurrentDateService]
 })

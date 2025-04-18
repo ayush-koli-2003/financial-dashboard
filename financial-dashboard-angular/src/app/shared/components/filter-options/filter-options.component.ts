@@ -22,7 +22,13 @@ export class FilterOptionsComponent implements OnInit,OnChanges {
   filterByValue:any;
   searchQuery:string='';
   searchControl = new FormControl();
+  selectedDate!:{month:string,year:string};
+  initialDate:{month:string,year:string}={month:(new Date().getMonth()+1).toString(),year:(new Date().getFullYear()).toString()};
   ngOnInit(){
+    console.log(this.initialDate);
+    console.log(this.selectedDate);
+    
+    
     this.searchControl.valueChanges.pipe(
       debounceTime(2000),
       distinctUntilChanged()
@@ -57,6 +63,11 @@ export class FilterOptionsComponent implements OnInit,OnChanges {
   }
 
   selectDate(value:any){
+    this.selectedDate = value;
+    console.log(this.selectedDate);
+    console.log(this.initialDate);
+    
+    
     this.dateEvent.emit(value);
   }
 

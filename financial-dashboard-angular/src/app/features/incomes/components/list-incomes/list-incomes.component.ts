@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ComponentRef, OnInit, ViewChild, ViewContainerRef } from '@angular/core';
 import { IncomeService } from '../../services/income.service';
 import { Income } from '../../../../core/models/Income.model';
 import { AddIncomeComponent } from '../add-income/add-income.component';
@@ -13,7 +13,7 @@ import { GenericDisplayDetailsComponent } from '../../../../shared/components/ge
   templateUrl: './list-incomes.component.html',
   styleUrl: './list-incomes.component.css'
 })
-export class ListIncomesComponent implements OnInit, AfterViewInit{
+export class ListIncomesComponent implements OnInit, AfterViewChecked{
   incomeList:Income[]
   currDate!:{month:string,year:string};
   isAddOpen: boolean=false;
@@ -22,6 +22,7 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
   isDialogVisible = false;
   dialogLabel:string='';
   editId!:number;
+  isDataLoaded=false;
 
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective
   vcr!: ViewContainerRef;
@@ -49,13 +50,16 @@ export class ListIncomesComponent implements OnInit, AfterViewInit{
     )
   }
 
-  ngAfterViewInit(): void {
-    this.vcr = this.loadDynamicComponentDirective.vcr;
+  ngAfterViewChecked(): void {
+    if(this.loadDynamicComponentDirective){
+      this.vcr = this.loadDynamicComponentDirective.vcr;
+    }
   }
 
   getIncomes(month:any,year:any,search:string){
     this.incomeService.getIncomes(month,year,search).subscribe(
       (response:any)=>{
+        this.isDataLoaded = true;
         this.incomeList = response.data
         this.unfilteredList = this.incomeList;
         console.log(this.incomeList[0]);

@@ -77,10 +77,15 @@ export class ForgotPasswordComponent {
     this.otp = otp;
     this.otpService.verifyOtp({otp:otp,user:{email:this.email},type:'forgot-password'}).subscribe({
       next:(res:any)=>{
+        Swal.fire({
+          text: "OTP is correct!",
+          icon: "success"
+        });
         this.isOtpVisible = false;
         this.forgotPasswordForm = new FormGroup({password:new FormControl(null,[Validators.required,Validators.minLength(6)])
         })
         this.inputControls = [{name:'password',label:"New password",type:'password'}]
+
       }
     })
 

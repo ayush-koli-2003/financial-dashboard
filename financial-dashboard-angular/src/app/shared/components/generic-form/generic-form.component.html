@@ -1,7 +1,7 @@
 <div class="form-container">
     <div style="width: 100%;">
         <form [formGroup]="form" (ngSubmit)="onSubmit()">
-            <div class="form-group">
+            <div [ngClass]="'form-group'">
                 <div style="width: 100%;">
                     <ng-container *ngFor="let control of inputControls">
                         <div class="form-control">

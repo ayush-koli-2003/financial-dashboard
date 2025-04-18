@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ComponentRef, OnInit, ViewChild } from '@angular/core';
 import { BudgetsService } from '../../services/budgets.service';
 import { Budget } from '../../../../core/models/Budget.model';
 import { LoadDynamicComponentDirective } from '../../../../shared/directives/load-dynamic-component.directive';
@@ -18,7 +18,7 @@ import { CurrentDateService } from '../../../../core/services/current-date.servi
   templateUrl: './list-budgets.component.html',
   styleUrl: './list-budgets.component.css'
 })
-export class ListBudgetsComponent implements OnInit, AfterViewInit{
+export class ListBudgetsComponent implements OnInit, AfterViewChecked{
   budgetList:Budget[];
   isLoaded = false;
   isAddOpen = false;
@@ -62,8 +62,10 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
     )
   }
 
-  ngAfterViewInit(): void {
-    this.vcr = this.loadDynamicComponentDirective.vcr;
+  ngAfterViewChecked(): void {
+    if(this.loadDynamicComponentDirective){
+      this.vcr = this.loadDynamicComponentDirective.vcr;
+    }
   }
 
   getExpenseCategories(){
@@ -93,7 +95,7 @@ export class ListBudgetsComponent implements OnInit, AfterViewInit{
     this.budgetService.getBudgets(month,year).subscribe(
       (response:any)=>{
         this.budgetList = response.data;
-        console.log(this.budgetList);
+        // console.log(this.budgetList);
         
         this.isLoaded = true;
       }

@@ -1,4 +1,4 @@
-<div class="main">
+<div *ngIf="isDataLoaded else loader" class="main">
     <!-- <div>
         <button (click)="openDialogue('add')">Add Income</button>
         <app-date-picker  (dateEvent)="selectDate($event)"></app-date-picker>
@@ -13,9 +13,19 @@
         </p-dialog>
         <p-toast />
         <p-confirmdialog />
-        <app-generic-table [columns]="columns" [inputData]="incomeList" (selectActionEvent)="selectEvent($event)"></app-generic-table>
-    
+        <ng-container *ngIf="incomeList.length>0 else noRecord">
+            <app-generic-table [columns]="columns" [inputData]="incomeList" (selectActionEvent)="selectEvent($event)"></app-generic-table>
+        </ng-container>
+        <ng-template #noRecord>
+            <app-no-record [record]="'Income'" (addEvent)="openDialogue('add')"></app-no-record>
+        </ng-template>
     </div>    
     
 
 </div>
+
+<ng-template #loader>
+    <div style="display: flex; flex-direction: row; justify-content: center; width: 100%; height: 100%;">
+        <p-progress-spinner ariaLabel="loading" />
+    </div>
+</ng-template>

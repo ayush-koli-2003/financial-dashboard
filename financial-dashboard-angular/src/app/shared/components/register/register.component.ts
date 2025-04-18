@@ -3,6 +3,7 @@ import { FormControl, FormGroup, Validators } from '@angular/forms';
 import { AuthService } from '../../../core/services/auth.service';
 import { Router } from '@angular/router';
 import { OtpService } from '../../../core/services/otp.service';
+import Swal from 'sweetalert2';
 
 @Component({
   selector: 'app-register',
@@ -66,6 +67,10 @@ export class RegisterComponent {
           console.log('User already exists');
         }
         else{
+          Swal.fire({
+            text: "User is Registered!",
+            icon: "success"
+          });
           this.router.navigate(['/login'])
         }
       }

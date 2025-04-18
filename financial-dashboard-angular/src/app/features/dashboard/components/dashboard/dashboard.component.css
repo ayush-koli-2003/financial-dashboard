@@ -17,7 +17,7 @@
 .display-container{
     display: flex;
     flex-direction: row;
-    margin: 5%;
+    margin: 2% 5% 0% 5%;
 }
 
 .charts-with-option{
@@ -36,4 +36,5 @@
     display: flex;
     flex-direction: row;
     justify-content: center;
+    /* margin-top: 1%; */
 }

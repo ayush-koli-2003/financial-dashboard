@@ -1,4 +1,4 @@
-import { AfterViewInit, Component, ComponentRef, OnInit, ViewChild } from '@angular/core';
+import { AfterViewChecked, AfterViewInit, Component, ComponentRef, OnInit, ViewChild } from '@angular/core';
 import { ExpenseService } from '../../services/expense.service';
 import { Expense } from '../../../../core/models/Expense.model';
 import { ActivatedRoute, Router } from '@angular/router';
@@ -17,7 +17,7 @@ import Swal from 'sweetalert2';
   templateUrl: './list-expenses.component.html',
   styleUrl: './list-expenses.component.css'
 })
-export class ListExpensesComponent implements OnInit, AfterViewInit {
+export class ListExpensesComponent implements OnInit, AfterViewChecked {
   expenseList:Expense[]=[];
   unfilteredList:any[]=[];
   currDate!:{month:string,year:string};
@@ -65,8 +65,10 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
 
   }
 
-  ngAfterViewInit(): void {
-    this.vcr = this.loadDynamicComponent.vcr;
+  ngAfterViewChecked(): void {
+    if(this.loadDynamicComponent){      
+      this.vcr = this.loadDynamicComponent.vcr;
+    }
   }
 
   takeFilters(filters:any){
@@ -174,23 +176,24 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
   }
 
   loadAddComponent() {
+    // console.log(this.vcr);
     
-    this.vcr.clear();
-    this.compRef = this.loadDynamicComponent.vcr.createComponent(AddExpenseComponent);
-  
-    this.compRef.instance.closeEvent.subscribe(
-      (res: any) => {
-        // console.log(res);
-        
-        this.closeDialogue();
-        this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Expense added' });
-      }
-    );
+    this.vcr?.clear();
+      this.compRef = this.loadDynamicComponent.vcr.createComponent(AddExpenseComponent);
+    
+      this.compRef.instance.closeEvent.subscribe(
+        (res: any) => {
+          // console.log(res);
+          
+          this.closeDialogue();
+          this.messageService.add({ severity: 'success', summary: 'Success', detail: 'Expense added' });
+        }
+      );
   }
 
   loadEditComponent(editId:any) {
     
-    this.vcr.clear();
+    this.vcr?.clear();
     this.compRef = this.loadDynamicComponent.vcr.createComponent(EditExpenseComponent);
     this.compRef.setInput('id',editId);
   
@@ -230,7 +233,7 @@ export class ListExpensesComponent implements OnInit, AfterViewInit {
   }
 
   loadDisplayComponent(value:any){
-    this.vcr.clear();
+    this.vcr?.clear();
     this.expenseService.getExpenseById(value).subscribe(
       (res:any)=>{
         let {id,...inputData} = res.data;

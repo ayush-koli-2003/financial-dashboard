@@ -16,6 +16,7 @@ import { EditExpenseComponent } from './components/edit-expense/edit-expense.com
 import { ConfirmationService, MessageService } from 'primeng/api';
 import { ConfirmDialog } from 'primeng/confirmdialog';
 import { ToastModule } from 'primeng/toast';
+import { ProgressSpinner } from 'primeng/progressspinner';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,8 @@ import { ToastModule } from 'primeng/toast';
     Dialog,
     ButtonModule,
     ToastModule,
-    ConfirmDialog
+    ConfirmDialog,
+    ProgressSpinner
   ],
   providers:[provideHttpClient(),ConfirmationService, MessageService]
 })

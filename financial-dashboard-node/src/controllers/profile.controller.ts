@@ -122,3 +122,19 @@ export const activateUser = async(req:Request,res:Response)=>{
         throw err;
     }
 }
+
+export const getCurrencyPreference = async(req:Request,res:Response)=>{
+    try{
+        let user = req.body.user;
+
+        let result = await profileService.getCurrencyPreference(user);
+
+        res.status(200).json({
+            status:'successfull',
+            data:result
+        })
+    }
+    catch(er){
+        throw er;
+    }
+}

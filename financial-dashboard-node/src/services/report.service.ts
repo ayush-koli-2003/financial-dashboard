@@ -1,3 +1,4 @@
+import { log } from "console";
 import { Budget } from "../entities/budget.entity";
 import { Expense } from "../entities/expense.entity";
 import { Income } from "../entities/income.entity";
@@ -146,9 +147,6 @@ export class ReportService{
             startDate = new Date(year,month-pastMonths+1,1).toISOString().split('T')[0]; 
             endDate = endDate.split('T')[0];
             // console.log(startDate);
-
-            
-            // console.log(startDate,endDate);
             
             let monthsList:any[] =[]
             // let monthlyExpenseData : Map<'string',{expense:number}> = new Map();
@@ -157,24 +155,23 @@ export class ReportService{
             let startMonth = parseInt(startDate.split('-')[1]);
             let endMonth = parseInt(endDate.split('-')[1]);
 
-            // console.log(startMonth,endMonth);
+            
 
-            if(startMonth===endMonth){
+            if(startMonth===endMonth || endMonth===12){
                 endMonth --;
             }
             
-
             for(let m=startMonth+1; m!== endMonth+1;m=((m+1)%13)){              
                 if(m!==0){
+                    
                     monthsList.push(m);
                 }   
             }
+            
 
-            if(startMonth===endMonth+1){
+            if(startMonth===endMonth+1 || endMonth+1===12){
                 monthsList.push(endMonth+1);
             }
-
-            
             
 
             let incomes = await incomeService.groupIncomeByMonth(user,startDate,endDate);
@@ -201,7 +198,7 @@ export class ReportService{
                 let index = incomes?.findIndex((i)=>i.month==m);
                 if(index===-1){
                     parsedIncomes.splice(place,0,{month:m,income:0});
-                    console.log('not found ',m);
+                    // console.log('not found ',m);
                     place++;
                     
                 }
@@ -266,7 +263,7 @@ export class ReportService{
             let startMonth = parseInt(startDate.split('-')[1]);
             let endMonth = parseInt(endDate.split('-')[1]);
 
-            if(startMonth===endMonth){
+            if(startMonth===endMonth || endMonth===12){
                 endMonth --;
             }
             
@@ -277,9 +274,10 @@ export class ReportService{
                 }   
             }
 
-            if(startMonth===endMonth+1){
+            if(startMonth===endMonth+1 || endMonth+1===12){
                 monthsList.push(endMonth+1);
             }
+            
 
             let incomes = await incomeService.groupIncomeByMonth(user,startDate,endDate);
             let expenses = await expenseService.groupExpenseByMonth(user,startDate,endDate);

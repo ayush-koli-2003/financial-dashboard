@@ -47,4 +47,8 @@ export class DashboardService{
 
         this.currDateSub.next(this.currDate);
     }
+
+    getCurrencyPreference(){
+        return this.http.get('http://localhost:3000/api/profile/getCurrencyPreference');
+    }
 }

@@ -5,11 +5,11 @@
 <p-dialog [header]="'Change password'" [modal]="true" [(visible)]="isChangePasswordVisible" [style]="{ width: '25rem' }">
     <app-change-password (closeEvent)="closeChangePassword()"></app-change-password>
 </p-dialog>
-<div *ngIf="isProfileLoaded" class="mb-4 p-8 flex items-center justify-center">
-    <div style="display: flex; flex-direction: column; width: 60%; margin-left: 20%; margin-right: 20%;">
-        <div style="display: flex; justify-content: center; flex-direction: row; width: 100%; height: 100%;">
-            <div>
-                <p-avatar image="https://th.bing.com/th/id/OIP.4Q7-yMnrlnqwR4ORH7c06AHaHa?rs=1&pid=ImgDetMain" [style]="{width:'50%',height:'70%'}" size="xlarge" shape="circle" />
+<div *ngIf="isProfileLoaded else loader" class="mb-4 flex items-center justify-center">
+    <div class="profile-container">
+        <div class="image-container">
+            <div class="image">
+                <p-avatar image="https://th.bing.com/th/id/OIP.4Q7-yMnrlnqwR4ORH7c06AHaHa?rs=1&pid=ImgDetMain" [style]="{width:'60%',height:'60%'}" size="xlarge" shape="circle" />
             </div>
         </div>
         <div>
@@ -90,3 +90,9 @@
         </div>
     </div>
 </div>
+
+<ng-template #loader>
+    <div style="display: flex; flex-direction: row; justify-content: center; width: 100%; height: 100%;">
+        <p-progress-spinner ariaLabel="loading" />
+    </div>
+</ng-template>
