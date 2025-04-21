@@ -22,7 +22,7 @@
             <p-toast />
             <p-confirmdialog />
             <ng-container *ngIf="expenseList.length>0 else noRecord">
-                <app-generic-table [columns]="columns" (selectActionEvent)="selectEvent($event)" [inputData]="expenseList"></app-generic-table>
+                <app-generic-table [totalRecords]="totalRecords" [columns]="columns" (pageChangeEvent)="changePage($event)" (selectActionEvent)="selectEvent($event)" [inputData]="expenseList"></app-generic-table>
             </ng-container>
             <ng-template #noRecord>
                 <app-no-record [record]="'Expense'" (addEvent)="openDialogue('add')"></app-no-record>

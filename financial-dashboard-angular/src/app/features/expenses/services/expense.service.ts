@@ -14,6 +14,7 @@ export class ExpenseService{
     updateExpenseList$ = this.updateExpenseListSub.asObservable();
     currDate:{month:string,year:string,time?:'string'};
     searchQuery:string;
+    filter:{filterBy?:any,sortBy?:any}={};
     constructor(private http:HttpClient){
         let date = new Date();
         this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
@@ -21,10 +22,10 @@ export class ExpenseService{
         this.searchQuery ='';
     }
 
-    getExpenseList(month:any,year:any,search:string){
-        console.log(search);
+    getExpenseList(month:any,year:any,search:string,limit:number,offset:number,filterBy?:string,sortBy?:string){
+        // console.log(search);
         
-        const params = `month=${month}&year=${year}&search=${search}`;
+        const params = `month=${month}&year=${year}&search=${search}&limit=${limit}&offset=${offset}&filterBy=${filterBy}&sortBy=${sortBy}`;
         // this.expenseList.sort((a,b)=> a.date.toDateString() > b.date.toDateString() ? -1:1);
         return this.http.get(`http://localhost:3000/api/expense/?${params}`,{withCredentials:true});
     }
@@ -104,7 +105,22 @@ export class ExpenseService{
         this.updateExpenseListSub.next(this.expenseList);
     }
 
+    updateFilters( filter:{filterBy?:any,sortBy?:any}){
+        this.filter.filterBy=filter.filterBy;
+        this.filter.sortBy = filter.sortBy;
+        this.updateExpenseListSub.next(this.expenseList);
+    }
+
+    getTotalExpenseRecord(month:any,year:any,search:string,filterBy?:string,sortBy?:string){
+        let params = `month=${month}&year=${year}&search=${search}&filterBy=${filterBy}`;
+        return this.http.get(`http://localhost:3000/api/expense/total?${params}`);
+    }
+
     getSearchQuery(){
         return this.searchQuery;
+    }
+
+    getFilters(){
+        return this.filter; 
     }
 }

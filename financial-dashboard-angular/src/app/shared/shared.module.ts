@@ -42,7 +42,7 @@ import { RegisterComponent } from './components/register/register.component';
 import { ForgotPasswordComponent } from './components/forgot-password/forgot-password.component';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
 import { NoRecordComponent } from './components/no-record/no-record.component';
-
+import { PaginatorModule } from 'primeng/paginator';
 
 @NgModule({
   declarations: [
@@ -90,7 +90,8 @@ import { NoRecordComponent } from './components/no-record/no-record.component';
     FloatLabelModule,
     InputOtpModule,
     InputTextModule,
-    RouterModule
+    RouterModule,
+    PaginatorModule
   ],
   exports:[
     GenericChartComponent,

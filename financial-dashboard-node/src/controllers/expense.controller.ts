@@ -76,8 +76,16 @@ export const getExpenseByDate = async(req:Request,res:Response,next:NextFunction
         let startDate = req.body.startDate;
         let endDate = req.body.endDate;
         let search:string = req.query.search as string;
+        let limit:number = parseInt(req.query.limit as string) || 6;
+        let offset:number = parseInt(req.query.offset as string) || 0;
+        let filterBy:string = req.query.filterBy === 'undefined' || undefined? '': req.query.filterBy as string;
+        let sortBy:'ASC'|'DESC'|undefined = req.query.sortBy as ('ASC'|'DESC'|undefined);
         
-        let result = await expenseService.getExpenseByDate(user,startDate,endDate,search);
+        // console.log(typeof sortBy);
+        if(sortBy==='undefined' as unknown as undefined){
+            sortBy = undefined
+        }
+        let result = await expenseService.getExpenseByDateWithLimit(user,startDate,endDate,limit,offset,filterBy,sortBy,search);
 
         if(result){
             res.status(200).json({
@@ -95,6 +103,27 @@ export const getExpenseByDate = async(req:Request,res:Response,next:NextFunction
     catch(err){
         next(err);
         
+    }
+}
+
+export const getTotalExpenseRecords= async(req:Request,res:Response,next:NextFunction)=>{
+    try{
+        let user = req.body.user;
+        let startDate = req.body.startDate;
+        let endDate = req.body.endDate;
+        let search:string = req.query.search as string;
+        let filterBy:string = req.query.filterBy === 'undefined' || undefined? '': req.query.filterBy as string;
+        console.log(search);
+        
+        let result = (await expenseService.getExpenseByDate(user,startDate,endDate,filterBy,search)).length;
+        
+        res.status(200).json({
+            status:200,
+            data:result
+        })
+    }
+    catch(err){
+        next(err);
     }
 }
 

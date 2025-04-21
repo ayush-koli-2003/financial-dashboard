@@ -2,7 +2,7 @@ import { Expense } from "../entities/expense.entity";
 import { User } from "../entities/user.entity";
 import { BudgetCategory } from "../enums/budget.enum";
 import { ExpenseCategory } from "../enums/expense.enum";
-import { addExpense, deleteExpense, getExpenseByDate, getExpenseByDateWithSearch, getExpenseById, getExpenses, getTotalExpenseByDate, getTotalExpenseOfCategory, groupExpenseByMonth, updateExpenseById } from "../repositories/expense.repository";
+import { addExpense, deleteExpense, getExpenseByDate, getExpenseByDateWithLimit, getExpenseByDateWithSearch, getExpenseByDateWithSearchWithLimit, getExpenseById, getExpenses, getTotalExpenseByDate, getTotalExpenseOfCategory, groupExpenseByMonth, updateExpenseById } from "../repositories/expense.repository";
 import { AppError } from "../types/app-error";
 import { BudgetService } from "./budget.service";
 
@@ -76,18 +76,48 @@ export class ExpenseService{
         }
     }
 
-    async getExpenseByDate(user:any,startDate:any,endDate:any,search?:string){
+    async getExpenseByDate(user:any,startDate:any,endDate:any,filterBy?:string,search?:string){
         try{
             
 
             // console.log(startDate,endDate);
             
+
+            if(filterBy===undefined||filterBy==='undefined'){
+                filterBy=''
+            }
+            
+            
+            
             if(search && search.length > 0){
-                return await getExpenseByDateWithSearch(user,startDate,endDate,search);
+                return await getExpenseByDateWithSearch(user,startDate,endDate,filterBy,search);
             }
             else{
-                return await getExpenseByDate(user,startDate,endDate);
+                return await getExpenseByDate(user,startDate,endDate,filterBy);
             }
+            
+        }
+        catch(err){
+            throw err;
+            
+        }
+    }
+
+    async getExpenseByDateWithLimit(user:any,startDate:any,endDate:any,limit:number,offset:number,filterBy:string,sortBy:'ASC'|'DESC'|undefined,search?:string){
+        try{
+            
+
+            // console.log(startDate,endDate);
+            let result;
+            if(search && search.length > 0){
+                result = await getExpenseByDateWithSearchWithLimit(user,startDate,endDate,limit,offset,filterBy,sortBy,search);
+            }
+            else{
+                result = await getExpenseByDateWithLimit(user,startDate,endDate,limit,offset,filterBy,sortBy);
+            }
+            
+            
+            return result;
             
         }
         catch(err){

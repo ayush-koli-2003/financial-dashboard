@@ -1,4 +1,4 @@
-import { Between, LessThan, LessThanOrEqual, MoreThan } from "typeorm";
+import { Between, LessThan, LessThanOrEqual, Like, MoreThan } from "typeorm";
 import { AppDataSource } from "../configs/database.config";
 import { Expense } from "../entities/expense.entity";
 import { AppError } from "../types/app-error";
@@ -52,17 +52,44 @@ export const deleteExpense = async(user:any,id:any)=>{
     }
 }
 
-export const getExpenseByDate = async(user:any,startDate:any,endDate:any)=>{
+export const getExpenseByDate = async(user:any,startDate:any,endDate:any,filterBy?:string)=>{
     try{
-        return await expenseRepository.find({
-            where:{
-                date: Between(startDate,endDate),
-                user : user,
-            },
-            order: {
-                date:'DESC'
-            }
-        })
+
+        return await expenseRepository.createQueryBuilder('expense')
+        .leftJoinAndSelect('expense.user','user')
+        .where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate})
+        .andWhere("(expense.category LIKE :filter)",{filter:`%${filterBy}%`})
+        .orderBy('expense.date','DESC')
+        .getMany();
+
+        // createQueryBuilder('expense')
+        //     .where('expense.date >= :startDate',{startDate:startDate})
+        //     .andWhere('expense.date < :endDate',{endDate})
+        //     .andWhere('expense.user = :user',{user})
+        //     .getMany();
+    }
+    catch(err){
+        throw err;
+        
+    }
+}
+
+export const getExpenseByDateWithLimit = async(user:any,startDate:any,endDate:any,limit:number,offset:number,filterBy:string,sortBy:'ASC'|'DESC'|undefined)=>{
+    try{
+        let qb = expenseRepository.createQueryBuilder('expense')
+        .leftJoinAndSelect('expense.user','user')
+        .where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate})
+        .andWhere("(expense.category LIKE :filter)",{filter:`%${filterBy}%`})
+        .orderBy('expense.date','DESC')
+        
+        if(sortBy!==undefined){
+            qb.orderBy('expense.amount',sortBy===undefined?'DESC':sortBy)
+            
+        }
+
+        return await qb.limit(limit)
+        .offset(offset)
+        .getMany();
 
         // createQueryBuilder('expense')
         //     .where('expense.date >= :startDate',{startDate:startDate})
@@ -89,7 +116,7 @@ export const getTotalExpenseOfCategory = async(user:Partial<User>,startDate:any,
     }
 }
 
-export const getExpenseByDateWithSearch = async(user:any,startDate:any,endDate:any,search:string)=>{
+export const getExpenseByDateWithSearch = async(user:any,startDate:any,endDate:any,filterBy?:string,search?:string)=>{
     try{
         console.log(startDate,endDate);
         
@@ -97,7 +124,35 @@ export const getExpenseByDateWithSearch = async(user:any,startDate:any,endDate:a
         .leftJoinAndSelect('expense.user','user')
         .where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate})
         .andWhere("(expense.name LIKE :search OR expense.note LIKE :search OR expense.category LIKE :search)",{search:`%${search}%`})
+        .andWhere("(expense.category LIKE :filter)",{filter:`%${filterBy}%`})
         .orderBy('expense.date','DESC')
+        .getMany();
+        
+    }
+    catch(err){
+        throw err;
+        
+    }
+}
+
+export const getExpenseByDateWithSearchWithLimit = async(user:any,startDate:any,endDate:any,limit:number,offset:number,filterBy:string,sortBy:'ASC'|'DESC'|undefined,search:string)=>{
+    try{
+        console.log(startDate,endDate);
+        
+        let qb = expenseRepository.createQueryBuilder('expense')
+        .leftJoinAndSelect('expense.user','user')
+        .where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate})
+        .andWhere("(expense.name LIKE :search OR expense.note LIKE :search OR expense.category LIKE :search)",{search:`%${search}%`})
+        .andWhere("(expense.category LIKE :filter)",{filter:`%${filterBy}%`})
+        .orderBy('expense.date','DESC')
+        
+        if(sortBy!==undefined){
+            qb.orderBy('expense.amount',sortBy===undefined?'DESC':sortBy)
+            
+        }
+
+        return await qb.limit(limit)
+        .offset(offset)
         .getMany();
         
     }

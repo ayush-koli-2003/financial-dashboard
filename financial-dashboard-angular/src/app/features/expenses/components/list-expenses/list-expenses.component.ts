@@ -7,7 +7,7 @@ import { AddExpenseComponent } from '../add-expense/add-expense.component';
 import { EditExpenseComponent } from '../edit-expense/edit-expense.component';
 import { DisplayTransactionComponent } from '../../../../shared/components/display-transaction/display-transaction.component';
 import { ConfirmationService, MessageService } from 'primeng/api';
-import { filter } from 'rxjs';
+import { filter, Observable, Subscription } from 'rxjs';
 import { GenericDisplayDetailsComponent } from '../../../../shared/components/generic-display-details/generic-display-details.component';
 import Swal from 'sweetalert2';
 
@@ -38,6 +38,13 @@ export class ListExpensesComponent implements OnInit, AfterViewChecked {
 
   searchQuery!:string;
 
+  totalRecords!:number;
+
+  limit:number=6;
+  offset:number=0;
+
+  queryParamSub!:Subscription;
+
   columns=[{field:'name',label:'Name'},{field:'date',label:'Date',tag:undefined,severity:undefined},{field:'category',label:'Category'},{field:'amount',label:'Amount',tag:true,severity:'danger'}];
 
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponent!:LoadDynamicComponentDirective;
@@ -49,19 +56,34 @@ export class ListExpensesComponent implements OnInit, AfterViewChecked {
   ngOnInit(): void {
     let date = new Date();
     this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
-    this.expenseService.updateDate(this.currDate);
     
+    // console.log('break point');
     
     this.expenseService.updateExpenseList$.subscribe(()=>{
       let date = this.expenseService.getDate();
       // this.month = date.month;
       // this.year = date.year;
       this.searchQuery = this.expenseService.getSearchQuery();
-      console.log('Search init: '+this.searchQuery);
+      this.filter = this.expenseService.getFilters();
+      // console.log('Search init: '+this.searchQuery);
+      console.log(this.filter);
+      
       this.currDate= {month:date.month,year:date.year};
-      this.getExpenses(this.currDate.month,this.currDate.year,this.searchQuery);
-      this.getExpenseCategories();      
+      this.getTotalRecords(this.currDate.month,this.currDate.year,this.searchQuery,this.filter.filterBy,this.filter.sortBy);
+      this.getExpenses(this.currDate.month,this.currDate.year,this.searchQuery,this.limit,this.offset,this.filter.filterBy,this.filter.sortBy);
+      this.getExpenseCategories();
     })
+
+    this.queryParamSub = this.route.queryParams.subscribe(
+      (map:any)=>{
+        if(map.category!==undefined){
+          this.takeFilters({sortBy:undefined,filterBy:map.category})
+        }
+      }
+    )
+
+    
+    this.expenseService.updateDate(this.currDate);
 
   }
 
@@ -72,28 +94,33 @@ export class ListExpensesComponent implements OnInit, AfterViewChecked {
   }
 
   takeFilters(filters:any){
-    this.expenseList = this.unfilteredList
-    this.filter.filterBy = filters.filterBy;
-    this.filter.sortBy = filters.sortBy;
+    // this.expenseList = this.unfilteredList
+    // console.log(filters);
+    
+    
     // console.log(this.filter);
     
-    if(this.filter.filterBy || this.filter.sortBy){
-      
-      this.applyFilters(this.filter.sortBy,this.filter.filterBy)
+    if(filters.sortBy==='Low to High'){
+      filters.sortBy = 'ASC'
     }
+    else if(filters.sortBy==='High to Low'){
+      filters.sortBy = 'DESC'
+    }
+
+    this.filter.filterBy = filters.filterBy;
+    this.filter.sortBy = filters.sortBy;
+    console.log(this.filter);
+    
+    this.expenseService.updateFilters(filters);
+    
   }
 
-  getExpenses(month:any,year:any,search:string){
-    this.expenseService.getExpenseList(month,year,search).subscribe(
+  getExpenses(month:any,year:any,search:string,limit:number,offset:number,filterBy?:string,sortBy?:string){
+    this.expenseService.getExpenseList(month,year,search,limit,offset,filterBy,sortBy).subscribe(
       (response:any)=>{
         this.expenseList = response.data;
         this.unfilteredList = this.expenseList;
         this.isDataLoaded = true;
-        this.route.queryParams.subscribe(
-          (map:any)=>{
-            this.takeFilters({sortBy:undefined,filterBy:map.category})
-          }
-        )
         // console.log(this.expenseList[0]);
         // console.log(this.filter);
         
@@ -113,8 +140,15 @@ export class ListExpensesComponent implements OnInit, AfterViewChecked {
 
   applyFilters(sortByValue:any,filterByValue:any){
     
-    this.expenseList = this.unfilteredList.filter(e=> filterByValue !== undefined ? e.category as string===filterByValue : true)
-    .sort((a,b)=> sortByValue===undefined ? 0 : sortByValue==='Low to High' ? a.amount-b.amount:b.amount-a.amount);    
+    // this.expenseList = this.unfilteredList.filter(e=> filterByValue !== undefined ? e.category as string===filterByValue : true)
+    // .sort((a,b)=> sortByValue===undefined ? 0 : sortByValue==='Low to High' ? a.amount-b.amount:b.amount-a.amount);
+    if(sortByValue==='Low to High'){
+      sortByValue = 'ASC'
+    }
+    else{
+      sortByValue = 'DESC'
+    }
+    this.getExpenses(this.currDate.month,this.currDate.year,this.searchQuery,this.limit,this.offset,filterByValue,sortByValue);
   }
 
   deleteExpense(id:any){
@@ -250,8 +284,30 @@ export class ListExpensesComponent implements OnInit, AfterViewChecked {
   }
 
   takeSearch(search:string){
-    console.log(search);
+    // console.log(search);
     
     this.expenseService.updateSearchQuery(search);
+  }
+
+  getTotalRecords(month:any,year:any,search:string,filterBy?:string,sortBy?:string){
+    console.log(filterBy,sortBy);
+    
+    this.expenseService.getTotalExpenseRecord(month,year,search,filterBy,sortBy).subscribe({
+      next:(res:any)=>{
+        this.totalRecords = res.data;
+      }
+    })
+  }
+
+  changePage(value:{limit:number,offset:number}){
+    this.limit=value.limit;
+    this.offset=value.offset;
+    this.getExpenses(this.currDate.month,this.currDate.year,this.searchQuery,this.limit,this.offset,this.filter.filterBy,this.filter.sortBy);
+  }
+
+  ngOnDestroy(){
+    console.log('unsubscribed');
+    
+    this.queryParamSub.unsubscribe();
   }
 }
