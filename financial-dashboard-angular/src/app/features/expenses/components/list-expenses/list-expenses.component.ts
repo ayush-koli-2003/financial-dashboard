@@ -10,6 +10,7 @@ import { ConfirmationService, MessageService } from 'primeng/api';
 import { filter } from 'rxjs';
 import { GenericDisplayDetailsComponent } from '../../../../shared/components/generic-display-details/generic-display-details.component';
 import Swal from 'sweetalert2';
+import { HttpResponse } from '../../../../types/http-response';
 
 @Component({
   selector: 'app-list-expenses',
@@ -85,7 +86,7 @@ export class ListExpensesComponent implements OnInit, AfterViewChecked {
 
   getExpenses(month:any,year:any,search:string){
     this.expenseService.getExpenseList(month,year,search).subscribe(
-      (response:any)=>{
+      (response:HttpResponse)=>{
         this.expenseList = response.data;
         this.unfilteredList = this.expenseList;
         this.isDataLoaded = true;

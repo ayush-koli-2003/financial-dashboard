@@ -3,6 +3,7 @@ import { Expense } from "../../../core/models/Expense.model";
 import { ExpenseCategory } from "../../../core/enums/expense-category.enum";
 import { BehaviorSubject, catchError, tap, throwError } from "rxjs";
 import { HttpClient, HttpErrorResponse } from "@angular/common/http";
+import { HttpResponse } from "../../../types/http-response";
 
 @Injectable({
     providedIn:'root'
@@ -26,7 +27,7 @@ export class ExpenseService{
         
         const params = `month=${month}&year=${year}&search=${search}`;
         // this.expenseList.sort((a,b)=> a.date.toDateString() > b.date.toDateString() ? -1:1);
-        return this.http.get(`http://localhost:3000/api/expense/?${params}`,{withCredentials:true});
+        return this.http.get<HttpResponse>(`http://localhost:3000/api/expense/?${params}`,{withCredentials:true});
     }
 
     addExpense(expense:any){
