@@ -65,7 +65,6 @@ export class ListExpensesComponent implements OnInit, AfterViewChecked {
       // this.year = date.year;
       this.searchQuery = this.expenseService.getSearchQuery();
       this.filter = this.expenseService.getFilters();
-      // console.log('Search init: '+this.searchQuery);
       console.log(this.filter);
       
       this.currDate= {month:date.month,year:date.year};

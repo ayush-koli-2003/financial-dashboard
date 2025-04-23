@@ -24,6 +24,13 @@ export class ListIncomesComponent implements OnInit, AfterViewChecked{
   editId!:number;
   isDataLoaded=false;
 
+  totalRecords!:number;
+
+  filter:{filterBy?:any,sortBy?:any}={};
+
+  limit:number=6;
+  offset:number=0;
+
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective
   vcr!: ViewContainerRef;
   compRef!: ComponentRef<any>;
@@ -38,17 +45,43 @@ export class ListIncomesComponent implements OnInit, AfterViewChecked{
   ngOnInit(): void {
     let date = new Date();
     this.currDate = {month:((date.getMonth()+1).toString()),year:((date.getFullYear()).toString())};
-    this.incomeService.updateDate(this.currDate);
     this.incomeService.updateIncomeListObs$.subscribe(
       ()=>{
         this.searchQuery = this.incomeService.getSearchQuery();
         let date = this.incomeService.getDate();
+        this.filter = this.incomeService.getFilters();
         this.currDate= {month:date.month,year:date.year};
-        this.getIncomes(this.currDate.month,this.currDate.year,this.searchQuery);
+        this.getTotalRecords(this.currDate.month,this.currDate.year,this.searchQuery,this.filter.filterBy,this.filter.sortBy);
+        this.getIncomes(this.currDate.month,this.currDate.year,this.searchQuery,this.limit,this.offset,this.filter.filterBy,this.filter.sortBy);
         this.getIncomeCategories();
       }
     )
+
+
+    this.incomeService.updateDate(this.currDate);
   }
+
+  changePage(value:{limit:number,offset:number}){
+    this.limit=value.limit;
+    this.offset=value.offset;
+    this.getIncomes(this.currDate.month,this.currDate.year,this.searchQuery,this.limit,this.offset,this.filter.filterBy,this.filter.sortBy);
+  }
+
+  getTotalRecords(month:any,year:any,search:string,filterBy?:string,sortBy?:string){
+    console.log(filterBy,sortBy);
+
+    this.incomeService.getTotalIncomeRecord(month,year,search,filterBy,sortBy).subscribe({
+      next:(res:any)=>{
+        this.totalRecords = res.data;
+      }
+    })
+  }
+
+  // ngOnDestroy(){
+  //   console.log('unsubscribed');
+
+  //   this.queryParamSub.unsubscribe();
+  // }
 
   ngAfterViewChecked(): void {
     if(this.loadDynamicComponentDirective){
@@ -56,8 +89,8 @@ export class ListIncomesComponent implements OnInit, AfterViewChecked{
     }
   }
 
-  getIncomes(month:any,year:any,search:string){
-    this.incomeService.getIncomes(month,year,search).subscribe(
+  getIncomes(month:any,year:any,search:string,limit:number,offset:number,filterBy?:string,sortBy?:string){
+    this.incomeService.getIncomes(month,year,search,limit,offset,filterBy,sortBy).subscribe(
       (response:any)=>{
         this.isDataLoaded = true;
         this.incomeList = response.data
@@ -195,10 +228,18 @@ export class ListIncomesComponent implements OnInit, AfterViewChecked{
 
   takeFilters(filters:any){
     console.log(filters);
-    this.incomeList = this.unfilteredList
-    if(filters.sortBy || filters.filterBy){
-      this.applyFilters(filters.sortBy,filters.filterBy)
+    if(filters.sortBy==='Low to High'){
+      filters.sortBy = 'ASC'
     }
+    else if(filters.sortBy==='High to Low'){
+      filters.sortBy = 'DESC'
+    }
+
+    this.filter.filterBy = filters.filterBy;
+    this.filter.sortBy = filters.sortBy;
+    console.log(this.filter);
+
+    this.incomeService.updateFilters(filters);
   }
 
   applyFilters(sortByValue:any,filterByValue:any){

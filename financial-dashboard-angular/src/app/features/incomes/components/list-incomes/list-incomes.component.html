@@ -14,7 +14,7 @@
         <p-toast />
         <p-confirmdialog />
         <ng-container *ngIf="incomeList.length>0 else noRecord">
-            <app-generic-table [columns]="columns" [inputData]="incomeList" (selectActionEvent)="selectEvent($event)"></app-generic-table>
+            <app-generic-table [totalRecords]="totalRecords" (pageChangeEvent)="changePage($event)" [columns]="columns" [inputData]="incomeList" (selectActionEvent)="selectEvent($event)"></app-generic-table>
         </ng-container>
         <ng-template #noRecord>
             <app-no-record [record]="'Income'" (addEvent)="openDialogue('add')"></app-no-record>

@@ -16,6 +16,7 @@ export class GenericTableComponent implements OnChanges{
   first: number = 0;
   rows: number = 6;
   isDataLoaded = false;
+  
 
   ngOnChanges(changes: SimpleChanges): void {
     if(changes['inputData']){

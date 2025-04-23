@@ -14,6 +14,7 @@ export class IncomeService{
     updateIncomeListObs$ = this.updateIncomeListSub.asObservable();
     currDate:{month:string,year:string,time?:'string'};
     searchQuery:string;
+    filter:{filterBy?:any,sortBy?:any}={};
 
     constructor(private http:HttpClient){
         let date = new Date();
@@ -22,9 +23,24 @@ export class IncomeService{
         this.searchQuery ='';
     }
 
-    getIncomes(month:any,year:any,search:string){
-        const params = `month=${month}&year=${year}&search=${search}`;
+    getIncomes(month:any,year:any,search:string,limit:number,offset:number,filterBy?:string,sortBy?:string){
+         const params = `month=${month}&year=${year}&search=${search}&limit=${limit}&offset=${offset}&filterBy=${filterBy}&sortBy=${sortBy}`
         return this.http.get(`http://localhost:3000/api/income?${params}`,{withCredentials:true});
+    }
+
+    updateFilters( filter:{filterBy?:any,sortBy?:any}){
+        this.filter.filterBy=filter.filterBy;
+        this.filter.sortBy = filter.sortBy;
+        this.updateIncomeListSub.next(this.incomeList);
+    }
+
+    getTotalIncomeRecord(month:any,year:any,search:string,filterBy?:string,sortBy?:string){
+        let params = `month=${month}&year=${year}&search=${search}&filterBy=${filterBy}`;
+        return this.http.get(`http://localhost:3000/api/expense/total?${params}`);
+    }
+
+    getFilters(){
+        return this.filter; 
     }
 
     addIncome(income:any){
