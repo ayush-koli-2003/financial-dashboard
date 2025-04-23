@@ -1,8 +1,8 @@
 <p-table [paginator]="true" [rows]="6" stripedRows [columns]="columns" [value]="inputData">
     <ng-template #header let-columns>
         <tr>
-            <th [pSortableColumn]="col.field" *ngFor="let col of columns">
-                {{ col.label }} <p-sortIcon [field]="col.field" />
+            <th *ngFor="let col of columns">
+                {{ col.label }}
             </th>
             <th>
                 Actions

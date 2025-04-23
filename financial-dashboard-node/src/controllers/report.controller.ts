@@ -58,14 +58,15 @@ export const downloadMonthlyReport = async(req:Request,res:Response,next:NextFun
         let user = req.body.user;
         let startDate = req.body.startDate;
         let endDate = req.body.endDate;
-        console.log('got request');
         
-        let result = await reportService.generateExpenseReportCSV(user,startDate,endDate);
-        console.log(result);
+        // let result = await reportService.generateExpenseReportCSV(user,startDate,endDate);
+        // console.log(result);
+
+        let result = await reportService.generateMonthlyReportPdf(user,startDate,endDate);
         
-        res.setHeader('Content-Type', 'text/csv');
-        res.setHeader('Content-Disposition', 'attachment; filename="data.csv"');
-        res.send(result);
+        res.setHeader('Content-Type', 'application/pdf');
+        res.setHeader('Content-Disposition', 'attachment; filename="report.pdf"');
+        res.send(Buffer.from(result, 'binary'));
         
     }
     catch(err){

@@ -80,9 +80,7 @@ export class MonthlyReportsComponent {
   downloadMonthlyReport(){
     this.reportService.downloadMonthlyReport(this.currDate.month,this.currDate.year).subscribe(
       (blob)=>{
-        const url = window.URL.createObjectURL(blob);
-        saveAs(blob, 'data.csv');
-        window.URL.revokeObjectURL(url)
+        saveAs(blob,'report.pdf');
         
       }
     );

@@ -13,6 +13,8 @@ import { IncomeService } from "./income.service";
 import { InvestmentService } from "./investment.service";
 import fs from 'fs';
 import {Parser} from 'json2csv';
+import { jsPDF } from 'jspdf'
+import { autoTable } from 'jspdf-autotable';
 
 const budgetService = new BudgetService();
 const expenseService = new ExpenseService();
@@ -360,59 +362,89 @@ export class ReportService{
     }
 
     async generateBudgetVsExpenseCSV(user:Partial<User>,startDate:string,endDate:string){
-        let report = await this.getBudgetVsExpense(user,startDate,endDate);
+        try{
+            let report = await this.getBudgetVsExpense(user,startDate,endDate);
 
         if(!report?.labels){
             throw new AppError('No data available',500);
         }
         else{
-            const data = report.labels.map((category:string,i:number)=>({
-                Category: String(category || '').replace(/[^\w\s-]/g,''),
-                Budget: (report.data[0].data[i] || 0),
-                Expense: (report.data[1].data[i] || 0)
-
-            }))
+            const data = report.labels.map((category:string,i:number)=>(
+                [String(category || '').replace(/[^\w\s-]/g,''),(report.data[0].data[i] || 0),(report.data[1].data[i] || 0)]
+            ))
 
             let columns = ['Category','Budget','Expense'];
-            let jsonParser = new Parser({fields:columns,delimiter:',',quote:'"'});
             try {
-                return jsonParser.parse(data);
+                return {columns:columns,data:data}
             } catch (error) {
-                console.log(error);
+                throw error
                 
             }
+        }
+        }
+        catch(err){
+            throw err;
         }
     }
 
     async generateExpenseReportCSV(user:Partial<User>,startDate:string,endDate:string){
-        let report = await this.getExpenseReport(user,startDate,endDate);
+        try{
+            let report = await this.getExpenseReport(user,startDate,endDate);
+            console.log(report);
+            
+            if(!report?.labels || report.labels.length<=0){
+                throw new AppError('No data available',500);
+            }
+            else{            
+                const data = report.labels.map((category:string,i:number)=>(
+                    [String(category || '').replace(/[^\w\s-]/g,''),(report.data[0].data[i] || 0)]
+                ))
 
-        if(!report?.labels){
-            throw new AppError('No data available',500);
-        }
-        else{
-            const data = report.labels.map((category:string,i:number)=>({
-                Category: String(category || '').replace(/[^\w\s-]/g,''),
-                Expense: (report.data[0].data[i] || 0),
-
-            }))
-
-            let columns = ['Category','Expense'];
-            let jsonParser = new Parser({fields:columns,delimiter:',',quote:'"'});
-            try {
-                return jsonParser.parse(data);
-            } catch (error) {
-                console.log(error);
+                
+                let columns = ['Category','Expense'];
+                try {
+                    return {columns:columns,data:data};
+                } catch (error) {
+                    throw error;
+                }
+                // console.log(report);
                 
             }
-            // console.log(report);
-            
+        }
+        catch(err){
+            throw err;
         }
     }
 
-    // async generateMonthlyReportZip(user:Partial<User>,startDate:string,endDate:string){
-    //     try{
-    //         let budgetVsExpenseCSV = await this.generateBudgetVsExpenseCSV(user,startDate,endDate);
-    //     }
-    // }
+    async generateMonthlyReportPdf(user:Partial<User>,startDate:string,endDate:string){
+        try{
+            let budgetVsExpenseCSV = await this.generateBudgetVsExpenseCSV(user,startDate,endDate);
+            let expenseCsv = await this.generateExpenseReportCSV(user,startDate,endDate);
+
+            // console.log(expenseCsv);
+            const doc = new jsPDF();
+
+            doc.text(`Financial Report for Month: ${new Date(startDate).toLocaleString('default', { month: 'long' })}`,70,10)
+
+            autoTable(doc,{
+                head: [(expenseCsv?.columns as string[])],
+                body: expenseCsv?.data,
+            });
+
+            autoTable(doc,{
+                head: [(budgetVsExpenseCSV?.columns as string[])],
+                body: budgetVsExpenseCSV?.data,
+            });
+            
+            return doc.output();
+            
+        }
+        catch(err){
+            throw err;
+        }
+    }
+
+
+
+
 }
