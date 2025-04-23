@@ -46,20 +46,14 @@ export const getCountOfIncomeTransactionsThisMonth = async(startDate:any,endDate
     }
 }
 
-export const getIncomesByDate = async(user:any,startDate:any,endDate:any)=>{
+export const getIncomesByDate = async(user:any,startDate:any,endDate:any,filterBy?:string)=>{
     try{
-        return await incomeRepository.find({
-            relations:{
-                user:true
-            },
-            where:{
-                date: Between(startDate,endDate),
-                user:user
-            },
-            order:{
-                date:'DESC'
-            }
-        })
+        return await incomeRepository.createQueryBuilder('income')
+        .leftJoinAndSelect('income.user','user')
+        .where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate})
+        .andWhere("(income.category LIKE :filter)",{filter:`%${filterBy}%`})
+        .orderBy('income.date','DESC')
+        .getMany();
     }
     catch(err){
         throw err;
@@ -67,12 +61,13 @@ export const getIncomesByDate = async(user:any,startDate:any,endDate:any)=>{
     }
 }
 
-export const getIncomesByDateWithSearch = async(user:any,startDate:any,endDate:any,search:string)=>{
+export const getIncomesByDateWithSearch = async(user:any,startDate:any,endDate:any,filterBy?:string,search?:string)=>{
     try{
         return await incomeRepository.createQueryBuilder('income')
         .leftJoinAndSelect('income.user','user')
         .where('user.id = :id AND date BETWEEN :startDate AND :endDate',{id:user.id,startDate:startDate,endDate:endDate})
         .andWhere("(income.note LIKE :search OR income.category LIKE :search)",{search:`%${search}%`})
+        .andWhere("(income.category LIKE :filter)",{filter:`%${filterBy}%`})
         .orderBy('income.date','DESC')
         .getMany();
     }

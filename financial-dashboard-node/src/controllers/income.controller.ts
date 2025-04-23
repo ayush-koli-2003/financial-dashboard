@@ -31,6 +31,27 @@ export const getAllIncomes = async(req:Request,res:Response,next:NextFunction)=>
     }
 }
 
+export const getTotalIncomeRecords= async(req:Request,res:Response,next:NextFunction)=>{
+    try{
+        let user = req.body.user;
+        let startDate = req.body.startDate;
+        let endDate = req.body.endDate;
+        let search:string = req.query.search as string;
+        let filterBy:string = req.query.filterBy === 'undefined' || undefined? '': req.query.filterBy as string;
+        // console.log(search);
+        
+        let result = (await incomeService.getIncomesByDate(user,startDate,endDate,filterBy,search)).length;
+        
+        res.status(200).json({
+            status:200,
+            data:result
+        })
+    }
+    catch(err){
+        next(err);
+    }
+}
+
 export const addIncome = async(req:Request,res:Response,next:NextFunction)=>{
     try{
         let user = req.body.user;
@@ -99,7 +120,13 @@ export const getIncomesByDate = async(req:Request,res:Response,next:NextFunction
         let startDate = req.body.startDate;
         let endDate = req.body.endDate;
         let search = req.query.search as string;
-        
+        let limit:number = parseInt(req.query.limit as string) || 6;
+        let offset:number = parseInt(req.query.offset as string) || 0;
+        let filterBy:string = req.query.filterBy === 'undefined' || undefined? '': req.query.filterBy as string;
+        let sortBy:'ASC'|'DESC'|undefined = req.query.sortBy as ('ASC'|'DESC'|undefined);
+        if(sortBy==='undefined' as unknown as undefined){
+            sortBy = undefined
+        }
 
         let results = await incomeService.getIncomesByDate(user,startDate,endDate,search);
 

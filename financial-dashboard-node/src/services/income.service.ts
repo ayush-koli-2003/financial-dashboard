@@ -33,13 +33,17 @@ export class IncomeService{
         }
     }
 
-    async getIncomesByDate(user:any,startDate:any,endDate:any,search?:string){
+    async getIncomesByDate(user:any,startDate:any,endDate:any,filterBy?:string,search?:string){
         try{
+            if(filterBy===undefined||filterBy==='undefined'){
+                filterBy=''
+            }
+
             if(search && search.length>0){
-                return await getIncomesByDateWithSearch(user,startDate,endDate,search);
+                return await getIncomesByDateWithSearch(user,startDate,endDate,filterBy,search);
             }
             else{
-                return await getIncomesByDate(user,startDate,endDate);
+                return await getIncomesByDate(user,startDate,endDate,filterBy);
             }
         }
         catch(err){
