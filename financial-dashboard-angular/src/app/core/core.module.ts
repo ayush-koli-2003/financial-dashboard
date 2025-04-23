@@ -39,10 +39,6 @@ import { SharedModule } from '../shared/shared.module';
   exports:[],
   providers:[AuthService,
     AuthGuard,
-    provideHttpClient(withInterceptorsFromDi()),
-    {
-      provide:HTTP_INTERCEPTORS, useClass:RequestInterceptor, multi:true
-    }
   ]
 })
 export class CoreModule { }

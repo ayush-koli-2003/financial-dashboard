@@ -12,6 +12,8 @@ import Material from '@primeng/themes/material';
 import {StyleClassModule} from 'primeng/styleclass';
 import { SharedModule } from './shared/shared.module';
 import { GlobalErrorHandlerService } from './core/services/global-error-handler.service';
+import { provideHttpClient, withInterceptorsFromDi, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { RequestInterceptor } from './core/services/http-interceptor.service';
 
 @NgModule({
   declarations: [
@@ -28,7 +30,11 @@ import { GlobalErrorHandlerService } from './core/services/global-error-handler.
   providers: [provideCharts(withDefaultRegisterables()),
     provideAnimationsAsync(),
     providePrimeNG({ theme: { preset: Aura, options: { darkModeSelector: '.app-dark' } } }),
-    { provide: ErrorHandler, useClass: GlobalErrorHandlerService }
+    { provide: ErrorHandler, useClass: GlobalErrorHandlerService },
+    provideHttpClient(withInterceptorsFromDi()),
+    {
+      provide:HTTP_INTERCEPTORS, useClass:RequestInterceptor, multi:true
+    }
   ],
   bootstrap: [AppComponent]
 })

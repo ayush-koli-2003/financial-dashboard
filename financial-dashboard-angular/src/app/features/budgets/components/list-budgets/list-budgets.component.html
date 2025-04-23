@@ -28,7 +28,7 @@
         <p-toast />
         <p-confirmdialog />
         <div class="list-container">
-            <ng-container *ngIf="budgetList.length>0 else noRecord">
+            <ng-container *ngIf="budgetList.length>0 && budgetLength>0 else noRecord">
                 <ng-container *ngFor="let budget of budgetList">
                     <ng-container *ngFor="let spending of totalSpendingOfCategory">
                         <ng-container *ngIf="budget.category === spending.category">

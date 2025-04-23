@@ -29,9 +29,12 @@ export const loginUser = async(user:Partial<User>)=>{
 export const getUser = async(user:Partial<User>)=>{
     try{
         let result = await userRepository.findOneBy(user);
-
+        
         if(result===null){
             throw new AppError('Failed get user',500)
+        }
+        else if(result.status==='inactive'){
+            throw new AppError('User is Inactive',500);
         }
         else{
             return result;

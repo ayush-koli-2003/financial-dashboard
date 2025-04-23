@@ -31,6 +31,7 @@ export class ListBudgetsComponent implements OnInit, AfterViewChecked{
   editId!:number;
   categories:any[]=[];
   unFilteredList:any[]=[];
+  budgetLength!:number;
 
   @ViewChild(LoadDynamicComponentDirective) loadDynamicComponentDirective!:LoadDynamicComponentDirective;
   vcr!:any;
@@ -80,14 +81,17 @@ export class ListBudgetsComponent implements OnInit, AfterViewChecked{
   takeFilters(filters:any){
     console.log(filters);
     this.totalSpendingOfCategory = this.unFilteredList;
+    this.budgetLength = this.budgetList.length;
     if(filters.sortBy || filters.filterBy){
       this.applyFilters(filters.sortBy,filters.filterBy)
     }
   }
 
   applyFilters(sortByValue:any,filterByValue:any){
-    this.totalSpendingOfCategory = this.unFilteredList.filter(b=> filterByValue !== undefined ? b.category===filterByValue: true)
-      .sort((a,b)=> sortByValue===undefined ? 0 : sortByValue==='Low to High' ? a.totalSpending-b.totalSpending:b.totalSpending-a.totalSpending)
+    
+    this.totalSpendingOfCategory = this.unFilteredList.filter(b=> filterByValue !== undefined ? b.category===filterByValue: true);
+    this.budgetLength = (this.budgetList.filter(b=> filterByValue !== undefined ? b.category===filterByValue:true)).length;
+    
   }
   
 
@@ -96,7 +100,7 @@ export class ListBudgetsComponent implements OnInit, AfterViewChecked{
       (response:any)=>{
         this.budgetList = response.data;
         // console.log(this.budgetList);
-        
+        this.budgetLength = this.budgetList.length;
         this.isLoaded = true;
       }
     );
