@@ -390,7 +390,6 @@ export class ReportService{
     async generateExpenseReportCSV(user:Partial<User>,startDate:string,endDate:string){
         try{
             let report = await this.getExpenseReport(user,startDate,endDate);
-            console.log(report);
             
             if(!report?.labels || report.labels.length<=0){
                 throw new AppError('No data available',500);
